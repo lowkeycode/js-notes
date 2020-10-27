@@ -2262,3 +2262,236 @@ Maps:
 - Use when the keys need to be another data type than string
 
 
+# Strings
+
+All string methods are case sensitive
+
+
+```js
+const airline = 'Air Canada'
+const plane = '747';
+
+console.log(plane[0]);
+// "7"
+console.log(plane[1]);
+// "4"
+console.log('747'[2]);
+// "7"
+
+
+console.log(airline.length);
+// 10
+console.log('747'.length);
+// 3
+
+
+console.log(airline.indexOf('r'));
+// 2
+console.log(airline.lastIndexOf('a'));
+// 10
+console.log(airline.indexOf('Canada'));
+// Case sensitive 4 (gives starting position)
+console.log(airline.indexOf('Air'));
+// 0
+console.log(airline.indexOf('canada'));
+// -1 (not in string)
+
+
+// Slice allows you to define the desired starting and ending index
+
+console.log(airline.slice(4));
+// Canada
+console.log(airline.slice(4, 7));
+// Can
+
+console.log(airline.slice(0, airline.indexOf(' ')));
+// Air
+console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+// Canada
+
+console.log(airline.slice(-6));
+// Canada
+console.log(airline.slice(0, -7));
+// Air
+```
+
+
+```js Example
+// B & E are middle seats in this example
+const  checkMiddleSeat = function(seat){
+  const letter = seat.slice(-1);
+  if(letter === 'B' || letter === 'E') {
+    console.log('You got the middle seat');
+  } else {
+    console.log('You got lucky!')
+  }
+}
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+```
+
+Strings are just primitives so why do they have methods?
+
+Whenever we call a method on a string JS converts the primitive to an object with the same content then the methods are called on that object. This is called boxing in JS.
+
+```js
+console.log(new String('Jonas'));
+// String {"jonas"}
+
+console.log(typeof new String('Jonas'));
+// object
+```
+
+All methods called on a string object return a primitive string.
+
+
+```js
+console.log(airline.toLowerCase());
+// air canada
+console.log(airline.toUpperCase());
+// AIR CANADA
+
+// Fix capitalization in a names
+const passenger = 'jOnAs';
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect = passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect);
+// Jonas
+
+// Comparing email
+const email = 'hello@jonas.io';
+const loginEmail = '  Hello@Jonas.Io \n';
+
+const lowerEmail = loginEmail.toLowerCase();
+const trimmedEmail = lowerEmail.trim();
+console.log(trimmedEmail);
+// hello@jonas.io
+
+const normalizedEmail = loginEmail.toLowerCase().trim();
+console.log(normalizedEmail);
+// hello@jonas.io
+console.log(email === normalizedEmail);
+// true
+```
+
+
+```js Replacing
+const priceGB = '288,97£';
+const priceUS = priceGB.replace('£', '$').replace(',','.');
+console.log(priceUS);
+// 288.97$
+
+const annoucement = 'All passengers come to boarding door 23. Boarding door 23.';
+
+console.log(announcement.replace('door', 'gate'));
+// All passengers come to boarding gate 23. Boarding door 23.
+```
+
+Regular Expression:
+
+```js
+console.log(announcement.replace(/door/g, 'gate'));
+// All passengers come to boarding gate 23. Boarding gate 23.
+```
+
+
+Booleans:
+
+```js
+const plane = 'A320neo';
+console.log(plane.includes('A320'));
+// true
+console.log(plane.includes('boeing'));
+// false
+console.log(plane.startsWith('Air'));
+// false
+console.log(plane.endsWith('neo'));
+// true
+```
+
+All of the above methods DO NOT mutate the original string.
+
+
+
+```js
+console.log(`a very nice string`.split(' '));
+// Array(4) [ "a", "very", "nice", "string" ]
+
+const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+console.log(firstName);
+// Jonas
+
+const fullName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(fullName);
+// Mr. Jonas SCHMEDTMANN
+
+
+const capitalizeName = function(fullName) {
+  const names = fullName.split(' ');
+  const namesUpper = [];
+
+  for (const name of fullName) {
+    // namesUpper.push(name[0].toUpperCase() + name.slice(1));
+    namesUpper.push(name.replace(name[0], name[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+}
+
+capitalizeName('jessica ann smith davis');
+// Jessica Ann Smith Davis
+capitalizeName('joans schmedtmann')
+// Jonas Schmedtmann
+```
+
+Padding a string - add a number of characters to a string until it has a certain desired length
+
+```js
+const message = 'Go to gate 23';
+console.log(message.padStart(25, '+'));
+// This increases the string length to 25
+// ++++++++++++Go to gate 23
+
+console.log(message.padStart(25, '+').padEnd(30, '+'));
+// Now the string length is 35
+// ++++++++++++Go to gate 23+++++
+```
+
+```js Credit Card example
+const maskCreditCard = function(number) {
+  const str = number + '';
+  // Converts number to string
+  const last = str.slice(-4);
+  return last.padStart(str.length, '•')
+
+}
+
+maskCreditCard(99999893);
+maskCreditCard(4554466657774989893);
+maskCreditCard('4554466657774989893');
+```
+
+Repeat Method:
+
+```js
+const message2 = 'Bad weather... All Departures Delayed...';
+console.log(message.repeat(5));
+// "Bad weather... All Departures Delayed...Bad weather... All Departures Delayed...Bad weather... All Departures Delayed...Bad weather... All Departures Delayed...Bad weather... All Departures Delayed..."
+```
+
+```js
+const planesInLine = function(n) {
+  console.log(`There are ${n} planes in line ${'[PLANE]'.repeat(n)}`);
+}
+
+planesInLine(5);
+// " There are 5 planes in line [PLANE][PLANE][PLANE][PLANE][PLANE] "
+```
+
+
+--- 
+# A Closer Look At functions
+---
+
+# Default Parameters
