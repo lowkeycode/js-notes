@@ -2491,7 +2491,785 @@ planesInLine(5);
 
 
 --- 
-# A Closer Look At functions
+# A Closer Look At Functions
 ---
 
 # Default Parameters
+
+
+Some parameters in functions can have a set default.
+
+
+```js
+const bookings = [];
+
+const createBooking = function(flightNum,
+ numPassengers = 1,
+ price = 199 * numPassengers) {
+
+  // Old way of setting default params
+  numPassenger = numPassengers || 1;
+  price = price || 199;
+
+  // ES6 does it right in the params of the function
+  // You can also perform operations in the params
+  // In those operations you can use PREVIOUS (only previous) declared params in your operations
+
+
+  const booking = {
+    flightNum,
+    numPassengers,
+    price
+  }
+  console.log(booking);
+  bookings.push(booking);
+}
+createBooking('LH123');
+// {flightNum: "LH123", numPassengers: undefined, price: undefined}
+
+createBooking('LH123', 2, 800);
+// {flightNum: "LH123", numPassengers: 2, price: 800}
+
+createBooking('LH123', undefined, 800);
+// The only way to skip a parameter is to set it to Undefined
+
+createBooking('LH123', 800);
+// Trying to skip numPassengers and set price to 800 does not work as the arguments are mapped to the params in order
+// {flightNum: "LH123", numPassengers: 800, price: undefined}
+```
+
+
+# Passing Arguments - Value vs Reference
+
+```js
+const flight = 'LH234';
+const jonas = {
+  name: 'Jonas Schmedtmann',
+  passport: 123456789,
+}
+
+const checkIn = function(flightNum, passenger) {
+  flightNum = 'LH999';
+  passenger.name = 'Mr. ' + passenger.name;
+
+  if(passenger.passport === 123456789) {
+    alert('Check in')
+  } else {
+    alert('Wrong passport')
+  }
+}
+
+checkIn(flight, jonas);
+console.log(flight);
+console.log(jonas);
+// LH234
+// {name: Mr. Jonas Schmedtmann, passport: 123456789}
+```
+
+The flight is a primitive (a string) and when it is passed into the function the flightNum param in the checkIn() function is basically a copy of the original value not the original.
+
+It is the same as saying:
+```js
+const flightNum = flight;
+```
+
+So it is a completely different variable and the change will not be reflected outside in the original flight variable.
+
+However the passenger param in the checkIn() function mutates the original object because when you pass a reference type to a function what is copied is the reference to the object in the memory heap.
+
+It is the same as saying:
+
+```js
+const passenger = jonas;
+```
+
+These both point to the same object in memory and is why it is mutated when altering the passenger param in the checkIn() function.
+
+* See line 907 for chapter on primitives vs reference types.
+
+Passing a primitive type to a function is the same as creating a copy outside the function.
+
+Passing an object to a function, anything altered will be reflected in the original.
+
+Because of this behavior we must be careful and pay attention to multiple functions interacting with the same object and use our knowledge of primitives vs reference types(objects) to avoid issues.
+
+```js Simple example of the issue
+const newPassport = function(person) {
+  person.passport = Math.trunc(Math.random() * 10000000);
+}
+
+newPassport(jonas);
+// Here the original object is altered
+checkIn(flight, jonas)
+// So now this function throws an error
+```
+
+Passing by value & passing by reference:
+
+JS does not have passing by reference only passing by value even though it appears to be passing by reference.
+
+In other languages like C++ you can pass a reference to a value instead of the value itself. This works even with primitives so passing a reference to a primitive will actually alter the original. This is called passed by reference.
+
+In JS for objects we pass a reference, however that reference is still a value. Just a value that contains a memory address.
+
+So basically we PASS A REFERENCE to the function but we DO NOT PASS BY REFERENCE.
+
+This is an important distinction.
+
+
+
+# First-Class & Higher Order Functions
+
+JS has first class function which allows us to write higher order functions.
+
+JS treats function as first-class citizens meaning that functions are simply values. Functions are just another type of object.
+
+This is an extremely important feature of the language.
+
+Since objects are values and functions are objects that means functions are values too.
+
+This is how we can store them in variables and object properties(methods) for example.
+
+We can also pass arguments to other functions (callbacks).
+
+We can also return functions from other functions.
+
+Functions even have their own set of methods (bind, call ,apply).
+
+
+
+Higher Order Function:
+
+These are functions that receive another function as an argument or that returns a new function or both.
+
+And this is only possible because JS has first-class functions.
+
+Ex.) addEventListener('click', greet);
+
+addEventListener is a higher order function with greet being a callback.
+
+First class functions is only a concept. It is the concept that in a language like JS FUNCTIONS ARE VALUES. Thats it.
+
+Because of this we can write higher order functions.
+
+
+# Functions Accepting Callback functions
+
+```js
+// Changes first word to uppercase
+const upperFirstWord = function(str) {
+  const [first, ...other] = str.split(' ');
+  return [first.toUpperCase(), ...others].join(' ');
+}
+
+
+// Higher order function
+const transformer = function(str, fn) {
+  console.log(`Original string: ${str}`)
+  console.log(`Transformed string: ${fn(str)}`);
+  console.log(`Transformed by: ${fn.name}`)
+}
+
+transformer('Javascript is the best', upperFirstWord);
+// Original string: Javascript is the best
+// Transformed string: JAVASCRIPT is the best
+// Transformed by: upperFirstWord
+```
+
+Callbacks are very helpful for abstraction. Hiding away the fine details so we can think about programs at a higher abstract level.
+
+
+# Functions Returning Functions
+
+```js
+const greet = function(greeting) {
+  return function(name) {
+    console.log(`${greeting} ${name}`);
+  }
+}
+
+// We store the result of the greet function in a variable and that variable value is now essentially a function. And more specifically it is the returned function within the greet function. And now we can call the greeterHey function as if it was any other function we defined ourselves
+const greeterHey = greet('Hey');
+
+greeterHey('Jonas');
+// Hey Jonas
+greeterHey('Steven');
+// Hey Steven
+```
+
+YUou can also do it another way all at once instead of storing the inner function call in a variable.
+
+```js
+greet('Hello')('Jonas')
+// Hello Jonas
+```
+
+This concept of functions returning functions is extremely important in the functional programming paradigm.
+
+
+```js As an arrow function
+const greet = greeting => name => console.log(`${greeting} ${name}`);
+```
+
+
+# Call & Apply Methods
+
+Setting the this keyword manually.
+
+
+```js
+const lufthansa = {
+  airline: 'Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`);
+
+    this.bookings.push({ flight: `${this.iataCode}${flightNum},`, name });
+  },
+};
+
+lufthansa.book(239, 'Jonas Schmedtmann');
+// Jonas Schmedtmann booked a seat on Lufthansa flight LH239
+
+console.log(lufthansa.bookings);
+// Array(1){flight: "LH239", name: Jonas Schmedtmann}
+
+
+const eurowings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+const book = lufthansa.book;
+
+book(23, 'Sarah Williams');
+// This throws an error as it is a regular function call and will point to the global object (or undefined in strict mode)
+
+// We need to be able to tell JS which airline to book for by setting the this keyword so we use bind, call and apply
+
+
+
+// CALL
+// With call the first argument is what you want to set the this keyword to.
+
+book.call(eurowings, 23, 'Sarah Williams');
+
+console.log(eurowings.bookings);
+// Array(1){flight: "EW23", name: Sarah Williams}
+
+
+const swiss = {
+  airline: 'Swiss Air Lines',
+  iataCode: 'LX',
+  bookings: [],
+}
+
+
+
+// Apply
+// With Apply the first argument is what you want to set the this keyword to and the second argument is an array of data.(Not used so much anymore in modern JS)
+
+const flightData = [583, 'George Cooper'];
+book.apply(swiss, flightData);
+console.log(swiss.bookings);
+// Array(1){flight: "EW583", name: George Cooper}
+
+// Now we can just always use call with the spread operator instead of apply
+book.call(swiss, ..flightData);
+```
+
+# Bind Methods
+
+Bind does not immediately call the function. Instead it returns a new function where the this keyword is bound. Its set to whatever value we pass into bind.
+
+
+```js
+const bookEW = book.bind(eurowings);
+// Now in the bookEW function the this keyword is always bound to eurowings
+bookEW(23, 'Steven Williams');
+
+const bookLH = book.bind(lufthansa);
+const bookLX = book.bind(swiss);
+
+// This allows us to set the this keyword only once instead of every time we use the call method
+
+
+const bookEW23 = book.bind(eurowings, 23);
+// We can go further here by presetting the flight number, and all we need to provide now is a name and it will book to the specified airline and flight number
+bookEW23('Jonas Schmedtmann');
+```
+
+Specifying parts of the arguments before hand is called partial application.
+
+
+Using Objects with Event Listeners:
+
+```js
+lufthansa.planes = 300;
+lufthansa.buyPlane = function() {
+  console.log(this);
+  this.planes++;
+  console.log(this.planes);
+}
+
+// Imagine a button with class="buy" on a page
+
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane);
+
+// When clicking === NaN because the this keyword is now the button element
+
+// So now we need to set the this keyword
+// We need to pass in a function and not to call it and we know that the call method calls a function whereas the bind method returns a new function.
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+```
+
+The bind method really needs to be understood. Study if required.
+
+# IIFE (Immediately Invoked Function Expressions)
+
+```js
+function runOnce = function() {
+  console.log('This will never run again');
+}
+runOnce();
+
+
+// IIFE
+(function() {
+  console.log('This will never run again')
+})();
+// Here we trick JS into thinking the statement is an expression by wrapping it in parentheses and calling it at the end with a second set of parentheses
+
+
+// As an arrow function
+(() => console.log('This will never run again'))();
+```
+
+Functions create scopes. Functions do not have access to variables from an inner scope. 
+
+```js
+(function() {
+  console.log('This will never run again')
+  const isPrivate = 23;
+})();
+console.log(isPrivate);
+// ReferenceError: isPrivate is not defined
+```
+
+So here we say this data is private or encapsulated inside the function scope. Many times we need to ensure variables aren't overwritten by other functions or 3rd party libraries so we have a need for data privacy/encapsulation.
+
+Variables declared with let or const create their own scope inside a block.
+
+```js
+{
+  const isPrivate = 23;
+  var notPrivate = 46;
+}
+console.log(isPrivate);
+// ReferenceError: isPrivate is not defined
+console.log(notPrivate);
+```
+
+IIFE's aren't used as much anymore in ES6 because of this but still have their place.
+
+
+
+# Closures
+
+Closures are not a feature that we explicitly use. They happen automatically in certain situations.
+
+```js
+const secureBooking = function() {
+  let passengerCount = 0;
+
+  return function() {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  }
+}
+
+// Now booker is a function as well
+const booker = secureBooking();
+```
+
+In the call stack and scope chain:
+
+- Our code starts by running in the global execution context where there is currently only the secureBooking function on the call stack. The global scope now contains secureBooking.
+
+- Then when secureBooking is actually executed a new execution context for secureBooking is put on top of the execution stack and the variable environment of it contains its local variables (passengerCount = 0;), this environment variable is also the scope of this function which then gets access to all the variables of the parents scopes(Global scope) in the scope chain
+
+- In the next line the returned inner function from the secureBooking() function is stored in the booker variable.
+
+- The global scope & global execution context now contain the booker variable
+
+- Now the secureBooking() execution context is finished and pops off the stack
+
+
+Back to code:
+
+```js
+const secureBooking = function() {
+  let passengerCount = 0;
+
+  return function() {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  }
+}
+
+// Now booker is a function as well
+const booker = secureBooking();
+
+// Now we call it a few times
+booker();
+booker();
+booker();
+// 1 passengers
+// 2 passengers
+// 3 passengers
+```
+
+How is it possible that the secureBooking() function has finished executing and its execution context has popped off the call stack but the passengerCount variable is still being updated?
+
+
+A closure makes a function remember all the variables that existed at the functions "birth place" or declaration.
+
+We can imagine the secureBooking as being the birthplace of the booker function.
+
+Back in the call stack and scope chain:
+
+
+- Again the secureBooking() execution context has already been removed from the call stack
+
+- Now the booker function runs located in the global scope
+
+- A new execution context is created and put on the call stack and its variable environment is empty because there are no variables declared in this function
+
+- The booker function is a child scope of the global scope
+
+* This is the secret of closures
+
+- Any function always has access to the variable environment of the execution context in which the function was created
+
+- In the case of booker it was declared in the execution context of secureBooking() which was previously popped off the stack
+
+- So the booker function gets access to the variable environment containing the passengerCount variable
+
+- This is how the booker function can read and manipulate the passengerCount variable
+
+This connection is what is called closure
+
+
+* Any function always has access to the variable environment of the execution context in which the function was created even after that execution context is gone.
+
+So the closure is the variable environment attached to the function exactly as it was at the time and place the function was created.
+
+We say the booker function closed over its parents variable environment or scope.
+
+- The booker function now attempts to increase the passengerCount variable but cannot find it in it's current scope
+
+- JavaScript immediately looks into the closure to see if it can find the variable there even before looking in the scope chain (Closures have priority over the scope chain)
+
+- Then the passengerCount variable is increased to 1 and the booker execution context is popped off the stack
+
+- This is repeated for the next 2 calls of the booker function because the booker function will have access to the variable environment holding the passengerCount variable FOREVER.
+
+
+Summary/Definitions:
+
+Formal
+1. A closure is the closed-over variable environment of the execution context in which the function was created, even after that execution context is gone.
+
+Informal
+2. A closure gives a function access to all the variables of its parent function, even after that parent function has returned. The function keeps a reference to its outer scope, which preserves the scope chain throughout time
+
+JS creates closures automatically and there is no way for us to explicitly access closed over variables they are just an internal property of a function.
+
+We can only observe them by seeing that variables are accessible even after they seem to be gone.
+
+
+```js
+console.dir(booker);
+// In Chrome we can see in the Scopes tab there is a Closure tab that has the passengerCount variable from the secureBooking
+```
+
+
+---
+# Working With Arrays
+---
+
+# Simple Array Methods
+
+
+```js Sample Data
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+```
+
+All instances of arrays have access to built in methods because of prototypal inheritance.
+
+
+```js SLICE
+// SLICE
+// The slice methods allows us to take a piece of an array without mutating the original array.
+
+// The first argument is the beginning and the second argument is where to go to
+
+let arr = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(arr.slice(2));
+// ["c", "d", "e"]
+console.log(arr.slice(2, 4));
+// ["c", "d"]
+console.log(arr.slice(-2));
+// ["d", "e"]
+console.log(arr.slice(-1));
+// ["e"]
+console.log(arr.slice(1, -2));
+// ["b", "c"]
+
+// To create a shallow copy of the entire array omit any arguments
+
+console.log(arr.slice());
+// ['a', 'b', 'c', 'd', 'e']
+console.log([...arr]);
+// ['a', 'b', 'c', 'd', 'e']
+
+// Exact same as using the spread operator and neither one has a benefit over the other except slice can be chained with multiple methods.
+```
+
+
+```js SPLICE
+// SPLICE
+// The splice method works the same way as slice except it does mutate the original array.
+
+// The first argument is the beginning and the second argument is how many elements to delete
+
+let arr = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(splice(2));
+console.log(arr);
+// ["a", "b"]
+
+// Mainly used for removing items from an array
+// Very common for removing the last item in an arrays
+
+console.log(arr.splice(-1));
+console.log(arr);
+//['a', 'b', 'c', 'd']
+
+console.log(arr.splice(1, 2));
+console.log(arr);
+// ["a", "d"]
+```
+
+
+```js REVERSE
+// REVERSE
+// Reverses an array in place and mutates the original array
+
+let arr2 = ['j', 'i', 'h', 'g', 'f'];
+
+console.log(arr2.reverse());
+// ["f", "g", "h", "i", "j"]
+console.log(arr2);
+// ["f", "g", "h", "i", "j"]
+```
+
+```js CONCAT
+// CONCAT
+// Joins 2 arrays together and does not mutate the originals
+
+const letters = arr.concat(arr2);
+console.log(letters);
+// ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+
+// Same with the spread operator (Also doesn't mutate)
+console.log([...arr, ...arr2]);
+// ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+```
+
+```js JOIN
+// JOIN
+// Joins elements of an array with a separator that we specify
+
+console.log(letters.join(' - '));
+// a - b - c - d - e - f - g - h - i - j
+```
+
+
+
+
+# Looping Arrays - forEach
+
+
+```js forEach
+// forEach
+//
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// With a for of loop
+for (const movement of movements) {
+  if(movement > 0) {
+    console.log(`You deposited the ${movement}`);
+  } else {
+    console.log(`You withdrew ${Math.abs(movement)}`);
+    // Math.abs = absolute value (removes the negative signs)
+  }
+}
+
+// You deposited the 200 
+// You deposited the 450 
+// You withdrew 400 
+// You deposited the 3000 
+// You withdrew 650 
+// You withdrew 130 
+// You deposited the 70 
+// You deposited the 1300
+
+
+// With forEach method
+
+// forEach is a higher order function that requires a callback that is called on each element on the array
+
+movements.forEach((movement) => {
+  if(movement > 0) {
+    console.log(`You deposited the ${movement}`);
+  } else {
+    console.log(`You withdrew ${Math.abs(movement)}`);
+  }
+});
+
+// You deposited the 200 
+// You deposited the 450 
+// You withdrew 400 
+// You deposited the 3000 
+// You withdrew 650 
+// You withdrew 130 
+// You deposited the 70 
+// You deposited the 1300
+```
+
+
+If we need access to a counter variable
+
+```js
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// With a for of loop we can access the current index by using the .entries method to get an array of arrays
+
+for (const [i, movement] of movements.entries()) {
+  if(movement > 0) {
+    console.log(`Movement ${i + 1}: You deposited ${movement}`);
+  } else {
+    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
+    // Math.abs = absolute value (removes the negative signs)
+  }
+}
+
+// Movement 1: You deposited 200 
+// Movement 2: You deposited 450 
+// Movement 3: You withdrew 400 
+// Movement 4: You deposited 3000 
+// Movement 5: You withdrew 650 
+// Movement 6: You withdrew 130 
+// Movement 7: You deposited 70 
+// Movement 8: You deposited 1300
+
+
+
+// With forEach
+// forEach passes in the current element, the index and the array that we are looping over to its callback function
+// 1st is the current element
+// 2nd is the index
+// 3rd is the array
+// We can omit some if we'd like but they will then appear in the corresponding defined order
+
+movements.forEach((mov, i, arr) => {
+  if(mov > 0) {
+    console.log(`Movement ${i + 1}: You deposited ${mov}`);
+  } else {
+    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(mov)}`);
+    // Math.abs = absolute value (removes the negative signs)
+  }
+});
+
+// Movement 1: You deposited 200 
+// Movement 2: You deposited 450 
+// Movement 3: You withdrew 400 
+// Movement 4: You deposited 3000 
+// Movement 5: You withdrew 650 
+// Movement 6: You withdrew 130 
+// Movement 7: You deposited 70 
+// Movement 8: You deposited 1300
+```
+
+Keep in mind these values are reverse from each other when using forEach or for of.
+
+forEach the element is first then the index.
+
+for of the index is first then the element.
+
+
+When to use:
+
+You cannot break out of a forEach loop and it will always loop over the entire array. With for of you can use the continue and break statements to exit the loop.
+
+
+# forEach With Maps And Sets
+
+```js MAPS
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+
+// Similar to the array loop but for a map it goes in the order of value, key then map
+currencies.forEach((value, key, map) => {
+  console.log(`${key}: ${value}`);
+});
+
+///USD: United States dollar 
+// EUR: Euro 
+// GBP: Pound sterling
+```
+
+
+
+```js SETS
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique);
+//[ "USD", "GBP", "EUR" ]
+
+currenciesUnique.forEach((value, key, map) => {
+  console.log(`${key}: ${value}`);
+});
+
+// USD: USD 
+// GBP: GBP 
+// EUR: EUR
+
+// Sets don't have keys or indexes so when designing the forEach loop the developers left it having 3 parameters but when used on sets the 2nd key param just equals the first param 
+
+
+// In this instance we use an underscore _ which is the standard in JS for just a throw away variable
+currenciesUnique.forEach((value, _, map) => {
+  console.log(`${key}: ${value}`);
+});
+
+// USD: USD 
+// GBP: GBP 
+// EUR: EUR
+```
+
+
