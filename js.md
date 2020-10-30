@@ -3398,3 +3398,489 @@ The big advantage of using these built in methods is that we can chain them wher
 
 # Reduce Method
 
+```js REDUCE
+// Reduce
+// In reduces callback function the first param is the accumulator and the second is the current element the third is the index and the fourth is the arr (usually used with just the first 2)
+// The accumulated value needs to be returned so the accumulated value can be used in the next iteration of the loop
+// The reduce method has a second parameter in addition to its callback. It is the initial value to start at in the first loop iteration, in this case is 0.
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+
+const result = movements.reduce(function(acc, cur) {
+  return acc + cur;
+}, 0);
+console.log(result);
+// 3840
+```
+
+
+We can use reduce to return more than just number.
+
+Ex.) Get the max value in the array
+
+```js
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const maxValue = movements.reduce((acc, cur) => {
+  acc >= cur ?  acc = acc : acc = cur;
+  return acc;
+}, movements[0]);
+```
+
+Do not use 0 when you are trying to find the max or min value as the second param of reduce. Use the first element in the array.
+
+
+# Chaining Methods
+
+
+```js
+const eurToUsd = 1.1;
+
+const totalDepositInUsd = movements.filter(mov => mov > 0).map(mov => mov * eurToUsd).reduce((acc, cur) => acc + cur, 0);
+// 5522
+```
+
+Above the filter method returns an array. We can then call map on that array. and that returns another copied array which we can call the reduce method on and we could even call more filters, maps as required.
+
+Keep in mind "pipelines"(chaining) like this can be hard to debug. So it is good to utilize the array parameter in the callback functions on each following step to find the previous calculation that went wrong
+
+
+```js Debugging Chaining
+// Here maybe we accidentally set the filter to everything less than 0 (withdrawals) when we only wanted positive values(deposits)
+
+const eurToUsd = 1.1;
+
+const totalDepositInUsd = movements
+  .filter(mov => mov < 0)
+  .map((mov, i, arr) => {
+    console.log(arr)
+    // [-400, -650, -130]
+    return mov * eurToUsd;
+  })
+  .reduce((acc, cur) => acc + cur, 0);
+  // -1298
+```
+
+Keep In Mind:
+
+1. Do not overuse chaining as it can cause performance issues. (Try to compress manipulation into as few methods as possible).
+
+2. It is a bad practice in JS to chain methods that mutate the under laying array. Ex.) Splice or reverse. Even though you can but in a large scale app it is good practice to avoid this.
+
+
+# Find Method
+
+
+```js Find
+// find
+// Also takes a callback that loops over the array
+// Does not return a new array. It only returns the first element that satisfies the specified condition 
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+movements.find(mov => mov < 0);
+// -400
+``` 
+
+# Random notes
+
+* Side note
+
+For your own sanity, please try to remember use parentheses when calling the preventDefault method.
+
+```js
+element.addEventListener('click', function(e) {
+  e.preventDefault;
+  // This DOES NOT work
+
+  e.preventDefault();
+  // This DOES
+});
+```
+
+- Hitting enter when in an input of a form will cause a submit event on the button attached to that form
+
+- The assignment operator works from right to left and you can use it for multiple variables. Handy for resets.
+
+```js
+inputLoginUsername.value = inputLoginPin.value = '';
+```
+
+- Optional chaining is important when searching as we can avoid errors or handle them easily with the nullish coalescing because something that is not found will return undefined
+
+
+# findIndex Method
+
+To delete and element we use the splice method. To use splice we need the index so this is where findIndex comes in.
+
+
+```js findIndex
+// findIndex
+// This method also takes a callback function which has 4 params of the current element, index of the current element, the array and a thisArg.
+
+const index = accounts.findIndex(acc => acc.username === currentAccount.username);
+accounts.splice(index, 1);
+```
+
+The major difference between findIndex and indexOf is that with indexOf you can only search for a value that is in the array.
+
+With findIndex you can create complex logic to return a boolean and get the desired index that satisfies that boolean.
+
+
+# some & every 
+
+```js includes
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+console.log(movements.includes(-130));
+// true
+```
+Includes can only really test for exact equality.
+
+
+some() allows us to do conditional tests.
+
+```js some
+// some
+// Takes a callback function for us to create complex conditionals
+
+const anyDeposits = movements.some(mov => mov > 0);
+console.log(anyDeposits);
+// true
+```
+
+
+```js every
+// every
+// Similar to some but every single element must meets the condition in the callback function
+
+const anyDeposits = movements.every(mov => mov > 0);
+console.log(anyDeposits);
+// false
+```
+
+If we find that we have repetitive callback methods, then we can put them into a separate callback to be reused across our code base and keep it DRY.
+
+```js
+const deposit = mov => mov > 0;
+
+movements.some(deposit);
+movements.every(deposit);
+movements.filter(deposit);
+```
+
+
+# flat & flatMap
+
+Used for when we have nested arrays
+
+```js flat
+// No callback functions
+// By default only flattens one level deep
+// We pass it an argument which is our depth param and can make it flatten however many levels deep we need (unlike flatMap - can only do one level deep)
+
+const arr [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat());
+// [1, 2, 3, ,4 ,5, 6, 7, 8];
+
+const arrDeep [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat());
+//[[1, 2], 3, 4, [5, 6], 7 ,8]
+
+console.log(arrDeep.flat(2));
+// [1, 2, 3, ,4 ,5, 6, 7, 8];
+```
+
+Example:
+A bank wants to get the overall balance of all accounts
+
+```js Sample data
+const account1 = {
+  owner: 'Jonas Schmedtmann',
+  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  interestRate: 1.2, // %
+  pin: 1111,
+};
+
+const account2 = {
+  owner: 'Jessica Davis',
+  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  interestRate: 1.5,
+  pin: 2222,
+};
+
+const account3 = {
+  owner: 'Steven Thomas Williams',
+  movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  interestRate: 0.7,
+  pin: 3333,
+};
+
+const account4 = {
+  owner: 'Sarah Smith',
+  movements: [430, 1000, 700, 50, 90],
+  interestRate: 1,
+  pin: 4444,
+};
+
+const accounts = [account1, account2, account3, account4];
+
+
+
+const accountMovements = accounts.map(acc => acc.movements);
+console.log(accountMovements);
+// 0: Array(8) [ 200, 450, -400, … ]
+// 1: Array(8) [ 5000, 3400, -150, … ]
+// 2: Array(8) [ 200, -200, 340, … ]
+// 3: (5) […
+const allMovements = accountMovements.flat();
+console.log(allMovements);
+// Array(29) [ 200, 450, -400, 3000, -650, -130, 70, 1300, 5000, 3400, … ]
+
+overallBalance = allMovements.reduce((acc, cur) => acc + cur, 0);
+console.log(overallBalance);
+// 17840
+
+
+
+// We can chain it as well
+overallBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, cur) => acc + cur, 0);
+```
+
+Using a map first then flattening it is a very common operation and that is why flatMap was introduced and is better for performance
+
+
+```js flatMap
+// flatMap
+// Also needs a callback like a regular map functions
+// CAN ONLY GO ONE LEVEL DEEP
+
+overallBalance = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, cur) => acc + cur, 0);
+// 17480
+```
+
+
+# Sorting Arrays
+
+
+```js sort
+// sort
+// MUTATES the original array
+
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+
+owners.sort();
+//[ "Adam", "Jonas", "Martha", "Zach" ]
+
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+movements.sort();
+// [ -130, -400, -650, 1300, 200, 3000, 450, 70 ]
+// This is not ordered
+```
+
+.sort() converts everything to strings then tries to sort
+
+We fix this by passing in a compare callback function
+
+
+```js sort
+// The callback function takes 2 arguments
+// a is the current value
+// b is the next value
+
+// If we return a value less than 0 then A will be before B (Keep Order)
+
+// If we return a value greater than 0 than B will before A (Switch Order)
+movements.sort((a, b) => {
+  if(a > b) 
+    return 1;
+  if(b > a)
+    return -1;
+});
+// ascending
+// [ -650, -400, -130, 70, 200, 450, 1300, 3000 ]
+
+movements.sort((a, b) => {
+  if(a > b) 
+    return -1;
+  if(b > a)
+    return 1;
+});
+// descending
+// [ 3000, 1300, 450, 200, 70, -130, -400, -650 ]
+
+// We can simplify this be doing 
+movements.sort((a, b) => a - b;
+);
+```
+The method works by analyzing if the returned value is greater or less than 0 so we can just use a - b or b - a to get the exact same desired result. We have to return the calculated value from the function. With an arrow function its easy because it has the implicit return.
+
+Ex.) 
+400 - (-600) = 1000
+(-600) - 400 = -1000
+
+
+Don't use the sort method on mixed data type arrays.
+
+
+# State Variable
+
+```js
+// Here we set the default of sort to be false as a back up
+const displayMovements = (movements, sort = false) => {
+
+  containerMovements.innerHTML = '';
+
+  // If sort is false then create a sorted array and store it in the movs variable to be used to set the html, otherwise if sort is true use the original movements array which is unsorted
+  const movs = sort ? movements.slice().sort((a,b) => a - b) : movements;
+
+  movs.forEach((mov, i) => {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${i +1} ${type}</div>
+      <div class="movements__value">${mov}</div>
+    </div>
+    `;
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+}
+
+...
+// We set the state variable outside so it persists and is not recreated every time
+// Then every time we click we switch the boolean of the variable
+
+let sorted = false;
+btnSort.addEventListener('click', function(e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
+```
+
+
+# Creating & Filling Arrays
+
+
+```js fill
+// fill
+
+const x = new Array(7);
+// This specifies an empty array with the length of 7
+
+x.fill(1);
+// [ 1, 1, 1, 1, 1, 1, 1 ]
+// Mutates the original arrays
+// We can specify a begin and end parameter the same a slice
+
+x.fill(1, 3, 5);
+// Array(7) [ <3 empty slots>, 1, 1, <2 empty slots> ]
+```
+
+
+```js Array.from
+// Takes an object as the first param specifying the length
+// The the second param is a callback function the same as the map method where we get the current element, the index and the array.
+
+const y = Array.from({length: 7}, () => 1);
+console.log(y);
+// [ 1, 1, 1, 1, 1, 1, 1 ]
+
+// We mark a throw away variable in the callback here with the _ again
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z);
+// [1, 2, 3, 4, 5, 6, 7]
+```
+
+This method was originally introduced to create arrays from array-like structures so we can then use all the built in array methods on them.
+
+
+```js
+const movementsUI = Array.from(document.querySelectorAll('movements__value'));
+```
+
+You can also convert array-like structures into an array using the spread operator. But then any methods would need to be applied after spreading, you could not chain onto the spread.
+
+```js
+const movementsUI  = [...document.querySelectorAll('movements__value')]
+```
+
+
+# Which Array Method To Used
+
+ 
+Need - MUTATE THE ORIGINAL:
+
+Insert:
+
+- .push (end)
+- .unshift (start)
+
+Delete:
+
+- .pop (end)
+- .shift (start)
+- .splice (any)
+
+Others:
+
+- .reverse 
+- .sort
+- .fill
+
+
+Need - A NEW ARRAY:
+
+- .map (copy with a loop & callback)
+- .filter (using a condition)
+- .slice (copy of a portion or original)
+- .concat (joining arrays)
+- .flat (flatten as deep as needed)
+- .flatMap (flattens 1 level with callback)
+
+
+
+Need - ARRAY INDEX:
+
+- .indexOf (based on value)
+- .findIndex (based on conditional)
+
+
+Need - ARRAY ELEMENT
+
+- .find (based on conditional)
+
+
+
+Need - ARRAY INCLUDES
+
+- .includes (based on value)
+- .some (based on conditional)
+- .every (based on conditional)
+
+
+
+Need - A NEW STRING
+
+- .join (based on separator)
+
+
+
+Need - TRANSFORM A VALUE
+
+.reduce() (boil down to a single value of any type even a new array or object)
+
+
+Need - TO LOOP AN ARRAY
+
+- .forEach (based on callback/doesn't create a new array just loops over it)
+
