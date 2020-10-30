@@ -3273,3 +3273,128 @@ currenciesUnique.forEach((value, _, map) => {
 ```
 
 
+# Creating DOM Elements
+
+- Instead of working with global variables start with passing that data that a function needs into that function
+
+- textContent returns the text itself while innerHTML returns the HTML as well
+
+- It is bad practice tyo mutate function parameters. Rather create a copy and mutate that
+
+
+
+
+# Map, Filter & Reduce
+
+
+Overview:
+
+Map:
+- Used for looping over Arrays
+- Similar to forEach but creates a new array with all the new values mapped to it and does not mutate the original like forEach
+
+
+Filter:
+- Used to filter for elements in the original array that satisfy the conditions
+- These elements are put into a new array
+
+
+Reduce:
+- Boils down all the elements of the original array into a single value
+- Uses an accumulator and current value
+
+
+```js MAP METHOD
+// We want to convert EUR to USD
+// The callback again takes the element, the index and teh array
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToUsd = 1.1;
+
+const movementsUSD = movements.map(mov => {
+  return mov * eurToUsd;
+});
+console.log(movements);
+console.log(movementsUSD);
+```
+
+The big difference between map and forEach is that the forEach method creates side effects.
+
+A side effect is any application state change that is observable outside the function other than its return value.
+Side effects include: Modifying any external variable or object property ex.) a global variable, or a variable in the parent function scope chain.
+
+
+There is a push toward functional programming in modern JS.
+
+
+* Side note
+It is handy to use the ternary operator especially when working with strings if the returned string needs to be only one or another option.
+
+```js
+`Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'}`
+```
+
+
+
+
+```js MAP METHOD
+const user = 'Steven Thomas Williams'; // stw
+
+const username = user.toLowerCase().split(' ').map(el => {
+  return el[0];
+}).join('');
+// stw
+
+
+// Also formatting the code makes it more readable
+const username = user
+  .toLowerCase()
+  .split(' ')
+  .map(el => el[0])
+  .join('');
+```
+
+We can combine different methods knowing which method can be called on what data type in the proper order.
+
+Above we have  strong that is changed to lowercase then split into an array. We can then call map which is an array method which returns another array which we can call the array method join on and get our user name as a result.
+
+```js
+const createUserNames = (accs) => {
+  accs.forEach((acc) => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(el => el[0])
+      .join('');
+  });
+}
+createUserNames(accounts);
+```
+
+We then turn it into a reusable function for any data inputted to get the same result.
+
+The forEach method creates the side effect of adding a property of username to each account and updating it with the value we specified. This is why we do not have to explicitly set a return from the function as the forEach just "Does some work" for us.
+
+
+
+# Filter Method
+
+
+```js FILTER
+// Filter
+// Filter again has a callback that has the current element, the index and the array
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+});
+
+console.log(deposits);
+// [ 200, 450, 3000, 70, 1300 ]
+```
+
+The big advantage of using these built in methods is that we can chain them whereas with the for of loop you cannot
+
+
+# Reduce Method
+
