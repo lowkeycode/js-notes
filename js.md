@@ -3884,3 +3884,488 @@ Need - TO LOOP AN ARRAY
 
 - .forEach (based on callback/doesn't create a new array just loops over it)
 
+
+---
+# Numbers, Dates, Intl & Timers
+---
+
+# Converting & Checking Numbers
+
+In JS all numbers are represented internally as floating point numbers even if we write them at full integers
+
+
+```js
+console.log(23 === 23.0);
+// true
+```
+
+They are stored in a 64 base 2 format. That means numbers are stored in a binary format. In this binary form (base 2) it is hard to represent fraction that are easy to represent in a base 10 format like the regular deca system.
+
+```js
+console.log(0.1 + 0.2);
+// 0.30000000000000004
+```
+
+In base 10 you can observe similar behavior.
+
+1/10 = 0.1
+3/10 = 0.33333333333333333333333
+
+JS does its best in the background to do rounding but sometimes cannot represent some fractions at times.
+
+```js
+console.log(0.1 + 0.2 === 0.3);
+// false
+```
+
+This is why JS is not the best language for precise mathematical or financial calculations.
+
+An easy way to convert a string to a number is using the plus operator because when JS sees it it will try to perform type coercion.
+
+
+Converting:
+```js
+console.log(Number(23));
+console.log(+'23');
+```
+
+Parsing:
+
+```js parseInt
+// parseInt
+console.log(Number.parseInt('30px'), 10);
+// 30
+console.log(Number.parseInt('e23'), 10);
+// NaN
+```
+JS has some methods on the Number object to try and figure out what number a string may be. They HAVE TO START WITH A NUMBER to work.
+
+
+The parseInt function accepts a second argument which is its radix (the base in the mathematical numeral systems) so we should always specify that because depending on the input with no radix specified JS will assume different radix resulting in unreliable behavior.
+
+```js parseFloat
+// parseFloat
+
+console.log(Number.parseFloat('2.5rem'));
+// 2.5
+console.log(Number.parseInt('2.5rem'));
+// 2
+```
+
+
+```js
+// Check if value is NaN
+console.log(Number.isNaN(20));
+// false
+console.log(Number.isNaN('20'));
+// false
+console.log(Number.isNaN(+'20X'));
+// true
+console.log(Number.isNaN(23/0));
+// Infinity
+// false 
+
+// The isFinite method is the best way to check if a value is a real number when working with Floating Point number, and should be the go to out of these 3
+
+console.log(Number.isFinite(20));
+// true
+console.log(Number.isFinite('20'));
+// false
+console.log(Number.isFinite(+'20X'));
+// false
+console.log(Number.isFinite(23 / 0));
+// false
+
+// Or with whole numbers we can use isInteger
+
+console.log(Number.isInteger(23));
+// true
+```
+
+
+# Math & Rounding
+
+```js
+// Square root
+console.log(Math.sqrt(25));
+// 5
+console.log(25 ** (1/2));
+// 5
+
+// Cubic root
+console.log(8 ** (1/3));
+
+
+console.log(Math.max(5, 18, 23, 11, 2));
+// 23
+console.log(Math.max(5, 18, '23', 11, 2));
+// 23
+console.log(Math.max(5, 18, '23px', 11, 2));
+// NaN
+// Does type coercion but not parsing
+
+console.log(Math.min(5, 18, 23, 11, 2));
+//2
+
+// Area of a circle (pi times radius squared)
+console.log(Math.PI * Number.parseFloat('10px') ** 2)
+// 314px
+
+
+console.log(Math.trunc(Math.random() * 6) + 1);
+
+const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + 1) + min;
+// Math.random give us a number between 0 and 1
+
+// 0...1 -> 0...(max - min) -> min...(max - min + min) -> min...max
+```
+
+
+
+```js Rounding Intergers
+
+// All these methods do type coercion
+console.log(Math.trunc(23.3));
+// 23
+
+console.log(Math.round(23.3));
+// 23
+console.log(Math.ceil(23.3));
+// 24
+console.log(Math.floor(23.9));
+// 23
+
+
+// .floor and .trunc do the same when dealing with positive numbers
+
+console.log(Math.trunc(-23.3));
+// -23
+console.log(Math.floor(-23.3));
+// -24
+
+// Truncating removes the decimal point completely whereas flooring actually rounds down 
+```
+
+
+```js Rounding decimals
+console.log((2.7).toFixed(0));
+// 3 
+// toFixed always returns a string an not a number
+// The argument it takes is how many decimal places you wanted
+console.log((2.345).toFixed(2));
+// 2.35
+
+// Easy conversion to numbers (just add the plus operator)
+console.log(+(2.345).toFixed(0));
+```
+
+
+# Remainder Operator (Modulus)
+
+```js
+console.log(5 % 2);
+// 1
+// 2 * 2 + 1 = 5
+```
+
+Calculating even & odd numbers.
+All numbers even % 2 number will return 0.
+All odd numbers % 2 will return 1.
+
+```js
+console.log(6 % 2);
+// 0
+console.log(7 % 2);
+// 1
+```
+So we can write a function to check if a value is even or odd.
+
+```js
+const isEven = n => n % 2 === 0;
+
+isEven(8);
+// true
+isEven(13);
+// false
+```
+
+We can then use this in our script for things like manipulating DOM elements. 
+
+```js
+// Must be attached to an event listener to run other wise on load the data overwrites it and it just looks normal
+
+  [...document.querySelectorAll('.movements__row')].forEach(function(row, i) {
+    if(i % 2 === 0) {
+      row.style.backgroundColor = '#DDD';
+    }
+  })
+```
+
+
+```js With Event Listener
+labelBalance.addEventListener('click', () => {
+  [...document.querySelectorAll('.movements__row')].forEach(function(row, i) {
+    // Every second list item changes its background to a lighter grey
+    if(i % 2 === 0) {
+      row.style.backgroundColor = '#DDD';
+    }
+  })
+});
+```
+
+
+# BigInt (ES2020)
+
+
+Numbers are represented internally as 64 bits which means there are 64 0s and 1s to represent any given number. 53 of the 64 are used to store the digits themselves. The rest are for storing the position of the decimal point and the Sin. If there are only 53 bits to store the numbers then that means there is a limit to how big numbers can be.
+
+We can calculate that number:
+
+```js
+console.log(2 ** 53 - 1);
+// 9007199254740991
+console.log(Number.MAX_SAFE_INTEGER);
+// 9007199254740991
+// Max safe integer means any number above this can not be represented accurately
+
+console.log(2 ** 53 - 1);
+// 9007199254740991
+console.log(2 ** 53 + 1);
+// 9007199254740992
+// Should be...
+// 9007199254740993
+```
+
+```js Big Int
+console.log(12352039768982457689245769824785645);
+// 1.2352039768982459e+34
+// This is the inaccurate versions
+
+// So we put an n on the end to make it a big int
+console.log(12352039768982457689245769824785645n);
+//12352039768982457689245769824785645n
+```
+
+You cannot mix big int with other data types like a regular number in operations.
+
+You can use comparison operators on them.
+
+You can also use the + operator when working with strings.
+
+The Math operations will not work.
+
+Divisions will return the closest big int, cutting off the decimal
+
+```js
+huge = 90012094834598743892374982;
+num = 2;
+console.log(huge * BigInt(num));
+// Uncaught TypeError: can't convert BigInt to number
+
+console.log(12345902456092456n > 15);
+// true
+
+console.log(203954576578679789789 + ' is a big number');
+//203954576578679800000 is a big number
+
+console.log(Math.sqrt(16n));
+// Uncaught TypeError: can't convert BigInt to number
+
+console.log(10/3);
+// 3.33333333333333333
+console.log(10n/3n);
+// 3n
+```
+
+
+# Creating Dates
+
+JS Dates use the Unix Epoch which is when time in JS starts counting from. This is Jan 1st 1970 at midnight. Timezones affect this. (Based in miliseconds)
+
+Ex.)  
+```js
+console.log(new Date(0));
+// Wed Dec 31 1969 17:00:00 GMT-0700 (Mountain Standard Time)
+```
+
+There are 4 ways to create dates in JS:
+
+1. Calling the Date which creates a date of now
+
+```js
+const now = new Date();
+console.log(now);
+// Date Sat Oct 31 2020 13:59:45 GMT-0600 (Mountain Daylight Time)
+```
+
+2. Passing the date function a string 
+
+```js
+console.log(new Date('Aug 2 2020 19:05:41'));
+// Date Sun Aug 02 2020 19:05:41 GMT-0600 (Mountain Daylight Time)
+
+console.log(new Date('December 25, 2015'));
+// This works but passing dates not created by JS can be unreliable
+```
+
+3. Passing numbers to the date function in descending order (year, month, day, hour etc.) 
+
+```js
+console.log(new Date(2037, 10, 19, 15, 23, 5));
+//Date Thu Nov 19 2037 15:23:05 GMT-0700 (Mountain Standard Time)
+console.log(new Date(2037, 10, 19));
+// JS Months are 0 based as this would normally be expected to be October
+```
+
+4. Passing calculations to the date function to work with the Unix Epoch
+```js
+console.log(new Date(0));
+// Wed Dec 31 1969 17:00:00 GMT-0700 (Mountain Standard Time)
+console.log(new Date(3 * 24 * 60 * 60 * 1000));
+// 3 days after the Epoch
+//Sat Jan 03 1970 17:00:00 GMT-0700 (Mountain Standard Time)
+```
+
+
+Working with dates:
+
+```js
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future.getFullYear());
+// 2027
+console.log(future.getFullMonth());
+// 0 based
+// 10
+console.log(future.getDate());
+// 19
+console.log(future.getDay());
+// 0 based
+// 4 (Thu)
+console.log(future.getHours());
+//15
+console.log(future.getMinutes());
+//23
+console.log(future.getSeconds());
+// 00
+
+console.log(future.toISOString());
+// 2037-11-19T22:23:00.000Z
+// Good for storing dates in strings/arrays
+
+console.log(future.getTime());
+// 2142282180000
+// milliseconds from jan1st 1970
+
+console.log(new Date(2142282180000));
+// Thu Nov 19 2037 15:23:00 GMT-0700 (Mountain Standard Time)
+
+console.log(Date.now())
+// 1604179326235
+```
+
+There are also methods for each of the corresponding methods above for setting.
+
+```js
+future.setFullYear(2040)
+console.log(future);
+// Mon Nov 19 2040 15:23:00 GMT-0700 (Mountain Standard Time)
+```
+
+# Random Notes
+
+We can change data types into strings using template literals and then call string methods on them. Here for example we change this date into a string and specify that we want a max length of 2 and a padded character of 0, so if it was 10 or higher it would not pad because the max length  has already been reached
+
+```js
+const day = `${now.getDate()}`.padStart(2, 0);
+```
+
+A common practice is looping through 2 arrays at the same time (see the for Each loop below)
+
+```js
+const account1 = {
+  owner: 'Jonas Schmedtmann',
+  movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
+  interestRate: 1.2, // %
+  pin: 1111,
+
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:42:02.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT', // de-DE
+};
+
+
+const displayMovements = function (acc, sort = false) {
+  containerMovements.innerHTML = '';
+
+  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
+
+  movs.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    // Since the movements and dates are related they will have the same amount of corresponding indexes. Then we loop over the dates with the index from each movements as they will match each date. We create a date from each iteration and store it in a variable so we can access the Date objects methods.
+    const date = new Date(acc.movementsDates[i]);
+
+    const html = `
+      <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+    <div class="movements__date">${displayDate}</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
+      </div>
+    `;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+```
+
+# Operations With Dates
+
+
+```js
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(+future);
+
+
+// Absolute here will negate negative numbers so it doesn't matter which date is first as its the same distance in time away from one another
+const calcDaysPassed = (date1, date2) => Math.abs(date2 - date1) / (1000 * 60 * 60 * 24)
+
+daysPassed1 = calcDaysPassed(new Date(2037, 10, 19), new Date (2037, 11, 1));
+```
+
+# Random Notes
+
+It can be common to have this many returns, because as the code runs if the condition is met, it will be returned and it will exit the function.
+
+```js
+const formatMovementDate = function(date) {
+  const calcDaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+
+  if(daysPassed === 0) return 'Today';
+  if(daysPassed === 1) return 'Yesterday';
+  if(daysPassed <= 7) return `${daysPassed} days ago`;
+
+
+  const day = `${date.getDate()}`.padStart(2, 0);
+  const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+  
+}
+```
+
+
+
+
