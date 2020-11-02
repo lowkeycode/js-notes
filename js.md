@@ -4366,6 +4366,421 @@ const formatMovementDate = function(date) {
 }
 ```
 
+# Internationalization (Intl) - Dates/Times
+
+A DOM element can be set as the result of calling the Intl.DateTimeFormat() on it. The formatter accepts 2 arguments, the locale and an options object. We can dynamically grab the locale from the navigator.language so whoever is viewing it the date is formatted in their locale. Then the options object specifies how we want each part of our date to be formatted. This object is usually stored in variable to keep the code cleaner. 
+See MDN for reference on specific customization. Then the the we want to format is passed to the formatter using the .format() method with the date passed as the argument.
+
+
+```js
+const now = new Date();
+const options = {
+  year: 'numeric',
+  weekday: 'long',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric'
+}
+const locale = navigator.language;
+labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
+```
 
 
 
+# Internationalization (Intl) - Numbers
+
+Similar to the Date/Time API. See MDN for all options.
+
+```js
+const num = 3884764.23;
+const options = {
+  // 3 options for style
+  // style: "unit",
+  // style: "percentage",
+  style: "currency",
+
+  currency: 'EUR',
+
+  // unit: 'mile-per-hour'
+  // unit: 'celsius',
+}
+
+console.log('US:', new Intl.NumberFormat('en-US', options).format(num));
+// US: 3,884,764.23
+
+console.log('GErmany:', new Intl.NumberFormat('de-DE', options).format(num));
+// Germany: 3.884.764,23
+
+console.log('Syria:', new Intl.NumberFormat('ar-SY', options).format(num));
+// Syria: ٣٬٨٨٤٬٧٦٤٫٢٣
+
+// Or just grab the users locale
+console.log(navigator.language, new Intl.NumberFormat(navigator.language, options).format(num));
+// en-CA 3,884,764.23
+
+
+// US: 3,884,764.23 mph 
+// GErmany: 3.884.764,23 mi/h 
+// Syria: ٣٬٨٨٤٬٧٦٤٫٢٣ ميل/س 
+// en-CA 3,884,764.23 mph
+```
+
+We can build useful helper functions out of these APIs for reuse across applications.
+
+
+```js
+const formatCur = function(value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+  }).format(value);
+}
+```
+
+
+# Timers
+
+Set timeout takes a callback and how long in milliseconds it should wait until it runs. It only runs once.
+
+```js
+setTimeout(() => console.log('Here is your pizza.'),3000);
+```
+
+For repeated actions use setInterval.
+
+```js
+setInterval(function() {
+  const now = new Date();
+  console.log(now);
+}, 1000)
+```
+
+
+---
+# Advanced DOM & DOM EVents
+---
+
+The DOM is basically the interface between JS and the browser(More specifically HTML documents that are rendered in and by the browser).
+
+- Allows us to make JS interact with the browser
+
+- We can write JS to create, modify and delete HTML elements, set styles, classes and attribute, and listen and respond to events
+
+- A DOM tree (made up of nodes) is generated from an HTML document, which we can then interact with
+
+- DOM is a very complex API that contains lots of methods and properties to interact with the DOM tree
+
+
+How the DOM API is organized behind the scenes:
+
+- Every single node in the DOM tree is of the type Node. 
+
+- Each node is represented in JS by an object. (Everything in JS is an object). This gives access to special node methods and properties based on what type of node it is
+Ex.) .textContent, .parentNode, .cloneNode() etc.
+
+There are 4 child node types:
+
+- Element
+HTML element <p></p>
+- Text
+paragraph
+- Comment
+<!--  -->
+- Document
+
+
+Each element will be represented internally as an object and has internally an HTML element child type. There is a different type of HTMLElement for each HTMLElement.
+Ex.) HTMLButtonElement, HTMLDivElement, HTMLLinkElement etc.
+
+There is inheritance of methods and properties. All children elements have access to their parents properties.
+
+
+The DOM API needs a way for all nodes to listen to events. So there is a parent node type called EventTarget that is parent of nodes and parent of the window. So every single type of node has access to event listeners because of inheritance.
+
+
+
+# Selecting, Creating & Deleting Elements
+
+Selecting:
+
+```js
+// To select the document element:
+console.log(document.documentElement);
+
+// Head & body
+console.log(document.head);
+console.log(document.body);
+
+const allSections = document.querySelectorAll('.section');
+// returns a node list
+```
+
+The .getElementsByTagName will return an HTML Collection
+```js
+const allButtons = document.getElementsByTagName('button');
+```
+
+An HTML Collection returned from the .getElementsByTagName will auto update (This is called a live collection) so if for example a button is removed from the DOM in the instance above the allButtons would have one less element in it. Whereas with a node list even after deleting a section in the DOM it would still show in the allSection variable. 
+
+
+```js
+ document.getElementsByClassName('btn');
+ // This also returns a live HTML collection
+```
+
+
+
+Creating & Inserting:
+
+```js
+// .insertAdjacentHTML
+
+// This creates a DOM element
+const message = document.createElement('div');
+
+// And we can alter it
+message.classList.add('cookie-message');
+message.textContent = 'We use cookies for improved functionality and analytics.';
+message.innerHTML = 'We use cookies for improved functionality and analytics. <button class"btn btn--close-cookie">Got it!</button>';
+
+// Then insert it
+header.prepend(message);
+// Before or...
+header.append(message);
+// After...
+```
+Keep in mind because we have created an actual DOM element, we can only put it in one place so the above code the prepend would be overwritten by the append and the element would show at the bottom
+
+So if we wanted 2 of the same, which is usually not common but doable:
+
+```js
+header.append(message.cloneNode(true));
+// The true is for is if we want to clone all children nodes as well
+```
+
+There are 2 more methods:
+```js
+header.before(message);
+header.after(message);
+```
+
+
+Deleting:
+
+```js
+document.querySelector('.btn--close-cookie').addEventListener('click',function() {
+  message.remove();
+});
+```
+You used to have to go to the parent element of the element you wanted to delete to delete it. The remove() method is recent.
+
+```js Old school
+document.querySelector('.btn--close-cookie').addEventListener('click',function() {
+  message.parentElement.removeChild(message);
+});
+```
+
+
+# Styles, Attributes & classes
+
+
+Styles:
+
+```js Setting styles
+// Defines an in-line style
+message.style.backGroundColor = '#37383d';
+
+message.style.width = '120%';
+
+console.log(message.style.height);
+// Returns nothing
+```
+
+```js Getting styles
+console.log(getComputedStyle(message).color);
+```
+
+Using getComputedStyle to set styles for elements that have no in-line style defined
+```js
+message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+```
+
+
+CSS Custom Properties (CSS Variables):
+
+```js
+document.documentElement.style.setProperty('--color-primary', '#FF0000');
+```
+
+
+Attributes:
+
+```js Reading
+const logo = document.querySelector('.nav__logo');
+
+console.log(logo.src);
+console.log(logo.alt);
+console.log(logo.className);
+
+logo.getAttribute('alt');
+```
+
+```js Setting
+logo.alt = 'Beautiful Miinimalist Logo'
+
+
+logo.setAttribute('alt', 'Bankist logo');
+```
+
+
+
+Data Attributes:
+
+We can specify data attributes on html elements and then access them as a property through . notation in JS.
+
+```html
+<img
+  src="img/logo.png"
+  alt="Bankist logo"
+  class="nav__logo"
+  id="logo"
+  data-version-number="3.0"
+/>
+```
+
+The value is then located in the dataset object under the name we gave it but camelCased.
+```js
+console.log(logo.dataset.versionNumber);
+// 3.0
+```
+
+
+# Scrolling
+
+
+Old School ways:
+
+We can use the getBoundingClient to get information about coordinates, scrolling and dimensions the viewport
+
+```js
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+
+btnScrollTo.addEventListener('click',function (e) {
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords);
+  console.log(e.target.getBoundingClientRect);
+});
+// DOMRect
+// bottom: 2093.199951171875
+// height: 1567.199951171875
+// left: 0
+// right: 960
+// top: 526
+// width: 960
+// x: 0
+// y: 526
+```
+
+If we want to scroll to a position on the page we need to add how much we've scrolled with the page offset otherwise it creates a jumpy effect when clicking to scroll at different point of the page because the element will be at different heights from the top of the vierwport.
+
+```js
+window.scrollTo(s1coords.left + window.pageXOffset, s1coords.top + window.pageYOffset);
+```
+
+
+We can also pass the scrollTo method an object to specify the behavior.
+
+```js
+window.scrollTo({
+    left: s1coords.left + window.pageXOffset, 
+    top: s1coords.top + window.pageYOffset,
+    behavior: 'smooth',
+  });
+```
+
+
+Modern Way (Not supported in all browsers):
+
+
+```js
+section1.scrollIntoView({behavior:  'smooth'});
+```
+
+
+# Event Propagation: Bubbling & Capturing
+
+Event listeners by default listen only to the bubbling phase.
+
+
+Say we have some HTML elements as follows:
+
+
+```html
+<html>
+  <body>
+    <section>
+      <p>
+        <a>link</a>
+      </p>
+    </section>
+  </body>
+</html>
+```
+
+Say a click happens on the link this is what happens.
+
+Capturing Phase:
+
+The click event is created and is generated at the root of the document at the top of the DOM tree. The event travels down the tree and passes through every single parent element of the target element (link) until it hits the target.
+
+document -> html -> body -> section -> p -> a
+
+
+Target Phase:
+
+Once the event hits the target the target phase begins. This is where events can be handled right at the target.
+
+Bubbling Phase:
+
+When the event phase has finished and the event has been handled then the event bubbles all the way back up to the root of the document, passing through all parent elements.
+
+As the event travels it is as if the event has happened in each parent element and can be caught and handled on parent elements. 
+
+This comes in handy especially when we don't know how many children a parent will have Ex.) a list that is being updated( adding & deleting items)
+Then we can just make the parent responsible for the event because we know it will always be there.
+
+Most events capture and bubble but there are some that only happen directly on the target.
+
+
+All of this is called event propagation.
+
+
+```js Easy way to visualize in practice
+const randomInt = (min,max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+const randomColor = () => `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+// Create a target element (link) with a parent element and a parent element for that parent.
+// Then add an event listener of click on each of the 3 elements calling the randomColor function to set the backgroundColor.
+```
+The event target is not the element to which the event listener is attached, but where the event first occurred. So in the above example if you console.log the e.target even when the event occurs at the highest level they will all log the link that was clicked.
+
+
+The event current target is where the event handler is attached. So the parent elements will log themselves. 
+
+```js
+e.currentTarget === this
+// true
+```
+
+We can also stop event propagation for hitting the parent elements. This isn't used very often.
+
+```js
+e.stopPropagation();
+```
+
+If we need to listen to the event coming down on the capture phase we pass a 3rd parameter to the addEventListener and set it to true as the default is false.
