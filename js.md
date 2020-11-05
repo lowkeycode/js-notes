@@ -1,4 +1,4 @@
-# The Complete Javascript Course: From Zero To Expert!
+# Javascript
 
 ---
 
@@ -2780,7 +2780,7 @@ console.log(swiss.bookings);
 book.call(swiss, ..flightData);
 ```
 
-# Bind Methods
+# Bind Method
 
 Bind does not immediately call the function. Instead it returns a new function where the this keyword is bound. Its set to whatever value we pass into bind.
 
@@ -4784,3 +4784,1504 @@ e.stopPropagation();
 ```
 
 If we need to listen to the event coming down on the capture phase we pass a 3rd parameter to the addEventListener and set it to true as the default is false.
+
+Capturing is rarely used these days, mostly just bubbling.
+
+
+# Event Delegation - Page Scrolling
+
+
+```html
+<!-- Navigation Code -->
+<li class="nav__item">
+  <a class="nav__link" href="#section--1">Features</a>
+</li>
+
+...etc
+
+<!-- Section Code -->
+<section class="section" id="section--1">
+      <div class="section__title">
+        <h2 class="section__description">Features</h2>
+        <h3 class="section__header">
+          Everything you need in a modern bank and more.
+        </h3>
+      </div>
+
+...etc
+```
+
+Here add the corresponding section name to the href in the anchor tag so in the JS we can easily grab it and turn it into an id then scroll it into view when clicked.
+
+
+```js
+document.querySelectorAll('.nav__link').forEach(function(el) {
+  el.addEventListener('click', function(e) {
+    e.preventDefault();
+    const id = this.getAttribute('href');
+    console.log(id);
+    document.querySelector(id).scrollIntoView({behavior:  'smooth'});
+  });
+});
+```
+
+However this is duplicating the exact same function for however many elements we need which when getting over the size of a couple will begin to impact performance.
+
+So we need to use Event Delegation...
+
+There are basically 2 steps to implementing Event Delegation:
+
+1. 
+We put the event listener on a common parent of all the elements we are interested in.
+
+2. 
+In the event listener determine which child element omitted the event
+
+
+```js
+document.querySelector('.nav__links').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  if(e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({behavior:  'smooth'});
+  }
+  
+});
+```
+To summarize, we add an event listener to the parent of all the links and because of event propagation we have access to the e.target which is what was actually clicked on. Then in the if statement we check if the target contains the same class as the elements we want and if so get their href that matches the corresponding section id so we can use it to smooth scroll into view on click.
+
+
+# DOM Traversal
+
+In the DOM we can select elements relative to a certain element.
+
+Selecting children:
+
+```js
+const h1 = document.querySelector('h1');
+
+// Going down: Children
+
+console.log(h1.querySelectorAll('.highglight'));
+// NodeList(2) [span.highlight, span.highlight]
+
+// This selects all ELEMENT children no matter how deeply nested under the h1
+
+console.log(h1.childNodes);
+// NodeList(6)
+// 0: text
+// 1: comment
+// 2: text
+// 3: span.highlight
+// 4: text
+// 5: br
+// 6: text
+
+// This shows EVERY TYPE of child node under the h1 (this is not used that much)
+
+console.log(h1.children);
+// HTMLCollection(3)
+// 1: span.highlight
+// 2: br
+// 3: span.highlight
+
+// Returns a live HTML Collection and only direct children of the h1
+
+h1.firstElementChild.style.color = 'white';
+h1.lasttElementChild.style.color = 'orangered';
+// We can set properties when traversing the DOM
+
+
+// Going up: Parents
+
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+
+
+// Finding a parent no matter how far away in the DOM trees
+h1.closest('.header').style.background = 'var(--gradient-secondary)';
+
+
+// Going sideways: Siblings
+// In JS we can only access direct siblings (previous and next)
+
+// For elements
+console.log(h1.previousElementSibling);
+// null
+console.log(h1.nextElementSibling);
+// <h4>A simpler banking experience</h4>
+
+// for nodes
+console.log(h1.previousSibling);
+console.log(h1.nextSibling);
+
+
+// If we want to traverse efficiently across siblings traverse to the parent and then in
+
+// It is common to convert node lists & HTML collections to arrays or different data types to work with them
+
+[...h1.parentElement.children].forEach(function(el) {
+  if(el !== h1) el.style.transfor, = 'scale(0.5)';
+});
+```
+
+
+# Tabbed Components
+
+
+```js
+tabsContainer.addEventListener('click', function(e) {
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+});
+```
+We can use the closest method when we have nested elements to avoid unwanted issues in the event propagation. Here without it we have a span element inside the button class wrapping the number on the button. But if we are trying to click on the button but click the span then we are dealing with different elements when trying to traverse. We cant just go e.target.parentElement, because when we click the span the parent is the button and when we click the button the parent is a different element. So this helps whichever is clicked find a common parent.
+
+```js
+// Guard clause
+  if(!clicked) return;
+```
+
+In our function we add a guard clause because we could still click outside one of the buttons but inside the tabsContainers that we're listening to, and if there is no parent of the button/span we get a null TypeError.
+
+
+```js Final Code for reference
+tabsContainer.addEventListener('click', function(e) {
+  const clicked = e.target.closest('.operations__tab');
+
+  // Guard Clause
+  if(!clicked) return;
+
+
+  // Clear/Remove Clases
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+  
+  // Active Tab
+  clicked.classList.add('operations__tab--active');
+
+  // Activate Content Area
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
+});
+```
+
+
+# Passing Arguments To Event Handlers
+
+
+```js
+
+const handleHover = function(e, opacity) {
+  if(e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if(el !==link) el.style.opacity = opacity;
+      logo.style.opacity = opacity;
+    });
+  }
+}
+
+nav.addEventListener('mouseover', function(e) {
+  handleHover(e, 0.5);
+});
+
+nav.addEventListener('mouseout', function(e) {
+handleHover(e, 1);
+});
+```
+Here we cannot pass the handleHover directly to the event listeners as we need to pass it parameters and that would result in a function call and our functions don't return anything and would result in undefined being passed as a callback which the add event listener weill not accept. So we use an anonymous function then call our function with the required arguments. 
+
+However we can do better using the .bind method.
+
+```js
+
+const handleHover = function(e) {
+  if(e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if(el !==link) el.style.opacity = this;
+      logo.style.opacity = this;
+    });
+  }
+}
+
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+
+nav.addEventListener('mouseout', handleHover.bind(1));
+```
+
+A handler callback function can only take one argument which is the event. so we bind the this keyword of the handler function to the value we need as a work around to get an extra value into the function. If we need even more values we could pass an array or even an object instead of just a single value. (A bit of hack or work around)
+
+See line 2783 for the .bind keyword notes.
+
+"Bind does not immediately call the function. Instead it returns a new function where the this keyword is bound. Its set to whatever value we pass into bind."
+
+So because the bind method returns another function and does not actually call a function the add event listener will accept it as a callback.
+
+Pretty fuckin' slick.
+
+
+# Sticky Nav
+
+```js
+const initialCoords = section1.getBoundingClientRect();
+
+window.addEventListener('scroll', function() {
+  console.log(window.scrollY);
+
+  if(window.scrollY > initialCoords.top) nav.classList.add('sticky') 
+  else nav.classList.remove('sticky');
+});
+```
+
+Above works but is really bad for performance because when your using the scroll event in th add event listener it fires and listens all the time because of the scrolling. 
+
+Instead we use the Intersection Observer API
+
+
+# Intersection Observer API
+
+This API allows our code to observe changes to the way that a certain target element intersects another element, or the way it intersects the viewport.
+
+How does it work:
+
+
+```js
+// Intersection Observer
+// Takes a callback function and an object of options
+
+const obsCallback = function (entries, observer) {
+  entries.forEach(entry => console.log(entry))
+};
+
+const obsOptions = {
+  root: null,
+  threshold: [0, 0.2],
+}
+
+const observer = new IntersectionObserver(obsCallback, obsOptions);
+
+observer.observe(section1);
+
+
+
+
+// In the console
+
+// IntersectionObserverEntry
+// boundingClientRect: DOMRect { x: 0, y: 404, width: 960, … }
+// intersectionRatio: 0.10017866258295048
+// intersectionRect: DOMRect { x: 0, y: 404, width: 960, … }
+// isIntersecting: true
+// rootBounds: DOMRect { x: 0, y: 0, width: 960, … }
+// target: <section id="section--1" class="section">
+// time: 5874.48
+```
+
+The options control the circumstances under which the callback is invoked. It includes the root, rootMargin and threshold. The root defaults to the browser viewport if not specified or if null, otherwise it is the specified element that is used for checking visibility of the target. rootMargin is like an offset and is specified only in pixels. The threshold indicates what percentage of the targets visibility the callback should be executed at NOT MATTER SCROLLING UP OR DOWN (Ex.) Threshold of 0.1 & scrolling only down, it will fire when 10% of the target has entered the viewport AND when there is 10% remaining in the viewport ) and can also be an array of values.
+
+
+The observer callback takes 2 arguments. Entries & observer object itself.
+
+
+```js
+const header = document.querySelector('.header');
+
+const navOffset = - nav.offsetHeight + 'px';
+
+const stickyNav = function(entries) {
+  const [entry] = entries;
+  console.log(entry);
+  if(!entry.isIntersecting) nav.classList.add('sticky')
+  else nav.classList.remove('sticky');
+}
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `${navOffset}`,
+});
+
+headerObserver.observe(header);
+```
+
+
+
+# Reveal Elements On Scroll
+
+```js
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = function(entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if(!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+}
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15
+});
+
+allSections.forEach(function(section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
+```
+
+Again here we use the IntersectionObserver. We store all sections in the all section variable and loop over them, observing each section and hiding them off the start. Then we define out InterSectionObserver and then define our callback where we destructure each entry from the entries that we told the observer to observe in the forEach. Then we use a guard clause to return if not intersecting and then show each section and finally remove the observer to enhance performance and stop the even from firing even after the animation has already been performed.
+
+
+
+# Lazy Loading
+
+Images have the biggest impact on performance. So we can use lazy loading to only load the images when we need them.
+
+
+```html
+<div class="features">
+        <img
+          src="img/digital-lazy.jpg"
+          data-src="img/digital.jpg"
+          alt="Computer"
+          class="features__img lazy-img"
+        />
+...etc
+```
+
+```js
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const loadImg = function(entries, observer) {
+  const [entry] = entries;
+
+  if(!entry.isIntersecting) return;
+
+  // Replace src attr with data-src
+  entry.target.src = entry.target.dataset.src;
+  // entry.target.classList.remove('lazy-img');
+
+  entry.target.addEventListener('load', function () {
+  entry.target.classList.remove('lazy-img');
+  });
+
+  observer.unobserve(entry.target);
+
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px'
+})
+
+imgTargets.forEach(img => imgObserver.observe(img));
+```
+
+So we set up the html with a very tiny img that is blurred our with CSS to keep our file size down. Then we use the IntersectionObserver to replace the low res image with the high res one, only removing the blur when the high res img is actually loaded with an event listener on the load event. Otherwise users with slow connections will have the blur removed and will be viewing the low res img while waiting for the high res one to load. We also use the rootMargin to ensure that these images are being lazy loaded a little bit before the user scrolls down as to decrease the amount of time the image is blurry. We don't really need users to know that we are lazy loading.
+
+
+
+# Lifecycle DOM Events
+
+Lifecycle means from when the page is first accessed until the user leaves it.
+
+
+1. DOM Content Loaded
+
+- This event is fired by the document as soon as the HTML is completely parsed which means it has been downloaded and converted to the DOM 
+tree. 
+
+- All script must be downloaded and executed before the DOM Content Loaded event can happen.
+
+- It does not wait for other extrenal resources such as images, only HTML and JS need to be loaded
+
+```js
+document.addEventListener('DOMContentLoaded', function(e) {
+  console.log(e);
+});
+
+// DOMContentLoaded
+// bubbles: true
+// cancelBubble: false
+// cancelable: false
+// composed: false
+// currentTarget: null
+// defaultPrevented: false
+// eventPhase: 0
+// explicitOriginalTarget: HTMLDocument http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/index.html#section--2
+// isTrusted: true
+// originalTarget: HTMLDocument http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/index.html#section--2
+// returnValue: true
+// srcElement: HTMLDocument http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/index.html#section--2
+// target: HTMLDocument http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/index.html#section--2
+// timeStamp: 636
+// type: "DOMContentLoaded"
+```
+
+We can then view this in the network tab (at a slower rate if needed)
+
+So with our script tag at the bottom of the HTML we don't need to listen to this event.
+
+
+2. Load EVent
+
+- The load event is fired when the HTML AND all external resources like images are loaded. 
+
+```js
+window.addEventListener('load', function(e) {
+  console.log(e);
+});
+
+// load
+// bubbles: false
+// cancelBubble: false
+// cancelable: false
+// composed: false
+// currentTarget: null
+// defaultPrevented: false
+// eventPhase: 0
+// explicitOriginalTarget: HTMLDocument http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/index.html#section--2
+// isTrusted: true
+// originalTarget: HTMLDocument http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/index.html#section--2
+// returnValue: true
+// srcElement: HTMLDocument http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/index.html#section--2
+// target: HTMLDocument http://127.0.0.1:5500/13-Advanced-DOM-Bankist/starter/index.html#section--2
+// timeStamp: 1069
+// type: "load"
+```
+
+We can also observe this in the network tab and again see how fast things are loading and how big files are.
+
+
+3. Before Unload
+
+- This event is created immediately before a user is about to leave a page.
+
+Ex.) When the user clicks the x button to leave the page
+
+- To stop it we can call prevent default
+
+- This is the event we can use to ask users if they are sure they want to leave the page
+
+```js
+window.addEventListener('beforeunload', function(e) {
+  e.preventDefault();
+  console.log(e);
+  e.returnValue = '';
+});
+```
+
+The pop up that asks if they are sure they want to leave is NOT customizable as previous developers abused it.
+
+A messsage like this can be annoying, so only use it if there are things workj that user has done that they may not want to have erased by leaving the page.
+
+
+# Efficient Script Loading: Defer & Async
+
+We can put our script tags in either the head or the body end...and this is what it looks like in the different scenarios over time.
+
+REGULAR:
+
+Head:
+
+- HTML beigns to parse and the DOM tree begins to be built
+built
+- The script tag is then found, the HTML is paused until the script tag is exectued
+- HTML finsishes parsing after script tag is executed
+- DOM Content Loaded Event is fired
+
+Never include the script in the head.
+
+Body:
+
+- HTML is parsed
+- Script is found, fetched & exectured
+- DOM Content Loaded EVent is fired
+
+Not the most optimied because the script tage could have been found while the HTML was still being parsed.
+
+---
+* Keep in mind Async & Defer will never be put in the body end because the HTML will have already finished parsing so it makes no sense they would ever go there.
+
+ASYNC:
+
+Head:
+
+- Script is loaded at the same time that the HTML is being parsed and when executing the HTML is stopped until the script executes and then resumes after the script execution.
+- DOM Content Loaded EVent is fired
+
+Even though the pausing of the HTML seems not idela this is still actually faster then just including the script tage at the body end.
+
+
+---
+
+DEFER:
+
+Head:
+
+- Script is loaded at the same time that the HTML is being parsed and only executed after the HTML is finished
+- DOM Content Loaded EVent is fired
+
+
+---
+
+
+
+Regular vs Async vs Defer
+
+* These use cases assume Regular at end of body and both Async & Defer in head as discussed previously.
+
+
+Regular:
+
+- Scripts are fetched and executed after HTML is completely parsed
+- Use if you need to support old browsers (Legacy browsers don't support async & defer)
+
+
+Async:
+
+- Scripts are fetch asynchronously and executed Immediately
+- Usually the DOMContentLoaded event waits for all scripts to execute, except for async scripts. So DOMContentLoaed does not wait for an async script and if there is a large script file may fire before the script is event fetched and ran.
+- Scripts are not guaranteed to execute in order, whichever script comes in first is executed first
+- Use for any 3rd party scripts that order doesn't matter Ex.) Analytic scripts
+
+
+Defer:
+
+- Scripts are fetched asynchronously and executed after the HTML is completely parsed
+
+- DOMContentLoaded event fires after the defer script is executed
+
+- Scripts are executed in order
+
+- THIS IS THE BEST OVERALL SOLUTION! USE FOR YOUR OWN SCRIPTS, AND WHEN ORDER MATTERS Ex.) Including a library that your scripts depend on.
+
+
+
+```js
+<script defer src="script.js"></script>
+<script async src="script.js"></script>
+```
+
+In the network tab we can view the time it takes for the DOMContentLoaded event to fire and compare the different scenarios.
+
+
+---
+# Object Oriented Programming (OOP)
+---
+
+- OOP is a paradigm (style of writing and organizing) that is based on the concept of objects.
+
+- It uses objects to model or describe real world or abstract features.
+
+- By using objects we pack DATA AND the corresponding BEHAVIOUR (methods) into one block.
+
+- In OOP objects are self-contained pieces/blocks of code
+
+- Objects are building block of applications & interact with one another
+
+- Interactions happen through an API: methods that the code outside the object can access and use to communicate with the object
+
+- OOP was developed with the goal of organizing code, to make it more flexible & easier to maintain (avoid "spaghetti code")
+
+
+
+Classes & Instances (Traditional OOP):
+
+A class is a blueprint used to create new objects based on rules described in the class.
+
+Objects created from the class are called instances and we can created as many as we need with different data in them but share the same functionality. Creating a new instance is called instantiation.
+
+How to design classes (model real-world data into classes)..
+
+4 Main Principles:
+
+1. Abstraction
+
+- Ignoring or hiding away details that don't matter, allowing us to get an overview perspective of the thing we're implementing, instead of messing with details that don't really matter to our implementation.
+Ex.) Designing all the features of an iphone, but the user doesn't need to know how every little feature works it just works in an easy manner
+
+2. Encapsulation
+
+- Keeping properties and methods private inside the class, so they are not accessible from outside the class. Some methods can be exposed as a public interface (API)
+
+3. Inheritance
+
+- Makes all properties and methods of a certain class available to a child classs, forming a hierachical relationship between classes. This allows for reuse of common logic and to model real-world relationships
+- Child classes "extend" parent classes and then can have their own individual properties and methods
+
+4. Polymorphism
+
+- A child class can overwrite a method it inherited from a parent class (it is more complex than this, but this is a short summary)
+
+
+# OOP In JavaScript
+
+Prototypes:
+
+All objects have a prototype and are linked to a prototype object. The prototype object contains methods that all objects can access and use. This behaviour is called prototypal inheritance. This inheritance is different from the previously discussed inheritance. That was one class inheriting from another class, in this way it is basically an instance inheriting from a class.
+
+- Objects are linked to a prototype object
+
+- Prototypal inheritance: The prototype contains methods that are accessible to all objects linked to that prototype
+
+- Objects delegate behaviour (methods) to the linked prototype object.
+
+In classical OOP the behaviour (methods) are copied from the class to all instances.
+
+
+How do we actually create prototypes?
+And how do we link objects to prototypes?
+How can we create new objects, without having classes?
+
+3 Ways to implement prototypal inheritance: 
+
+1. Constructor functions
+- Technique that was adopted as a standard to create objects from a function
+- This is how built-in objects like Arrays, Maps or Sets are actually implemented
+
+2. ES6 Classes
+- Modern alternative to constructor function syntax
+- Syntactic sugar: behing the scenes, ES6 classes work exactly like constructor functions
+- ES6 classes do not behave like classes in classical OOP
+
+3. Object.create()
+- Easiest most straightforward way of linking and object to a prototype object
+
+All 4 main principles of OOP are important and valid with prototypal inheritance.
+
+
+# Constructor Functions & The new Operator
+
+The convention in JS is that all constructor functions are named with the first letter capitalized.
+
+Arrow functions will not work as a constructor function as it does not have a this keyword. Only function declarations and function expressions.
+
+We call the constructor using the new keyword and store it in a variable.
+
+Behind the scenes 4 things happen when using the new keyword to call a constructor function.
+
+1. A new empty object is created
+2. The function is called with the this keyword being set to the newly created object in the execution conext
+3. The new object is linked to a prototype
+4. The function automatically returns the empty object
+
+```js
+const Person = function(firstName, birthYear) {
+  // Instance properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+}
+
+const jonas = new Person('Jonas', 1991);
+console.log(jonas);
+// Object { firstName: "Jonas", birthYear: 1991 }
+```
+Now we can use this constructor to create as many objects as we want.
+
+```js
+const matilda = new Person('Matilda', 2017);
+const jack = new Person('Jack', 1975);
+```
+
+There are not actual classes in JS. The constructor function is used to mimick classes and therefore when we create objects using the constructor function those objects are said to be instances of the constructor.
+Ex.) jonas, matilda & jack are instances of the Person constructor.
+
+```js
+console.log(jonas instanceof Person);
+// true
+```
+
+Methods:
+
+```js
+const Person = function(firstName, birthYear) {
+  // Instance properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  // Never create a method inside a constructor function like this
+  this.calcAge = function() {
+    console.log(2037 - this.birthYear);
+  }
+}
+```
+
+We don't create methods on constructor functions because everysingle instance would carry around that method and would be bad for performance. Instead we use prototypes and prototypal inheritance...
+
+
+# Prototypes
+
+Each and every function automatically has a property called prototype. Every object created by a certain constructor function will get access to all the methods and properties that we define on the constructors prototype property.
+
+
+```js
+
+const Person = function(firstName, birthYear) {
+  // Instance properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+}
+const jonas = new Person('Jonas', 1991);
+
+// Setting the prototype method
+Person.prototype.calcAge = function() {
+    console.log(2037 - this.birthYear);
+  };
+
+jonas.calcAge();
+// 46
+
+console.log(jonas);
+// Object { firstName: "Jonas", birthYear: 1991 }
+
+console.log(jonas.__proto___);
+// {…}
+// calcAge: function calcAge()
+// constructor: function Person(firstName, birthYear)
+// <prototype>: {…
+// We can see above the prototype of jonas and we can see the calcAge function
+// The prototype of the jonas object is essentially the same as the prototype property of the constructor function
+
+console.log(jonas.__proto__ === Person.prototype);
+//true
+```
+Here we can see that the jonas object does not have the calcAge function in it. But we still have access to it due to prototypal inheritance. And now there is only one copy of the function, saving memory. The this keyword is also set to the object calling the method. So everything works.
+
+* Person.prototype is not the prototype of Person. It is used as the prototype of all instances of Person. This is an important distinction.
+
+```js
+console.log(Person.prototype.isPrototypeOf(jonas));
+// true
+console.log(Person.prototype.isPrototypeOf(Person));
+// false
+```
+
+The confusion is due to bad naming. A better name could have been used such as .prototypeOfInstances or .prototypeOfLinkedObjects
+
+We can also set properties on the prototype, not just methods.
+
+```js
+Person.prototype.species = 'Homo Sapiens';
+console.log(jonas);
+// {…}
+// birthYear: 1991
+// firstName: "Jonas"
+// <prototype>: {…}
+//    calcAge: function calcAge()
+//    constructor: function Person      (firstName, birthYear)
+//    species: "Homo Sapiens"
+//    <prototype>: {…
+
+console.log(Person);
+// Person(firstName, birthYear)
+// arguments: null
+// caller: null
+// length: 2
+// name: "Person"
+// prototype: {…}
+//    calcAge: function calcAge()
+//    constructor: function Person(firstName, birthYear)
+//    species: "Homo Sapiens"
+//    <prototype>: Object { … }
+//    <prototype>: ()
+
+console.log(jonas.hasOwnProperty('firstName'));
+// true
+console.log(jonas.hasOwnProperty('species'));
+// false
+```
+
+
+# Prototypal Inheritance & The Prototype Chain
+
+The constructor has a prototype property that is actually the prototype of all of the instances of that constructor and not the prototype of the constructor itself. We can define methods and properties on the prototype.
+
+Behind the scenes 4 things happen when using the new keyword to call a constructor function.
+
+1. A new empty object is created
+2. The function is called with the this keyword being set to the newly created object in the execution conext
+3. The new object is linked to a prototype
+4. The function automatically returns the empty object
+
+This is how it works with function constructors and ES6 classes but NOT with Object.create()
+
+If a property or method is not found on that object JS will check the prototype and use the property or method from there. We say the object delegated thast property or method to its prototype.
+
+The ability for an object to look to its prototype for a method or property or if not found goes up to the next prototype is called the prototype chain.
+
+The top of the scope chain is null.
+
+
+# Prototypal Inheritance On Built In Objects
+
+```js
+const arr = [3, 6, 4, 5, 6, 9, 3];
+console.log(arr.__proto__);
+// Shows all built-in array methods
+console.log(arr.__proto__ === Array.prototype);
+// true
+
+console.log(arr.__proto__.__proto__);
+// Object prototype
+```
+
+It is possible to change the prototype of the built-in object but it shouldn't be done. If new versions of JS try to add new methods with the same name it will cause applications to break.
+
+Secondly on a team this would become a free for all and would cause major bugs.
+
+
+
+# ES6 Classes
+
+Classes in JS implement prototypal inheritance but allow people coming from other programming languages to understand it easier.
+
+```js Class Expression
+// Class Expression
+class Person {
+
+}
+
+// Class Declaration
+const Person = class {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+}
+
+const jessica = new Person('jessica', 1996);
+console.log(jessica);
+// Object { firstName: "jessica", birthYear: 1996 }
+```
+
+Any properties or methods written INSIDE the constructor will be on every instance of that class. Every property or method written OUTSIDE the constructor are automatically put on the prototype property.
+
+
+Important differences with classes.
+
+1. Classes are NOT hoisted even as class declarations (we can't use them before they are declared in the code)
+
+2. Classes are also first class citizens (we can pass them into functions and return them from functions)
+
+3. Classes are executed in strict mode
+
+Constructor functions are not old or deprecated.
+
+
+
+# Setters & Getters
+
+Every object can have setter & getters which get & set a value.
+
+```js
+const account = {
+  owner: 'jonas',
+  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+  set latest(mov) {
+    this.movement.push(mov);
+  }
+};
+
+console.log(account.latest);
+
+// account.latest(50);
+// Calling a method
+
+account.latest = 50;
+// Using a setter
+```
+Getters and setters allow us to access functions as if they were properties instead of using parentheses to call a method. Both must be prepended with their corresponding keyword (get or set) and setters require one single paramater.
+
+```js
+// Getters and setters with classes work the same way
+const Person = class {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+}
+
+const jessica = new Person('jessica', 1996);
+console.log(jessica.age)
+// 41
+// Sets this as a property on the jessica prototype now as well
+
+// They work pretty much the exact same as any regular method
+```
+
+
+```js
+const Person = class {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+
+  // Setting a property that already exists...
+
+  // This property already exists from the constructor and since both are trying to set it creates an error. So we need to add an underscore to the variable.
+  set fullName(name) {
+    if(name.includes(' ')) this.fullName = name;
+    else alert(`${name} is not a full name!`)
+  }
+  ---
+  // Add an underscore
+  set fullName(name) {
+    if(name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`)
+  }
+
+  // Then the getter need the underscore as well
+  get fullName() {
+    return this._fullName;
+  }
+
+}
+
+const jessica = new Person('jessica davis', 1996);
+
+
+// After adding the underscore, we can call it as we normally would to get the same result, but in the class it is now stored with an underscore
+
+console.log(jessica.fullName);
+// jessica davis
+```
+
+The getters and setter can be useful some times. For example above it allows for validation for the fullName of the class.
+
+
+# Static Methods
+
+Static methods are attached to the top constructor and not in the prototype chain and such are not inherited by any instances of the class or constructor.
+
+They are more like helper functions for that namespace (data type) or constructor function or class.
+
+```js
+Array.from(document.querySelector('h1');)
+// []
+
+[1, 2, 3].from();
+// Uncaught TypeError, [1, 2, 3].from() is not valid function.
+```
+
+We can set them for our own constructors and classes.
+
+Constructor:
+
+```js
+Person.hey = function() {
+  console.log('Hi there');
+  console.log(this);
+}
+Person.hey();
+```
+
+Class:
+
+```js
+const Person = class {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+  // Instance Methods
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+  // Static Methods
+  static hey() {
+    console.log('Hi there');
+    console.log(this);
+  }
+}
+```
+
+
+# Object.create()
+
+
+With object.create there is still prototypal inheritance but there is no prototype properties, no constructor function and no new operator. We can use object.create to manually set the prototype of an object to any other object that we want. 
+
+
+```js
+const PersonPrototype = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+};
+
+
+const steven = Object.create(PersonPrototype);
+console.log(steven);
+// {}
+// <prototype>: Object { calcAge: calcAge() }
+//
+```
+
+Whereas constructor functions automatically will set instances of it to a prototype, with Object.create we manually set what prototype of what object we want it to have.
+
+
+
+# Inheritance Between "Classes": Constructor Functions
+
+
+
+```js
+const Person = function(firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear)
+};
+
+const Student = function (firstName, birthYear, course) {
+  // This is not the best because if the Person properties ever changed names then it would break
+  // this.firstName = firstName;
+  // this.birthYear = birthYear;
+
+  // This doesn't work as this is a regular function call and the this variable is set to undefined in regular function calls and a function constructor needs the new keyword
+  // Person(firstName, birthYear);
+
+  // So we use the call method to set the this keyword to this constructor
+  Person.call(this, firstName, birthYear)
+
+  this.course = course;
+};
+
+// We need to add this chain here because Object.create returns an empty object and would overwrite any properties or methods we had previously defined on the Student.prototype
+// So to link prototypes...
+Student.prototype = Object.create(Person.prototype);
+
+// We cannot do the following as it would break the prototype chain making student & person effectively same object
+// Student.prototype = Person.prototype;
+
+
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
+
+const mike = new Student('Mike', 2020, 'Comp Sci');
+mike.introduce();
+mike.calcAge();
+// The mike.calAge() is found by looking up the prototype chain until it finds it on the person.prototype
+```
+
+
+# Inheritance Between "Classes": ES6 Classes
+
+
+```js
+const Person = class {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+  // Instance Methods
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+  // Static Methods
+  static hey() {
+    console.log('Hi there');
+    console.log(this);
+  }
+}
+
+class Student extends Person {
+  constructor(firsName, birthYear, course) {
+    super(firstName, birthYear)
+    // The super(parent class constructor) always needs to happen first because it sets the this keyword
+    this.course = course;
+  }
+}
+
+
+const martha = new Student('martha', 2012, 'Comp Sci');
+```
+
+If you dont need any new properties or methods in the child class you can omit writing the above constructor function and still access the parent constructor.
+
+
+```js
+class Student extends Person {
+  
+}
+
+const martha = new Student('martha', 2012);
+
+console.log(martha);
+// Student { firstName: "martha", birthYear: 2012}
+marth.calcAge();
+// 25
+```
+
+
+Overwriting methods of parent constructors: (Polymorphism)
+
+```js
+class Student extends Person {
+  constructor(firsName, birthYear, course) {
+    super(firstName, birthYear)
+    // The super(parent class constructor) always needs to happen first because it sets the this keyword
+    this.course = course;
+  }
+
+  calcAge() {
+    console.log(`This function overwrites the Person calcAge() function. This is polymorphism.`)
+  }
+}
+martha.calcAge();
+// This function overwrites the Person calcAge() function. This is polymorphism.
+```
+
+
+# Inheritance Between "Classes": Object.create()
+
+```js
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.fullName} and I study ${this.course}`);
+};
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2010, 'Compuetr Science');
+jay.introduce();
+jay.calcAge();
+```
+
+
+# Another Class Example
+
+
+```js
+class Account {
+  constructor(owner, currency, pin, movements) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    this.movements = movements;
+  }
+}
+
+acc1 = new Account('Jonas', 'Eur', 1111, []);
+console.log(acc1);
+```
+
+We don't need to pass an empty array as an argument every time we are making a new account or specify the parameter in the constructor function. Instead we can specify it directly in the instance. We can also execute any code we want in that instance(See the console.log).
+
+```js
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    this.movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+}
+
+acc1 = new Account('Jonas', 'Eur', 1111);
+console.log(acc1);
+// Thanks for opening an account, Jonas
+// Object { owner: "Jonas", currency: "Eur", pin: 1111, movements: [], locale: "en-CA" }
+
+
+// This should not be done, a method to interact with the properties should be created to avoid bugs as the app grows
+// acc1.movements.push(250);
+// acc1.movements.push(-140);
+
+// This is best
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    this.movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+  // Public Interface (API)
+  deposit(val) {
+    this.movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+}
+acc1 = new Account('Jonas', 'Eur', 1111);
+acc1.deposit(250);
+acc1.withdraw(140);
+```
+
+
+
+# Encapsulation: Protected Properties & Methods
+
+There are 2 main reasons why we need data encapsulation and privacy:
+
+1. We need to prevent code outside a class to accidentally manipulate data inside the class
+
+2. When we expose only a small interface, then we can change all the other internal methods with more confidence
+
+JS Classes do not yet support real data privacy & encapsulation.
+
+We want to protect the movements array because its mission critical data.
+
+Adding an underscore lets other developers know its a protected property and should not be accessed outside the class but is just a naming convention.
+
+```js
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this._pin = pin;
+    // Protected
+    this._movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+  // Public Interface (API)
+  getMovements() {
+    return this.movements;
+  }
+
+  deposit(val) {
+    this._movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  _approveLoan(val) {
+    return true;
+  }
+
+  requestLoan(val) {
+    if(this._approveLoan(val)) {
+      this.deposit(val);
+      console.log('Loan approved');
+    }
+  }
+}
+acc1 = new Account('Jonas', 'Eur', 1111);
+acc1.deposit(250);
+acc1.withdraw(140);
+```
+
+# Encapsulation: Priavte Class Fields & Methods
+
+
+This is a proposal currently at Stage 3 so is very likely will move to Stage 4 and become part of the language
+
+In traditional OOP programming languages properties are called fields. More and more JS is moving toward that Classes aren't just syntactic sugar.
+
+As long as you understand prototypal inheritance and constructor functions then there should be no issue.
+
+There are 8 different kinds of fields & methods in this proposal but we will only focus on 4:
+
+1. Public Fields (instances)
+- A field is a property that will be on all instances so we could call them public instance fields
+- In our example these are the movements and navigator as we explicitly set them
+- They are not on the prototype
+- Also referenceable by the this keyword
+
+2. Private Fields (instances)
+- Makes it so properties ar enot accessible from the outside
+- Defined by prepending the # symbol
+- Public Methods can still access Private Fields
+- They are not on the prototype
+
+3. Public Methods
+- This is how the methods already are in the public interface
+
+4. Private Methods
+- Useful to hide implementation details from the outside
+- Not yet available
+- Defined by prepending the # symbol
+
+There is also the static version of these but we wont go through these.
+
+```js
+class Account {
+// 1. Public Fields
+locale = navigator.language;
+
+// 2. Private Fields
+#movements = [];
+#pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.#pin = pin;
+    // Protected
+    // this._movements = [];
+    // this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+// 3. Public Methods
+  // Public Interface (API)
+  getMovements() {
+    return this.movements;
+  }
+
+  deposit(val) {
+    this._movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  requestLoan(val) {
+    if(this.#approveLoan(val)) {
+      this.deposit(val);
+      console.log('Loan approved');
+    }
+  }
+
+    // 4. Private Methods
+  #approveLoan(val) {
+    return true;
+  }
+}
+acc1 = new Account('Jonas', 'Eur', 1111);
+acc1.deposit(250);
+acc1.withdraw(140);
+
+console.log(acc1.#movements);
+// Error
+console.log(acc1.#pin);
+// Error
+```
+
+
+# Chaining Methods
+
+We can chain methods with the methods within our class. We just need to return the object by returning the this keyword in function we want to chain.
+
+
+```js
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this._pin = pin;
+    // Protected
+    this._movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+  // Public Interface (API)
+  getMovements() {
+    return this.movements;
+  }
+
+  deposit(val) {
+    this._movements.push(val);
+    return this;
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+    return this;
+  }
+
+  _approveLoan(val) {
+    return true;
+  }
+
+  requestLoan(val) {
+    if(this._approveLoan(val)) {
+      this.deposit(val);
+      console.log('Loan approved');
+      return this;
+    }
+  }
+}
+acc1 = new Account('Jonas', 'Eur', 1111);
+
+
+// Chaining
+acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
+```
+
+# ES6 Classes Summary
+
+https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649125#content
