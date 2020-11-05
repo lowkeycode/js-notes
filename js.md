@@ -6285,3 +6285,79 @@ acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
 # ES6 Classes Summary
 
 https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649125#content
+
+
+
+# Project Planning
+
+Overview:
+
+PLANNING:
+
+1. User Stories
+- A description of the applications functionality from the users perspective. All the user stories put together will describe the entire functionality of the entire application.
+
+2. User Stories
+- The User Stories will layout all the different features that the appplication requires
+
+3. Features
+- Then we put all the Features in to a flowchart 
+- This is WHAT we are going to build
+
+4. Architecture
+- HOW we build it and implement all of the functionality
+
+
+DEVELOPMENT:
+
+- Implementation of our plan using code
+
+
+---
+
+In Depth:
+
+1. ## User Stories
+
+- Description of the applications functionality from the user's perspective
+
+- A common format is writing this out in sentences: "As a (typ of user), I want (an action) so that (a benefit)." This answers the who? the what? and the why?
+
+- In this step we really need to put ourselves in the users shoes
+
+
+2. ## Features
+
+- Directly based on the user stories
+
+- For each corresponding User Story we list out any related feature and the best type of feature to satify the user story
+
+
+3. ## Flowchart
+
+- Don't waste too much time on this as a beginner. With more experience then more details can be added at the beginning.
+
+- Again starts with the User Story and moves across time with corresponding events from the beginning which is the page load 
+
+- Contains all the features that we need to implement
+
+- Contains how the different parts of the app interact with eachother
+
+- Which event makes sense to implement
+
+- How data flows across the application
+
+- We can include color coded nodes in the flow chart as a legend to help describe things as well as different types of arrows, Ex.) Red nodes for asynchronous steps, green nodes for rendering something to the UI, dotted arrow lines for expressing the need for a binded event handler
+
+- Not all steps of the application need to be put in the flow chart. Just as best of an idea as you can, that's not too strict. Thjings can get added after as required. It is best to allow the application to morph to needs but keeping in mind it should be closed for modification, but open for extension.
+
+- This is only what the prgram does NOT how
+
+
+4. ## Architecture
+
+- We dont always need the perfect final architecture figured out in the beginning
+
+- We use this step to experiment and test as well as thinking about structure
+
+- As we need more organization and ways to manage data then we come back to architecture planning
