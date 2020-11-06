@@ -6287,6 +6287,11 @@ acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
 https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649125#content
 
 
+---
+# OOP, Geolocation, External Libraries & More
+---
+
+
 
 # Project Planning
 
@@ -6317,7 +6322,7 @@ DEVELOPMENT:
 
 In Depth:
 
-1. ## User Stories
+## User Stories
 
 - Description of the applications functionality from the user's perspective
 
@@ -6326,14 +6331,14 @@ In Depth:
 - In this step we really need to put ourselves in the users shoes
 
 
-2. ## Features
+## Features
 
 - Directly based on the user stories
 
 - For each corresponding User Story we list out any related feature and the best type of feature to satify the user story
 
 
-3. ## Flowchart
+## Flowchart
 
 - Don't waste too much time on this as a beginner. With more experience then more details can be added at the beginning.
 
@@ -6354,10 +6359,406 @@ In Depth:
 - This is only what the prgram does NOT how
 
 
-4. ## Architecture
+## Architecture
 
 - We dont always need the perfect final architecture figured out in the beginning
 
 - We use this step to experiment and test as well as thinking about structure
 
 - As we need more organization and ways to manage data then we come back to architecture planning
+
+
+
+# Geolocation API
+
+Very easy to use API. The geolocation API is called on the navigator and takes 2 functions. The first in case of success and takes a position parameter and the second in the error handler function that you define yourself.
+
+```js
+// Check to see if the API exists for older browsers
+if(navigator.geolocation)
+navigator.geolocation.getCurrentPosition(function(position) {
+    console.log(position);
+    const {latitude} = position.coords;
+    const {longitude} = position.coords;
+}, function() {
+    alert('Could not get your position.');
+});
+// GeolocationPosition
+// coords: GeolocationCoordinates { latitude: 51.16429689414933, longitude: -114.06903031626517, altitude: 1092.517578125, … }
+// timestamp: 1604602517571
+// <prototype>: GeolocationPositionPrototype { coords: Getter, timestamp: Getter, … }
+```
+
+
+# Leaflet Library: Displaying The Map
+
+We can either utilize a hosted version through a script in our head tag or npm install leaflet. Then we use there code and modify it to our needs. Reading the documentation will inform you on how to use it. RTFM.
+
+```js
+var map = L.map('map').setView([51.505, -0.09], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+L.marker([51.5, -0.09]).addTo(map)
+    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    .openPopup();
+
+---
+// Adding the leaflet code to our own
+if(navigator.geolocation)
+navigator.geolocation.getCurrentPosition(function(position) {
+    const {latitude} = position.coords;
+    const {longitude} = position.coords;
+    console.log(`https://www.google.ca/maps/@${latitude},${longitude}`);
+
+    const coords = [latitude, longitude];
+
+    const map = L.map('map').setView(coords, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker(coords).addTo(map)
+        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+        .openPopup();
+}, function() {
+    alert('Could not get your position.');
+});
+```
+
+# Adding A Marker To The Map & Rendering Workout Input Form
+
+```js
+let map, mapEvent;
+
+
+if(navigator.geolocation)
+navigator.geolocation.getCurrentPosition(function(position) {
+    const {latitude} = position.coords;
+    const {longitude} = position.coords;
+    console.log(`https://www.google.ca/maps/@${latitude},${longitude}`);
+
+    const coords = [latitude, longitude];
+
+    map = L.map('map').setView(coords, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Handle click on map
+    map.on('click', function(mapE) {
+        mapEvent = mapE;
+        form.classList.remove('hidden');
+        inputDistance.focus();
+    });
+}, 
+function() {
+    alert('Could not get your position.');
+    }
+);
+
+form.addEventListener('submit', function (e) { 
+    // Clear input fields
+    inputDistance.value = inputDuration.value = inputCadence.calue = inputElevation.value = '';
+
+    // Display marker
+    e.preventDefault();
+    const {lat, lng} = mapEvent.latlng;
+    L.marker([lat, lng])
+    .addTo(map)
+    .bindPopup(
+        L.popup({
+            maxWidth: 250,
+            minWidth: 100,
+            autoClose: false,
+            closeOnClick: false,
+            className: 'running-popup',
+        })
+    )
+    .setPopupContent('Workout')
+    .openPopup();
+});
+
+inputType.addEventListener('change', function() {
+    inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+});
+```
+
+By this point our code is getting fairly large and it is time to think about architecture in the next section.
+
+
+
+# Project Architecture
+
+We will adopt an OOP approach for this project.
+
+One of the most important aspects of architecture is where and how to store the data which is the most fundamental part of any application.
+
+So we check first to see where the data is coming from and in this project it is directly from the user stories.
+
+Start by what the layout of our classes will be:
+
+Parent Class:
+WORKOUT
+- id
+- distance
+- duration
+- coords
+- date
+- constructor
+
+Child Class 1:
+RUNNING
+- name
+- cadence
+- pace
+- constructor
+
+Child Class 2:
+CYCLING
+- name
+- evelvationGain
+- speed
+- constructor
+
+Then we consider our current events so far:
+
+- Load Page
+- Receiving a location from the geolocation API
+- Click On Map
+- Change input from cycling to running and vice versa
+- Submitting a form
+
+And then we will create a class called App that will hold all of these functions as methods
+
+Class App
+APP
+- workouts (array holding running or cycling objects)
+- map
+
+- constructor ()
+  - this._getPosition (when a new app class is instantiated any methods called in the constructor function run, so we instantiate in the global scope and get postion on page load)
+- _getPosition()
+- _loadMap(position)
+- _showForm()
+- _toggleElevationField()
+- _newWorkout (new Running() or Cycling())
+
+  In bigger apps there are classes similar to our App class here but divided even further.
+  Ex.) One class that strictly deals with the UI and one that deals with the business logic(under laying data)
+
+
+# Refactoring For Architecture
+
+
+Lay out the base for the class then fill/refactor as required. Putting classes at the top as they are not hoisted.
+
+```js
+class App {
+    constructor(){
+
+    }
+    _getPosition(){
+
+    }
+    _loadMap(){
+
+    }
+    _showForm(){
+
+    }
+    _toggleElevationField(){
+
+    }
+    _newWorkout(){
+        
+    }
+}
+```
+
+There is a bit of pain point when refactoring with event listeners because they bind the this key word to the element that it was called on so we needed to use bind in several places to fix this. 
+
+This is because event callback functions are treated as regular function calls and with regular function calls the this key word points to the parent scope(what its being called on) or in strict mode undefined.
+
+Take the time to read through this carefully if needed.
+
+Finished Refactoring:
+
+```js
+class App {
+    // Private instances properties (available on all instances of App)
+    #map;
+    #mapEvent;
+
+    constructor(){
+        this._getPosition();
+
+        form.addEventListener('submit', this._newWorkout.bind(this));
+        
+        inputType.addEventListener('change', this._toggleElevationField);
+    }
+    _getPosition(){
+        if(navigator.geolocation)
+            navigator.geolocation.getCurrentPosition(this._loadMap.bind(this), function() {
+                alert('Could not get your position.');
+                }
+            );
+    }
+    _loadMap(position){
+        const {latitude} = position.coords;
+        const {longitude} = position.coords;
+        console.log(`https://www.google.ca/maps/@${latitude},${longitude}`);
+
+        const coords = [latitude, longitude];
+
+        this.#map = L.map('map').setView(coords, 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(this.#map);
+
+        // Handle click on map
+        this.#map.on('click', this._showForm.bind(this));
+        
+    }
+    _showForm(mapE){
+        this.#mapEvent = mapE;
+        form.classList.remove('hidden');
+        inputDistance.focus();
+    }
+    _toggleElevationField(){
+        inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+        inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+    }
+    _newWorkout(e){
+        e.preventDefault();
+        
+        // Clear input fields
+        inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = '';
+    
+        // Display marker
+        const {lat, lng} = this.#mapEvent.latlng;
+        L.marker([lat, lng])
+        .addTo(this.#map)
+        .bindPopup(
+            L.popup({
+                maxWidth: 250,
+                minWidth: 100,
+                autoClose: false,
+                closeOnClick: false,
+                className: 'running-popup',
+            })
+        )
+        .setPopupContent('Workout')
+        .openPopup();
+    }
+}
+
+const app = new App();
+```
+
+
+# Managing Data: Creating Classes
+
+
+```js
+class Workout {
+    date = new Date();
+    // Relying on time is a very bad idea for ids but this is just a practice
+    id = (Date.now() + '').slice(-10);
+
+    constructor(coords, distance, duration) {
+        this.coords = coords; // [lat, lng]
+        this.distance = distance; // in km
+        this.duration = duration; // in min
+    }
+
+}
+
+class Running extends Workout{
+    constructor(coords, distance, duration, cadence) {
+        super(coords, distance, duration);
+        this.cadence = cadence;
+        this.calcPace();
+    }
+
+    calcPace() {
+        // min/km
+        this.pace = this.duration / this.distance;
+        return this.pace;
+    }
+}
+
+class Cycling extends Workout{
+    constructor(coords, distance, duration, elevationGain) {
+        super(coords, distance, duration);
+        this.elevationGain = elevationGain;
+        this.calcSpeed();
+    }
+
+    calcSpeed() {
+        //km/h
+        this.speed = this.distance / (this.duration / 60);
+        return this.speed;
+    }
+}
+```
+
+
+# Creating A New Workout
+
+No we've implemented our planned architecture and will build as we go and revisit the architecture when needed.
+
+Layout steps in pseudo code
+
+```js
+_newWorkout(e){
+        e.preventDefault();
+
+        // Get data from form
+        const type = inputType.value;
+        const distance = +inputDistance.value;
+        const duration = +inputDuration.value
+
+        // Check if data is valid
+
+        // If workout is running, create running object
+        if (type === 'running') {
+          const cadence = +inputCadence.value
+        }
+
+        // If workout is cycling, create cycling object
+
+        // Add new object to workout array
+
+        // Render workout on map as marker
+        const {lat, lng} = this.#mapEvent.latlng;
+        L.marker([lat, lng])
+        .addTo(this.#map)
+        .bindPopup(
+            L.popup({
+                maxWidth: 250,
+                minWidth: 100,
+                autoClose: false,
+                closeOnClick: false,
+                className: 'running-popup',
+            })
+        )
+        .setPopupContent('Workout')
+        .openPopup();
+
+        // Render workout on list
+
+        
+        // Clear input fields
+        inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = '';
+    
+        // Display marker
+        
+    }
+```
