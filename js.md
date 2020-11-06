@@ -6721,16 +6721,10 @@ _newWorkout(e){
         e.preventDefault();
 
         // Get data from form
-        const type = inputType.value;
-        const distance = +inputDistance.value;
-        const duration = +inputDuration.value
 
         // Check if data is valid
 
         // If workout is running, create running object
-        if (type === 'running') {
-          const cadence = +inputCadence.value
-        }
 
         // If workout is cycling, create cycling object
 
@@ -6754,11 +6748,8 @@ _newWorkout(e){
 
         // Render workout on list
 
-        
         // Clear input fields
         inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = '';
-    
-        // Display marker
         
     }
 ```
