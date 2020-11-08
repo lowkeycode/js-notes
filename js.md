@@ -7097,3 +7097,304 @@ Additional possible features:
 
 
 # Async JS, AJAX & API's
+
+
+Sychronous code:
+
+- Executed line by line, one by one in sequence by the exact order of execution as defined in the code waiting for the previous line to execute before executing the next line.
+- Long running operations block the code execution
+- Most code is synchronous
+
+
+Asynchronous code:
+
+- Executed after a task that runs in the background finsishes
+- Non-blocking
+- Other code continues to run until the asynchronous task is finished, then the callback function runs
+- All about coordinating the behaviour of a program over a period of time
+- Callback functions/event listeners  do not automatically make code asynchronous
+- Only certain functions perform asynchronously
+
+Ex.) Setting the src attribute on an img is asynchronous as other code runs until the image is loaded
+
+
+AJAX:
+
+Asynchronous JavaScript And XML
+
+- Allows us to communicate with remote web servers in an asynchronous way. With AJAX calls, we can request data from web servers dynamically.
+
+How does AJAX work?
+
+The client Ex.) the browser needs some data from an external web server so it sends a request to that server and waits on a response that the server will send back. This back and forth all happens asynchronously. The server usually contains a web API that has the data that we're looking for.
+
+API:
+
+Application Programming Interface
+
+A piece of software that is used by another piece of software, in order to allow applications to talk to each other.
+
+There are countless types of APIs.
+Ex.) DOM API, Geolocation API, Class methods exposed to the global scope
+
+We can build our own web APIs in the back-end with node.js for example or just use 3rd party APIs
+
+API Data formats:
+
+- XML is a data format that used to be widely used but not anymore so the term AJAX is still just used but most data is stored in...
+
+- JSON (JavaSCript OBject Notation), which is just a string that looks exactly like an object so is low on memory to send and easy to use and convert back to an object
+
+
+# Example AJAX Call
+
+
+OLD WAY
+
+XML Http Request
+
+We need APIs with CORS (Cross Origin Resource Sharing) to let our code access 3rd party APIs
+
+https://restcountries.eu/
+
+```js
+const getCountryData = function (country) {
+  const request = new XMLHttpRequest();
+  request.open('GET', `https://restcountries.eu/rest/v2/name/${country}`);
+  request.send();
+
+  request.addEventListener('load', function () {
+    const [data] = JSON.parse(this.responseText);
+    console.log(data);
+
+    const html = `
+    <article class="country">
+    <img class="country__img" src="${data.flag}" />
+    <div class="country__data">
+      <h3 class="country__name">${data.name}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${(
+        +data.population / 1000000
+      ).toFixed(1)}</p>
+      <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+      <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+    </div>
+  </article>
+    `;
+    countriesContainer.insertAdjacentHTML('beforeend', html);
+    countriesContainer.style.opacity = '1';
+  });
+};
+
+getCountryData('japan');
+getCountryData('australia');
+getCountryData('poland');
+getCountryData('russia');
+```
+
+
+# How The Web Works: Request/Response Cycle
+
+
+
+# How The Web Works
+
+Client = the browser
+
+The client sends a request to the webpage where the server is hosted and the server sends back a response containing the webpage.
+
+This is called the Request/Response model or Client-Server Architecture
+
+Every URL has:
+
+https://www.google.com/maps
+
+1. A Protocol (http, https etc.)
+2. Domain Name (www.google.com)
+3. Resource (/maps)
+
+The domain name is just the human readable name
+
+The browser(client) first makes a request to a DNS (Domain Name Server) and performs a DNS lookup for the ip address and sends it back to the client
+
+The IP address has:
+
+https://216.58.211.206:443
+
+1. A Protocol (http, https etc.)
+2. IP Address (216.58.211.206)
+3. A Port (:443)
+
+This all happens through you ISP (Internet Service Provider)
+
+- Note
+
+* The port number has nothing to do with the google maps resource that we want to access
+
+Once the client goes to the address a TCP/IP socket connection is established between client and server
+
+This connection is usually kept alive for the time it takes to transfer all the files of the website
+
+1. TCP - Transmission Control Protocol
+2. IP - Internet Protocol
+
+Both are communication protocols that determine exactly how data travels across the web
+
+The client then makes an HTTP Request
+
+A request looks like the following
+
+GET /maps HTTP/1.1
+
+---
+
+Host: www.google.com
+User-Agent: Mozilla/5.0
+Accept-Language: en-US
+
+<BODY>
+
+---
+
+The first line is called the Start Line which is the most important
+
+GET /maps HTTP/1.1
+
+The Start Line has:
+
+1. HTTP Method (GET, POST etc.)
+2. Request Target (/maps)
+3. HTTP Version (HTTP/1.1)
+
+If no resource and just a slash it accesses the websites root
+
+Next comes the Headers which have many different possibilities and contain information about the request
+
+Host: www.google.com
+User-Agent: Mozilla/5.0
+Accept-Language: en-US
+
+Then is the Request Body which is only used when sending data to the server which contains data (Ex.) Data coming from an HTML form)
+
+The main difference between http & https is that https is encrypted using TLS or SSL protocols
+
+Once the request hits the server until its finished and then sends back an HTTP Response
+
+HTTP Response looks the same as a request with Start line, Header & Body
+
+HTTP/1.1 200 OK
+
+The HTTP Response Start Line includes
+
+1. HTTP Version (HTTP/1.1)
+2. Status Code (200)
+3. Status Message (OK)
+
+Response Headers & Body are defined by the back-end developer
+
+For every single file that is included in the website an http request is sent
+
+Ex.) One for HTML, then one for CSS, then one for JS etc.
+
+Multiple request and responses can occur simultaneously but up to a limit to prevent slow connections
+
+And finally when all files have arrived the website is then rendered according th HTML, CSS & JS specification
+
+TCP/IP
+
+TCP
+
+First TCP breaks up the requests & responses into thousands of small chunks called packets before they are sent then when they get to their destination they are reassembled into the original request or response. This makes the request or response as fast as possible because it would take a long time as one big chunk.
+
+IP
+
+Sends and routes the packets across the internet. It uses IP addresses on each packet and ensures they all go to the proper destination
+
+# HTTP In Action
+
+Open any website in the browser
+
+We can see this in the network tab of the developer tools and make sure disable cache is checked
+
+When we click on a response we can see the Start Line, Headers and Body of the HTTp Response
+
+We can see when changing pages we can see the next resources
+
+https://www.udemy.com/courses/development/web-development/
+
+Where courses/development/web-development are the resources
+
+
+# Callback Hell
+
+
+- A sequence of AJAX calls with each additional call relies on the first
+
+In this case we need to wait for the first call of the country to return so we can get the neighboring countries
+
+
+```js
+const renderCountry = function (data, className = '') {
+  const html = `
+    <article class="country ${className}">
+    <img class="country__img" src="${data.flag}" />
+    <div class="country__data">
+      <h3 class="country__name">${data.name}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${(
+        +data.population / 1000000
+      ).toFixed(1)}m</p>
+      <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+      <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+    </div>
+  </article>
+    `;
+  countriesContainer.insertAdjacentHTML('beforeend', html);
+  countriesContainer.style.opacity = '1';
+};
+
+const getCountryData = function (country) {
+  // Ajax call country 1
+  const request = new XMLHttpRequest();
+  request.open('GET', `https://restcountries.eu/rest/v2/name/${country}`);
+  request.send();
+
+  request.addEventListener('load', function () {
+    const [data] = JSON.parse(this.responseText);
+    console.log(data);
+
+    // Render country 1
+    renderCountry(data);
+
+    // Get neighbor country
+    const [neighbour] = data.borders;
+
+    //Guard clause for islands
+    if (!neighbour) return;
+
+    // Ajax call country 2
+    const request2 = new XMLHttpRequest();
+    request2.open('GET', `https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+    request2.send();
+
+    request2.addEventListener('load', function () {
+        const data2 = JSON.parse(this.responseText);
+        console.log(data2);
+        renderCountry(data2, 'neighbour');
+    });
+  });
+};
+
+getCountryData('ghana');
+```
+
+This AJAX call is only 2 levels deep but each additional callback relies on the first.
+
+This happens for all callbacks and after even a few starts become unmanigable, hard to reason about and very brittle.
+
+The identifying trait is the triangular indentation from the margin.
+
+
+# Promises
+
+ES6 feature that allows us to escape callback hell.
