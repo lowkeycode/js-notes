@@ -7398,3 +7398,409 @@ The identifying trait is the triangular indentation from the margin.
 # Promises
 
 ES6 feature that allows us to escape callback hell.
+
+Using the fetch function we can perform a GET request to  a web server which then returns a promise. For more complex requests we can also pass the fetch function an options object.  Then we store it in a variable.
+
+```js
+const request = fetch(`https://restcountries.eu/rest/v2/name/${country}`);
+```
+
+What are promises?
+
+Formal
+- An Object that is used as a placeholders for the future result of an asynchronous operation.
+
+Less formal
+- A container for an asynchronously delivered value
+
+Even less formal
+- A container for a future value
+Ex.) The response from an AJAX call
+
+
+Promsises allow us to:
+
+1. Not have to rely on events and callback functions to handle asynchronous results which sometimes cause unpredictable results
+
+2. We can chain promises for a sequence of asynchronous operations instead of nesting, allowing us to avoid callback hell
+
+The promise lifecycle:
+
+Sincme promises work with asynchronous operations they are time sensitive and change over time and can be in different states.
+
+
+In the beginning
+- The promise is PENDING (before the future value is available)
+- The asynchronous task is still doing its work in the background
+
+When the asynchronous task is finished
+- The promise is SETTLED
+- There are 2 types of settled promises
+1. Fulfilled
+- The value we requested is now available
+2. Rejected
+- There has been an error during the asynchronous task
+
+In our code we can handle these promises in different ways based on the outcome.
+
+Promises are only settleded once and their settled state (fulfilled/rejected) do not and can not change
+
+When we use a promise to get the result is called CONSUMING a promise
+
+We can only consume a promise after its been BUILT by the fetch API, most of the time we do not have to build the promise ourself, but we will learn later how and when we have to
+
+
+# Consuming Promises
+
+
+```js
+const getCountryData = function (country) {
+
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+  .then(function(response) {
+    console.log(response)
+  });
+};
+
+// Response
+// body: ReadableStream { locked: false }
+// bodyUsed: false
+// headers: Headers {  }
+// ok: true
+// redirected: false
+// status: 200
+// statusText: "OK"
+// type: "cors"
+// url: "https://restcountries.eu/rest/v2/name/canada"
+// <prototype>: ResponsePrototype { clone: clone(), arrayBuffer: arrayBuffer(), blob: blob(), … }
+```
+
+To handle the settled promise we can use the .then method on it which takes a callback function that accepts a callback function that takes a paramater of response. The data we are after is in the response body in a ReadableStream. We need to convert this to JSON and within the fetch method all responses have access to the .json method which will convert the readable stream to JSON. The .json method is also an asynchronous method so in turn returns a promise, so we will need to use the .then method on it.
+
+
+```js
+// const getCountryData = function (country) {
+
+//   fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+//   .then(function(response) {
+//     return response.json();
+//   })
+//   .then(function (data) {
+//     console.log(data);
+//     renderCountry(data[0]);
+//   });
+// };
+
+
+// Refactoed with arrow functions and the implicit return
+
+const getCountryData = function (country) {
+
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+  .then(response => response.json())
+  .then(data => renderCountry(data[0]));
+};
+```
+
+
+# Chaining Promises
+
+The two thens from the last lecture are a small chain, but we can go even further and chain together 2 AJAX calls
+
+Then success value of any any promise is whatever value is returned from the .then method. So inside our second promise (where we actually deal with the data) of the first fetch, we call a return a second fetch that will be a promise that is now the value of the first fetch, so we can call the .then method on the first fetch to handle the promise, again using the .json and a second .then method to deal with our actual data. (Avoid a common pitfall for beginners, see comments in code below), making this pitfall results in the code still working but because we are again nesting callbacks are right back in callback hell.
+
+
+
+```js
+const getCountryData = function (country) {
+
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+  .then(response => response.json())
+  .then(data => {
+    renderCountry(data[0]);
+    const neighbour = data[0].borders[0];
+
+    // As from the notes above, many beginners will try to call a fetch method without returning it and as well try to call the .then directly on the unreturned fetch
+    // Ex.)
+
+    // fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`)
+    // .then(response => response.json())
+    // .then(data => renderCountry(data, 'neighbour'));
+
+    // Country 2
+    return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+
+  })
+  .then(response => response.json())
+  .then(data => renderCountry(data, 'neighbour'));
+};
+```
+
+Now we have 4 steps (.thens) but we can chain this as long as we need and avoid callback hell with a flat chain of promises.
+
+
+# Error Handling (Handling Rejected Promises)
+
+The .then method takes a second callback function as a parameter and is for handling the error, which is called catching the error.
+
+```js
+const getCountryData = function (country) {
+
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+  .then(response => response.json(),
+  err => alert(err)
+  )
+  .then(data => {
+    renderCountry(data[0]);
+    const neighbour = data[0].borders[0];
+
+    // Country 2
+    return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+
+  })
+  .then(response => response.json(),
+  err => alert(err)
+  )
+  .then(data => renderCountry(data, 'neighbour'));
+};
+```
+
+This gets a bit messy having to add errors in every part of the chain, so we can just add a .catch method at the very end of the chain to catch ANY arror anywhere in the chain, because errors propogate down the chain
+
+
+```js
+const getCountryData = function (country) {
+
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+  .then(response => response.json())
+  .then(data => {
+    renderCountry(data[0]);
+    const neighbour = data[0].borders[0];
+
+    // Country 2
+    return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+  })
+  .then(response => response.json())
+  .then(data => renderCountry(data, 'neighbour'))
+  .catch(err => {
+    console.log(err);
+    renderError(`Something went wrong: ${err.message}. Try again!`);
+  })
+  .finally(() => {
+    countriesContainer.style.opacity = '1';
+  })
+};
+
+btn.addEventListener('click', function() {
+  getCountryData('canada');
+});
+```
+
+Errors are also objects in JS so we can create new ones and access properties on them as well.
+
+Beside .then and .catch there is a .finally method. Whereas the .then runs when the promise is fulfilled and .catch when the promise is rejected, the .finally method ALWAYS runs not matter what. This is useful in a few edge cases. Ex.) A loading spinner that needs to be hidden regardless if the promise was fulfilled or not or in our example we always need the container to fade in. This works because the .catch also returns a promise so we can chain it because the .finally only works on promsises.
+
+The only error a fetch rejects on is no internet connection. In other error instances, Ex.) a bad GET request top the server, the promise isn't actually rejected, so we have to do it manually. Many developers believe it should be rejected.
+
+
+# Throwing Errors Manually
+
+```js
+const getCountryData = function (country) {
+
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+  .then(response => {
+    console.log(response)
+    return response.json()
+  })
+  .then(data => {
+    renderCountry(data[0]);
+    const neighbour = data[0].borders[0];
+
+// Response {type: "cors", url: "https://restcountries.eu/rest/v2/name/canada", redirected: false, status: 200, ok: true, …}
+// body: (...)
+// bodyUsed: true
+// headers: Headers {}
+// ok: false
+// redirected: false
+// status: 404
+// statusText: ""
+// type: "cors"
+// url: "https://restcountries.eu/rest/v2/name/canada"
+// __proto__: Response
+```
+
+If we simulate a lost internet connection by setting the google chrome network to offline and trying to click the buttton a second time we can see the response with the ok property set to false because of the status code 404. If the request was good ok would be true and status would be 200. So we can use this to throw our manual errors
+
+```js
+const getCountryData = function (country) {
+
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+  .then(response => {
+    console.log(response)
+
+  // Setting our manual error
+  if(!response.ok)
+    throw new Error (`Country not found (${response.status})`)
+
+    return response.json()
+  })
+  .then(data => {
+    renderCountry(data[0]);
+    const neighbour = data[0].borders[0];
+```
+
+With us now throwing our manual error within a .then method will immediately reject our promise, and the error will then propogate down to the .catch handler.
+
+Why bother handling these errors?
+
+First, handling these errors is the only way we can display a proper error message to the user. 
+
+Second its really bad practice to leave rejected promises hanging around without handling them.
+
+What if then an error occurs in our seconds AJAX call?
+
+```js
+const getCountryData = function (country) {
+
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
+  .then(response => {
+    console.log(response)
+
+  // Setting our manual error
+  if(!response.ok)
+    throw new Error (`Country not found (${response.status})`);
+
+    return response.json();
+  })
+  .then(data => {
+    renderCountry(data[0]);
+    const neighbour = data[0].borders[0];
+
+    // Country 2
+    return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+  })
+  .then(response => {
+    // Setting manual error for 2nd AJAX call
+  if(!response.ok)
+    throw new Error (`Country not found (${response.status})`);
+    return response.json()
+  })
+  .then(data => renderCountry(data, 'neighbour'))
+  .catch(err => {
+    console.log(err);
+    renderError(`Something went wrong: ${err.message}. Try again!`);
+  })
+  .finally(() => {
+    countriesContainer.style.opacity = '1';
+  })
+};
+```
+
+Now we have added a manual error to our 2nd AJAX call but are now repeating ourselves.
+
+So what we do is create a helper function that takes a url and an error message that will deal with our fetch, request and error and set a return for it so we get a returned promise.
+
+
+
+```js
+const getJSON = function(url, errorMsg = ) {
+  return fetch(url).then(response => {
+    // Setting manual error AJAX call
+  if(!response.ok)
+    throw new Error (`${errorMsg} (${response.status})`);
+    return response.json();
+  });
+};
+```
+
+
+```js
+const getCountryData = function (country) {
+  getJSON(
+    `https://restcountries.eu/rest/v2/name/${country}`,
+    'Country not found'
+    )
+  .then(data => {
+    renderCountry(data[0]);
+    // const neighbour = data[0].borders[0];
+    const neighbour = 'asdfadfshgj';
+    // Country 2
+    return getJSON(`https://restcountries.eu/rest/v2/alpha/${neighbour}`, 'Country not found');
+  })
+  .then(data => renderCountry(data, 'neighbour'))
+  .catch(err => {
+    console.log(err);
+    renderError(`Something went wrong: ${err.message}. Try again!`);
+  })
+  .finally(() => {
+    countriesContainer.style.opacity = '1';
+  })
+};
+```
+
+Now that we have the helper function, we however still get the error if a country has no neighbour (an island like japan), so we want to throw a new error that will again be caught in our catch handler
+
+```js
+const getCountryData = function (country) {
+  getJSON(
+    `https://restcountries.eu/rest/v2/name/${country}`,
+    'Country not found'
+    )
+  .then(data => {
+    renderCountry(data[0]);
+    // const neighbour = data[0].borders[0];
+    const neighbour = 'asdfadfshgj';
+
+    if(!neighbour) throw new Error('No neighbour found!');
+
+    // Country 2
+    return getJSON(`https://restcountries.eu/rest/v2/alpha/${neighbour}`, 'Country not found');
+  });
+```
+
+To sum it all up we need to have our apps handle errors properly and have users understand error messages.
+
+
+# Asynchronous JS Behind The Scenes: The Event Loop
+
+
+How can asynchronous code be executed in a non-blocking way if there is only one thread of execution in the engine?
+
+
+```js
+el = document.querySelector('img');
+el.src = 'dog.jpg';
+el.addEventListener('load', () => {
+  el.classList.add('fadeIn');
+});
+
+fetch('https://someurl.com/api')
+.then(response => console.log(response));
+
+```
+
+We have the call stack, web apis, callback queue and event loop.
+
+We select the image element with the querySelector.
+
+Then we set the src attribut of the el to dog.jpg which automatically begins to load the image asynchronously in the background. All asynchronous tasks run in the web apis environment of the browser. Otherwise these tasks would block the call stack.
+
+Then we listen to the load event for when the image is finished loading and pass in a callback function. This is called registering the callback in the web api environment exactly where the image is loading and will stray there until the load event it emitted.
+
+The we make an AJAX call using the fetch api and this again happens in the web api environment.
+
+We use the then method on the promise returned by the fetch function which also registers a callback in the web api environment so we can later react the the resolved value of the promise.
+
+Now all top level code has been executed in an asynchronous way. And we have the image loading and some data being fetched from an api in the background.
+
+The image then finishes loading and the load event is emitted on that image.
+
+The callback for that event is then put in the callback queue, which is an ordered list of FIFO (First in First Out)
+
+This can have implications:
+If we set a 5 second timer and the callback queue has other callbacks in it already then it could take 1 second to finish running the callbacks at the front of the line and it would then take 6 seconds for the timer to run.
+
+The callback queue also contains callbacks from DOM events like clicks or key press etc. DOM events are not asynchronous but still use the callback queue to run their attached callbacks. 
+
+The event loop looks into the callstack and determines if its empty or not, and if it is empty then it takes the first callback from the callback queue and puts it on the stack to be executed. This is called an event loop tick. It coordinates between the callstack and the callback queue. It does the orchestration of the JS runtime.
