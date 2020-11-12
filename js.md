@@ -8202,3 +8202,494 @@ Takes an array of promises and returns an array of all the settled promises whet
 Promise.any(ES2021):
 
 Takes an array of promises and returns the first fulfilled promise and ignores all reject promises. Similar to race but excludes rejected promises.
+
+
+---
+# Modern JS DEvelopment: Modules & Tooling
+---
+
+
+
+# Overview Of Modern JS Development
+
+
+Today code is split into modules that can be shared with one another that allows for clean/organized code. This can include 3rd party packages like ones available through npm (node package manager), which was developed along side node.js but has since grown to become the go to for the majority of all 3rd party packages for front & back end development. It is both the repository where packages live as well as the program on our computer in our command line that we use to install and manage the packages.
+
+Imagine our app is now divided into modules and included 3rd party modules and the development step is complete.
+
+Now the project needs to go through a build process where one large JS bundle is built, and this is the final file that is deployed to the web server for production.
+
+The build process can become fairly complex, but in our case we will first bundle, which joins all our files into one and compresses our code. This is important for 2 reasons.
+
+- Older browsers don't support modules at all so code in the modules would not be executed by any older browser
+
+- Sending less files is better for performance and the compression increases performance as well
+
+Then we transpile & polyfill our modern code which converts our code back to ES5 syntax so older browser can understand (This is usually done through Babel)
+
+Then our JS bundle will be ready for production.
+
+The most common build tools are Webpack or Parcel and they handle these steps for us. Parcel is simpler, webpack has more options for config but is harder. Both  of these are available on npm. As well as other tools like live-server, etc.
+
+
+# Overview Of Modules
+
+A module is a reuseable piece of code that encapsulates implementation details that is usually a stand alone file that includes imports and exports to share with other modules. What we export or share is called the public API as we can then import and reuse else where. Imports are called dependencies. This is the same across all programming languages.
+
+Modules are extremely good for building separate pieces at once. One piece can be built at the same time as others without knowing about eachother or even what the final product will look like. This is very helpful for teams because the modules can be developed in isolation without thinking about the entire codebase.
+
+Modules allow for implementation of abstraction and lets us and other modules not to worry about low-level code.
+
+Creates a nice organized codebase that is easier to understand.
+
+Modules allow us to easily reuse the same code, even across multiple products
+
+
+As of ES6 JS has a built in module system. 
+
+- Modules stored in files, exactly one module per file
+
+ES6 Modules vs Script:
+
+Modules:
+- All top level variable are scoped to the module
+- Always executed in script mode (No need to declare, this is default)
+- Top level this === undefined
+- Imports & Exports (Need to happen at top-level - outside and function or if block and are hoisted so no matter where we import in the code its like the import statement is moved to the top of the file)
+- HTML linking (<script src="script.js" type="module">)
+- File downloading is automatically asynchronous in HTML and from one module to another
+
+
+Scripts:
+- All top level variables are always global (leads to global namespace pollution where different script will fight over same names)
+- Always executed in sloppy mode (This is default)
+- Top level this === window object
+- Imports/Exports are impossible
+- HTML linking (<script src="script.js">)
+- Downloaded sybchronously automatically unless explicitly setting the defer or async attribute on the script tag
+
+
+How ES6 Modules are imported:
+
+
+```js
+// index.js
+import { rand } from './math.js';
+import { showDice } from './dom.js';
+const dice = rand(1, 6 ,2);
+showDice(dice);
+```
+
+First the above code is parsed in index.js (read first without executing) and this is when imports are hoisted.
+
+The whole process of importing modules happens before the code in the main module is executed.
+
+The modules are IMPORTED SYNCHRONOUSLY, and only after all imported modules have been downloaded and executed the main index.js module will be executed.
+
+This is possible thanks to top-level ("static") imports and exports, which make imports known before execution.
+
+Because imports and exports are top level an d not inside any function or block they can be read during the parsing phase before execution.
+
+If we were able to import inside a function the function would have to wait to be executed before the import code could be executed
+
+Why do we want modules imported synchronously?
+
+Because this is the easiest way to do bundling and dead code elimination which is extremely important especially in large applications with hundreds of modules, including 3rd party modules.
+
+So by knowing all dependencies between modules before execution bundlers like Webpacck & Parcel can then join multiple modules together and eliminate dead code.
+
+This is why we can only import/export at the top-level.
+
+After the parsing process has figured out which modules it need to import then they are DOWLOADED ASYNCHRONOUSLY from the server. 
+
+Then each module is parsed is individually parsed as well and then the exports are linked to the imports in index.js.
+
+```js
+// math.js
+const rand = () => {
+  //Random number
+}
+export { rand };
+```
+
+The rand export in math.js is then linked to the rand import in index.js
+
+This connection is a live connection. Exported values are NOT copied to imports. Instead the import is basically just a reference to the exported value, like a pointer. If the value changes in the exporting module then that value changes in the importing module. This is unique to ES6 modules, other modules do not work like this. 
+
+Then the code in the imported modules is executed and the process of importing modules is finished. 
+
+Then the importing module is then executed (index.js)
+
+
+# Exporting & Importing In Practice
+
+First we need to specify the type attribute in the html.
+
+```html
+<script src="script.js" type="module">
+```
+
+```js
+// script.js
+// Importing module
+import './shoppingCart';
+
+console.log('Importing module');
+
+// console.log(shippingCost);
+// Undefined
+// If we want access to this variable we need to use exports
+```
+
+Modules get camelcase names
+
+```js
+// shoppingCart.js
+// Exporting module
+console.log('Exporting module');
+
+const shippingCost = 10;
+const cart = [];
+```
+
+In our console.logs we can see that the exporting module is logged before the importing one because it is executed first as explained in the last chapter.
+
+The imports even though hoisted are written at the top of the module for clarity. Keeping in mind all modules are executed in strict mode, variables declared within the module are scoped to that module and the module itself is the top-level scope. By default all top-level variables are private inside the module.
+
+
+There are 2 types of exports:
+
+1. Named exports
+
+
+The main use case of named exports is that you can export multiple things at the same time (totalPrice, totalQuantity), but you can do them individually (addToCart)
+
+```js
+// shoppingCart.js
+export const addToCart = function(product, quantity) {
+  cart.push({product, quantity});
+  console.log(`${quantity} ${product} added to cart`);
+}
+
+const totalPrice = 237;
+const totalQuantity = 23;
+
+export { totalPrice, totalQuantity };
+```
+
+When importing a named export, the name of the function or variable must match exactly and be inside curly braces
+
+```js
+// script.js
+import { addToCart, totalPrice, totalQuantity } from './shoppingCart.js';
+
+addToCart('bread', 5);
+// 5 bread added to cart
+console.log(totalPrice, totalQuantity);
+// 237 23
+```
+
+To change the name of an export we can do it when importing or exporting using the "as" keyword. Then when using the variable you have to use the newly defined name.
+
+```js
+// script.js
+import { addToCart, totalPrice as price, tq } from './shoppingCart.js';
+```
+
+```js
+// shoppingCart.js
+export { totalPrice, totalQuantity as tq };
+```
+
+We can also import all the exports at the sametime using an asterisk. When doing this We capitalize similar to classes then we can use them as methods or properties pretty much of the object
+
+```js
+// script.json()
+import * as ShoppingCart from './shoppingCart.js'
+
+ShoppingCart.addToCart('bread', 5);
+console.log(ShoppingCarat.totalPrice);
+// 237
+```
+
+Exports are put at the bottom unless it is a named export directly prepending that variable or function
+
+2. Default Exports
+
+
+Used when we only want to export one thing in the module and go a the bottom of the module. Default exports only exports values not the name of the variable or function. Then when importing we give it any name that we want.
+
+
+```js
+// shoppingCart.js
+
+export default function(product, quantity) {
+  cart.push({product, quantity});
+  console.log(`${quantity} ${product} added to cart`);
+}
+```
+
+```js
+// script.js
+import add from './shoppingCart.js';
+
+add('pizza', 2);
+// 2 pizza added to cart
+```
+
+You can import modules more than once in different ways, but in practice only do it once to avoid clutter/confusion.
+
+We can mix and match named & default exports in the same import statement with a comma separating the default and named exports.
+
+However this is not desirable and in practice we don't mix named and default exports.
+
+```js
+// script.js
+import add, { addToCart, totalPrice as price, tq  } from './shoppingCart.js';
+```
+
+
+A look at the live connection:
+
+```js
+// shoppingCart.js
+export const cart = [];
+```
+
+```js
+// script.js
+// Keep in mind try not to mix named and default but for this example we will
+import add, { cart } from './shoppingCart.js';
+
+add('pizza', 2);
+add('bread', 5);
+add('apples', 4);
+
+
+console.log(cart);
+// Array(3) [{...}, {...}, {...}]
+// 0: {product: "pizza", quantity: 2}
+// 1: {product: "bread", quantity: 5}
+// 2: {product: "apples", quantity: 4}
+```
+We can see here is it not a copy so the original empty array in shoppingCart is actually mutated.
+
+Again imports are not copies but are references.
+
+
+# The Module Pattern
+
+The old way that modules were implemented:
+
+The main goal with modules even old ways is to encapsulate functionality, have private data and expose a public api.
+
+This was done by using functions usually with IIFEs.
+
+```js
+// script.js
+
+const ShoppingCart = (function() {
+  const cart = [];
+  const shippingCost = 10;
+  const totalPrice = 237;
+  const totalQuantity = 23;
+
+  const addToCart = function(product, quantity) {
+  cart.push({product, quantity});
+  console.log(`${quantity} ${product} added to cart`);
+  }
+
+  const orderStock = function(product, quantity) {
+  console.log(`${quantity} ${product}ordered from supplier`);
+  }
+
+  // Then we expose an object to the outside
+  return {
+    addToCart,
+    cart,
+    totalPrice,
+    totalQuantity,
+  };
+
+})();
+
+ShoppingCart.addToCart('apples', 2);
+// 4 apples added to cart
+ShoppingCart.addToCart('pizzas', 2);
+// 2 pizza added to cart
+console.log(ShoppingCart.shippingCost);
+// undefined
+```
+
+Even though the IFFE is immediately ran we still have access to the variables and functions created when it was declared, even after it has executed. This is due to closures.
+
+If we wanted one module per file then we would have to create different scripts and link them all in the HTML file. We would then have to be careful about the order declared in HTML, all the variables would be in the global scope and we wouldn't be able to use a module bundler on them so it has some limitations and was why native modules were added in ES6.
+
+
+# CommonJS Modules
+
+
+CommonJS modules have been used in node.js for almost all of its existence. Only very recently have there been ES6 Modules in node.
+
+The big consequence of this is that almost all the modules in the npm repository still use the CommonJS module system because npm was originally only developed for node.
+
+Only later did npm become the standard for the whole JS world so we are stuck with CommonJS.
+
+In commonjs on module is one file and we use export with the . notation and the name of the export.
+
+Keep in mind these won't work in the browser but will in node.
+
+```js
+export.addToCart = function(product, quantity) {
+  cart.push({product, quantity});
+  console.log(`${quantity} ${product} added to cart`);
+  };
+```
+
+And to import...
+
+```js
+const  { addToCart } = require('./shoppingCart.js')
+```
+
+Hopefully ES6 modules will take over all the different module systems.
+
+# npm Introduction
+
+We can install 3rd party libraries and modules from npm. A very popular library is lodash which hold a lot of different methods that should be in JS. 
+
+So we npm i lodash-es (because the regular lodash is built with CommonJS) but we want es6 modules.
+
+Find the module we want to import, checking what kind of export it uses (in this case it is a default export), in this case cloneDeep which is used for cloning nested objects.
+
+Then to import:
+
+```js
+import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+
+// Deeply nested object
+const state = {
+  cart: [
+    { product: 'bread', quantity: 5},
+    { product: 'pizza', quantity: 5},
+  ],
+  user: { loggedIn: true },
+};
+
+// Copying using vanilla JS
+const stateClone = Object.assign({}, state);
+const stateDeepClone = cloneDeep(state);
+
+state.user.loggedIn = false;
+
+console.log(stateClone);
+// user: { loggedIn: false }
+
+console.log(stateDeepClone)
+// user: { loggedIn: true }
+```
+
+
+# Bundling With Parcel & npm Scripts
+
+
+npm i parcel --save-dev
+
+A dev dependency is a tool we need to build our app but do not include in our code.
+
+It then shows up in our package.json file. We cannot just run parcel index.html as the way we installed above is a local dependency. So we have a few options use npm scripts in our package.json or use npx which is built into npm which allows us to type in the command line npx parcel index.html in our local root directory where our app is. We can install dependencies globally but if we install locally it keeps us up to date with the latest versions and most tools recommend this method.
+
+So in this test example we run the npx parcel index.html with index.html being our entry point as it also includes our script.js file which links to our own modules as well as the lodash 3rdparty module, it also includes an auto live-server.
+
+Parcel doesn't work with the html script with the type of module so we need to remove that. Then parcel creates a dist (distribution) folder that will be sent to the final users. Then in that file there is a new index.html file with a bunch of JS files. The script included in the new index.html file is now one created by parcel which is actually the bundle itself. 
+
+In parcel you have activate hot module replacement. So back in OUR script.js file.
+
+```js
+if(module.hot) {
+  module.hot.accept();
+}
+```
+
+This allows for state to persist in our app and new code to be injected directly into the browser without the page refreshing. For example in the bankist app when we continually had to log in to see changes.
+
+All bundlers also automatically find the path to a module for us without us having to type the entire path. This works with html, css, sass, imgs, modules and CommonJS modules
+
+
+```js
+// import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+
+// ES Modules
+import cloneDeep from 'lodash-es';
+// or
+// CommonJS Modules
+import cloneDeep from 'lodash';
+```
+
+Running the npm script from the package.json:
+
+```json
+"scripts": {
+  "start": "parcel index.html"
+},
+```
+...and type npm run start in the command line when in the root directory of our app.
+
+Then when we ar edone development it is time to build the final bundle which is compressed, has dead code elimination etc. For this we need another parcel command
+
+```json
+"scripts": {
+  "start": "parcel index.html",
+  "build": "parcel build index.html"
+},
+```
+
+...and type npm run build. Then in our dist folder everything is now compressed and performant.
+
+
+# Configuring Babel & Polyfilling
+
+
+We need our code to work for ES5 browser and people who cannot upgrade.
+
+Parcel uses Babel under the hood to transpile & polyfill our code back to ES5. We can configure babel alot to what we want supported but Parcel does alot of good default configurations for us.
+
+Usually instead of using specific Babel plugins Babel uses presets that cover almost all users and there browsers for us that Parcel will also use from Babel.
+
+We can see this reflected in the dis folder in our bundle with ES5 syntax being present in that bundle.
+
+These presets only cover final features that have passed the 4 stages of the ECMA process and are implemented in the language.
+
+```js
+console.log(cart.find(el => el.quantity >= 2));
+```
+New additions in ES6 that do not have an equivilent to be transpiled to do not get changed. Ex.) Promises, .find etc. Whereas const or let can be easily changed back to var.
+
+So we need to polyfill using an external library called core-js.
+
+run npm i core-js so save as a dependency
+
+```js
+//script.js
+import 'core-js/stable'
+```
+
+We can see in the bundle it appears as if it is not changed as we can still see a Promise or a .find method in the bundle. But somehwere in the bundle the polyfilling will have been done with a method called find built in ES5 synstax. Ex.) The find method is recreated in ES5 and then added the to Array prototype chain. It polyfills everything even if we don't use it. Ex.) There is a findIndex method that was polyfilled even if we don't use it. So to reduce our bundle size we can specify different parts of the module to import.
+
+```js
+import 'core-js/stable/array/find';
+```
+
+This is possible but not widely used unless we're extremely worried about bundle size.
+
+One (and probably some others and can also change) feature is not polyfilled by core-js so we still need to install it.
+
+npm i regenerator-runtime
+
+This polyfills async functions
+
+```js
+import 'regenerator-runtime/runtime';
+```
+
+
