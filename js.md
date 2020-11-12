@@ -8693,3 +8693,230 @@ import 'regenerator-runtime/runtime';
 ```
 
 
+# Modern, Clean & Declarative JS Programming
+
+
+Readable Code:
+
+- Write code so OTHERS can understand it
+- Write code so YOU can understand it in 1 year
+- Avoid too "clever" and overcomplicated solutions
+- Use descriptive variable names: WHAT THEY CONTAIN
+- Use descriptive function names WHAT THEY DO
+
+General Rules
+
+- Use DRY principle (refactor code)
+- Don't pollute the global namespace, encapsulate instead (functions, classes, modules)
+- Don't use var
+- Use strong type checks (=== and !===)
+
+Functions:
+
+- Generally, functions should ONLY DO ONE THING
+- Don't use more than 3 function paramaters
+- Use default parameters wherever possible
+- Generally, return the same data type as received
+- Use arrow functions when the make code more readable
+
+OOP:
+
+- Use ES6 Classes
+- Encapsulate data & don't mutate it form outside the class
+- Implement method chaining
+- Do not use arrow functions as methods (in regular objects - they do not have a this key word)
+
+Avoid Nested Code:
+
+- Use early returns (guard clauses)
+- Use ternary (conditional) or logical operators instead of if
+- Use multiple if instead of if/else-if
+- Avoid for and for of loops, use array methods instead
+- Avoid callback-based asynchronous APIs
+
+Asynchronous Code:
+
+- Consume promises with async/await for best readability (not .then & .catch because they use callbacks that introduce nested code)
+- Whenever possible, run promises in parallel (Promise.all)
+- Handle errors and promise rejections
+
+
+There are 2 main paradigms of writing code.
+
+Imperative vs Declarative Code:
+
+Imperative:
+
+- Programmer explains "HOW to do things"
+- We explain to the computer every single step it has to follow to achieve a result
+- Ex.) Step-by-step recipe of a cake
+
+```js
+const arre = [2, 4, 6, 8];
+const doubled = [];
+for (let i = 0; i < arr.length; i++)
+  doubled[i] = arr[i] * 2;
+```
+
+Declarative:
+
+- Programmer tells "WHAT to do"
+- We simply descibe the way the computer should achieve the result
+- The HOW (step-by-step instructions) gets abstracted away
+- Ex.) Description of a cake
+
+```js
+const arr = [2, 4, 6, 8];
+const doubled = arr.map(n => n * 2);
+```
+
+Declarative programming is becoming more and more poular and has even given rise to a sub-paradigm called, FUNCTIONAL PROGRAMMING.
+
+
+Functional Programming:
+
+- A declarative paradigm
+- Based on the idea of writing software by combining PURE FUNCTIONS, AVOIDING SIDE EFFECTS & mutable data
+
+Side Effect:
+- A modification of any data outside the function (mutating external variable, logging to the console, writing to the DOM, etc.)
+
+Pure Function:
+- Function without side effects. Does not depend on external variable. Given the same inputs, will always return the same outputs
+
+
+Functional Programming Techniques:
+
+- Try to avoid data mutations
+- Use built-in methods that don't produce side effects
+- Do data transformations with methods such as map, filter and reduce
+- Try to avoid side effects in functions: this is of course not always possible or neccessary
+
+Declarative Syntax:
+
+- Use array & object destructuring
+- Use the spread operator
+- Use the ternary (conditional) operator
+- Use template literals
+
+
+# Fixing Bad Code
+
+This is refactoring with functional programming in mind. Keep in mind this paradigm is a guideline and can be hard to implement especially in larger applications but we shoul try to adhere to whenever possible.
+
+
+```js
+var sc = [
+  { product: 'bread', quantity: 6 },
+  { product: 'pizza', quantity: 2 },
+  { product: 'milk', quantity: 4 },
+  { product: 'water', quantity: 10 },
+];
+
+var allow = {
+  lisbon: 5,
+  others: 7,
+};
+
+var description = '';
+
+var check = function (city) {
+  if (sc.length > 0) {
+    var allowed;
+    if (city == 'lisbon') {
+      allowed = allow.lisbon;
+    } else {
+      allowed = allow.others;
+    }
+
+    for (item of sc) {
+      if (item.quantity > allowed) item.quantity = allowed;
+    }
+  }
+};
+check('lisbon');
+console.log(sc);
+
+var createDescription = function () {
+  var first = sc[0];
+  var p = first.product;
+  var q = first.quantity;
+
+  if (sc.length > 1) {
+    description = 'Order with ' + q + ' ' + p + ', etc...';
+  } else {
+    description = 'Order with ' + q + ' ' + p + '.';
+  }
+};
+createDescription();
+
+console.log(description);
+
+```
+- Change all vars to let and const where required
+- Rename variables & functions to be more descriptive of what they do and hold
+- Refactor the check function to a pure function that does not mutate (create side effects) the shopping cart "sc"
+- Pass all information required into the function (cart, limit, city)
+- Use a guard clause
+- Remove the if else statement and replace with ternary operator
+- Replace the for loop with a map
+- Use the result of the first function and store it in a variable to pass to the second function to avoid side effects again
+- Refactor the createDescription function
+
+```js
+const shoppingCart = [
+  { product: 'bread', quantity: 6 },
+  { product: 'pizza', quantity: 2 },
+  { product: 'milk', quantity: 4 },
+  { product: 'water', quantity: 10 },
+];
+
+const productLimit = {
+  lisbon: 5,
+  others: 7,
+};
+
+const checkProductLimit = function (cart, limit,  city) {
+  if(!cart.length) return [];
+
+  // Check if limit is greater than 0 if so than the limit is the city passed in, if no match limit is others from the productLimit object
+
+  // const allowed = limit[city] > 0 ? limit[city] : limit.others;
+
+  // Or using more modern syntax
+  const allowed = limit?.[city] ?? limit.others;
+
+  // Create a new shopping cart (avoid mutating the original) by returning an object where we map over the cart creating a copy that destructures to match the original, then in the return destructure the product and use a ternary to check for the quantity then return the new cart
+  const newCart = cart.map(item => {
+    const { product, quantity } = item;
+    return {
+      product,
+      quantity:  quantity > allowed ? allowed : quantity,
+    }
+  });
+  return newCart;
+};
+
+// Store the result of calling this function in a new variable
+const allowedCart = 
+checkProductLimit(
+  shoppingCart,
+  productLimit,
+  'lisbon'
+  );
+console.log(allowedCart);
+
+const createOrderDescription = function (cart) {
+  // Destructure the cart
+  const [{product: p, quantity: q}] = cart;
+
+  // Return string based on cart length
+  return `Order with ${q} ${p}${cart.length > 1 ? ', etc...' : '.'}`;
+};
+
+// Pass the result of first function to this function
+const orderDescription = createOrderDescription(allowedCart);
+
+console.log(orderDescription);
+```
+
