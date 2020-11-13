@@ -219,13 +219,14 @@ instanceof // Returns true/false if object is an instance of an object type
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
 
-
 # Type Conversion & Coercion
 
-Conversion 
+Conversion
+
 - when we manually explicitly convert from one type to another.
 
-Coercion 
+Coercion
+
 - when JS automatically does it implicitly behind the scenes for us.
 
 NaN means invalid number and is returned when a failed conversion to a number happens
@@ -244,36 +245,35 @@ Using true and false values to solve complex problems.
 || Or
 ! Not
 
-
 # Switch Statement
 
 ```js
-const day = 'monday';
+const day = "monday";
 
-switch(day) {
-  case 'monday':
-    console.log('Its monday');
+switch (day) {
+  case "monday":
+    console.log("Its monday");
     break;
-  case 'tuesday':
-    console.log('Its tuesday');
+  case "tuesday":
+    console.log("Its tuesday");
     break;
-  case 'wedday':
-    console.log('Its wedday');
+  case "wedday":
+    console.log("Its wedday");
     break;
-  case 'thursday':
-    console.log('Its thursday');
+  case "thursday":
+    console.log("Its thursday");
     break;
-  case 'friday':
-    console.log('Its friday');
+  case "friday":
+    console.log("Its friday");
     break;
-  case 'saturday':
-    console.log('Its saturday');
+  case "saturday":
+    console.log("Its saturday");
     break;
-  case 'sunday':
-    console.log('Its sunday');
+  case "sunday":
+    console.log("Its sunday");
     break;
   default:
-    console.log('Not a valid day');
+    console.log("Not a valid day");
 }
 ```
 
@@ -289,15 +289,14 @@ We can use ternary operators in template literals because they are expression an
 
 ```js
 const age = 21;
-console.log(`I like to drink ${age >=18 ? 'Wine' : 'Water'}`);
+console.log(`I like to drink ${age >= 18 ? "Wine" : "Water"}`);
 ```
-
 
 # JS Versions/Releases
 
 History
 
-1995 
+1995
 
 - Brendan Eich is hired by Netscape to create a programming language in just 10 days called Mocha which is the beginning of JS
 
@@ -328,7 +327,8 @@ All new releases are backwards compatible to support the principle of not breaki
 # Strict Mode
 
 ```js
-'use strict'
+"use strict";
+
 ```
 
 Put this as the VERY FIRST THING in your script
@@ -339,8 +339,8 @@ This secures our code by forbidding us to do different things and also creates v
 let hasDriversLicense = false;
 const passTest = true;
 
-if(passTest) hasDriverLicense = true;
-if (hasDriversLicense) console.log('I can drive');
+if (passTest) hasDriverLicense = true;
+if (hasDriversLicense) console.log("I can drive");
 ```
 
 Above the first conditional should set the let variable to true but because it is missing the "s" does not reassign and in turn does not log to the console and does not throw an error. JS fails silently.
@@ -363,23 +363,20 @@ function calcAgeDeclaration(birthYear, currentYear) {
 }
 ```
 
-
 Function expressions are anonymous functions stored in a variable
 
 ```js
-const calAgeExpression = function(birthYear, currentYear) {
+const calAgeExpression = function (birthYear, currentYear) {
   return currentYear - birthYear;
-}
+};
 ```
 
 Functions are just values.
 
 The main difference between declarations and expressions is that we can call declarations before they are defined in the code. Not with expressions. This happens because of hoisting.
 
-
 ```js
 const age = calcAgeDeclaration(1991, 2020);
-
 
 function calcAgeDeclaration(birthYear, currentYear) {
   return currentYear - birthYear;
@@ -388,11 +385,10 @@ function calcAgeDeclaration(birthYear, currentYear) {
 
 A benefit to expressions would be that you HAVE to define the function before you can call it which adds structure to code. But both have their place so its important to know how to use both and their use cases.
 
-
 # Arrow Functions
 
 ```js
-const calcAgeArrow = birthYear => 2037 - birthYear;
+const calcAgeArrow = (birthYear) => 2037 - birthYear;
 ```
 
 All values have implicit returns with one liners.
@@ -408,23 +404,21 @@ const calcAgeArrow = (birthYear, current Year) => {
 ```
 
 ```js
-const yearsUntilRetirement = birthYear => {
+const yearsUntilRetirement = (birthYear) => {
   const age = 2037 - birthYear;
   const retirement = 65 - age;
   return retirement;
-}
+};
 ```
 
 Arrow functions do not get a this keyword.
-
 
 # Functions Calling Other Functions
 
 ```js
 function cutFruitInto4Pieces(fruit) {
-  return fruit * 4
+  return fruit * 4;
 }
-
 
 function foodProcessor(apples, oranges) {
   const applePieces = cutFruitInto4Pieces(apples);
@@ -436,7 +430,9 @@ function foodProcessor(apples, oranges) {
 ```
 
 ---
+
 # Dev Skills & Editor Setup
+
 ---
 
 # Problem Solving
@@ -449,9 +445,10 @@ function foodProcessor(apples, oranges) {
 
 4. Write pseudo code to plan
 
-
 ---
+
 # DOM Manipulation & Event Fundamentals
+
 ---
 
 The DOM !== JavaScript
@@ -459,13 +456,14 @@ The DOM !== JavaScript
 The DOM methods and properties for DOM manipulation are part of the web APIs that JS interacts with.
 
 ---
-# JS Behind The Scenes
----
 
+# JS Behind The Scenes
+
+---
 
 JS is a high-level, prototype-based object-oriented, multi-paradigm, interpreted or just-in-time compiled, dynamic, single-threaded, garbage-collected programming language with first-class functions and a non-blocking event loop concurrency model.
 
-1. High-level 
+1. High-level
 
 - Has abstractions that allow us not to worry about details like memory management that is dealt with in low level languages like C but means programs will never be as optimized as in those languages because those things happen automatically
 
@@ -503,10 +501,9 @@ JS is a high-level, prototype-based object-oriented, multi-paradigm, interpreted
 
 - How JS handles multiple tasks happening at the same time
 
-
 # The JS Engine & Runtime
 
-Engine - The program that executes JS code 
+Engine - The program that executes JS code
 
 Engine Components
 
@@ -517,7 +514,6 @@ Engine Components
 2. Heap
 
 - Unstructured memory pool that stores all the objects that our app needs
-
 
 Compilation vs Interpretation
 
@@ -531,12 +527,11 @@ Modern JS use a mix between both which is called Just-in-time Compilation
 
 Just-in-time - The entire code is converted into machine code all at once then executed immediately (no portable file)
 
-
 Code executing through the JS engine:
 
 JS code is first parsed, which means reading the code. During parsing the code is put into a data structure called the AST(Abstract Syntax Tree). This works by first splitting up each line of code into pieces that are meaningful to the language and then saving all the pieces into the tree in a structured way. This step also checks for any syntax errors and the resulting tree will later be used to generate the machine code.
 
-Next the generated AST is compiled into machine code. 
+Next the generated AST is compiled into machine code.
 
 Then the execution happens immediately after compilation. This happens in the call stack.
 
@@ -547,17 +542,18 @@ Javascript Runtime:
 A container that includes all the things we need to use JS. (In this example the browser)
 
 All run times contain:
+
 - An engine
-Contains the heap and callstack
+  Contains the heap and callstack
 
 - Web APIs(DOM, Timers, Fetch APU etc.)
-JS gets access to these through the global window object.
+  JS gets access to these through the global window object.
 
 - Callback queue
-Ex.) Callback functions from event listeners
+  Ex.) Callback functions from event listeners
 
 - Event loop
-Watches the callback queue & call stack to run callback functions when the stack is empty
+  Watches the callback queue & call stack to run callback functions when the stack is empty
 
 Node JS is also a JS runtime. (Instead of web APIs it has C++ bindings and a thread pool)
 
@@ -580,6 +576,7 @@ When done the engine will wait for callback functions to arrive to execute those
 Execution context in detail:
 
 1. Variable Environment
+
 - let const and var declarations
 - Functions
 - Arguments object (function arguments)
@@ -610,7 +607,7 @@ Scope of a variable is the region of our code where a certain variable can be ac
 2. Functions
 3. Block Scope (ES6)
 
-1. Global
+4. Global
 
 - Outside any function or block
 - Variables declared in the global scope are accessible everywhere
@@ -651,14 +648,11 @@ Before execution, code is scanned for variable declarations, and for each variab
 
 How hoisting works for different functions & variable types:
 
-
 1. Function Declarations
 
 - Hoisted? = YES
 - Initial Value = Actual function
 - Scope = Block(In strict mode)
-
-
 
 2. Var Variables
 
@@ -693,17 +687,17 @@ if (myName === 'Jonas') {
   console.log(x);
 }
 ```
+
 The job variables is scoped to the if block and is accessible from the line it is defined but since we are trying to access it in the template literal it gives us a " ReferenceError: cannot access 'job before initialization' ".
 The variable is only safe to use after the temporal dead zone.
 
-Whereas x will give us " ReferenceError: x is not defined " 
+Whereas x will give us " ReferenceError: x is not defined "
 
 Why TDZ?:
 
 The behavior makes it way easier to avoid and catch errors and bugs.
 
 Makes const variables actually work.
-
 
 Why Hoisting?
 
@@ -717,7 +711,6 @@ We now use let and const to get around variables be hoisted as undefined.
 
 # Hoisting In Practice
 
-
 Variables
 
 ```js
@@ -725,14 +718,12 @@ console.log(me); // undefined (Hoisted to undefined)
 console.log(job); // ReferenceError: Cannot access 'job' before initialization
 console.log(year); // ReferenceError: Cannot access 'job' before initialization
 
-
-var me = 'Jonas';
-let job = 'teacher';
+var me = "Jonas";
+let job = "teacher";
 const year = 1991;
 ```
 
 Functions
-
 
 ```js
 console.log(addDeclaration(2,3));
@@ -771,19 +762,19 @@ var addArrowVar(a,b) => a + b;
 With the var expression and arrow functions they are hoisted and set to undefined. Then we are trying to call them as a function and they are undefined...
 
 ```js
-undefined(2,3);
+undefined(2, 3);
 // Uncaught TypeError: undefined is not a function
 ```
 
 A common pitfall:
 
 ```js
-if(!numProducts) deleteShoppingCart();
+if (!numProducts) deleteShoppingCart();
 
 var numProducts = 10;
 
 function deleteShoppingCart() {
-  console.log('All products deleted!');
+  console.log("All products deleted!");
 }
 ```
 
@@ -794,12 +785,10 @@ In a large code base could become a very hard to find bug.
 ## Best Practices
 
 1. DONT USE var
-2. Use const as a default 
+2. Use const as a default
 3. Us let when a value needs to change
 4. Declare variables at the top of each scope
 5. Always declare any type of function first and use them after declaration
-
-
 
 ```js
 var x = 1;
@@ -823,15 +812,19 @@ The this keyword is NOT static. It depends on how the function is called, and it
 Ways of calling a function:
 
 1. Method
+
 - this = the object calling the method
 
 2. Simple function called
+
 - this = undefined (strict mode) else it points to the global window object
 
 3. Arrow function
+
 - this = the this of the surrounding function (lexical this)
 
 4. Event Listener
+
 - this = the DOM element that the handler is attached to (usually left of the . notation)
 
 * the this keyword does NOT point to the function itself, and also NOT the variable environment of the function
@@ -874,17 +867,15 @@ A hack around this is in the method make a variable called self and point it to 
 
 In ES6 the solution is to use an arrow function as it is assigned the this keyword of its parents scope.
 
-
 Arguments keyword:
 
 Functions also get access to an arguments keyword and is only available in regular function
 
-
 ```js
-const addExpressionConst = (a,b) => {
+const addExpressionConst = (a, b) => {
   console.log(arguments);
   return a + b;
-}
+};
 addExpressionConst(2, 5);
 // We can actually add more arguments to a function if we need and they are stored in the arguments array
 addExpressionConst(2, 5, 8, 12);
@@ -896,16 +887,12 @@ addExpressionConst(2, 5, 8, 12);
 //   3: 12
 // ]
 
-
-
-
-var addArrowVar = (a,b) => a + b;
+var addArrowVar = (a, b) => a + b;
 ```
 
 Arrow functions do not get this keyword. This keyword is not used very much in modern JS.
 
 # Primitives vs Objects (Primitive vs Reference Types)
-
 
 ```js
 let age = 30;
@@ -915,7 +902,7 @@ console.log(age); // 31
 console.log(oldAge); // 30
 
 const me = {
-  name: 'Jonas',
+  name: "Jonas",
   age: 30,
 };
 
@@ -939,28 +926,27 @@ Everything else is an object.
 
 Objects = Reference Types
 
-
 Primitives and References are stored differently in memory.
 
 The JS Engine has 2 components. The call stack & heap.
 
-All reference types get stored in the memory heap. 
+All reference types get stored in the memory heap.
 
 Primitives are stored in the call stack (in the execution context in which they are declared)
-
 
 ```js
 let age = 30;
 ```
 
-When primitives are stored in the call stack they are assigned 
+When primitives are stored in the call stack they are assigned
+
 - An identifier (variable name)
-- An address 
+- An address
 - Their value (whatever we declared in the code)
 
 The identifier points to the address in memory and not the value its self
 
-Ex.)  age → address(001)
+Ex.) age → address(001)
 
 age = memory address which holds the value of 30
 
@@ -973,26 +959,25 @@ Ex.) oldAge → address(001)
 Now both variable are pointing to the same address in memory
 
 ```js
-age = 31
+age = 31;
 ```
 
-Ex.)  age → address(002)
+Ex.) age → address(002)
 
 The value at a certain memory address is immutable and cannot be changed.
 
 A new piece of memory is now allocated for 31 and the age variable is now pointing to the new address.
 
-
 Reference Types:
 
 When a new object is created it is stored in the heap and there is a memory address and the value itself.
 
-Ex.) address(D30F) 
+Ex.) address(D30F)
 value {name:'Jonas',age: 30,}
 
 ```js
 const me = {
-  name: 'Jonas',
+  name: "Jonas",
   age: 30,
 };
 ```
@@ -1008,7 +993,6 @@ value {name:'Jonas',age: 30,}
 The piece of memory in the call stack has a REFERENCE to the piece of memory in the heap which hold the me object
 
 It works this way because objects could be too large to keep in memory in the stack.
-
 
 ```js
 const friend = me;
@@ -1030,16 +1014,15 @@ Even as a constant we can manipulate the object without problem because we aren'
 
 When you think you are copying an object you are really just creating a variable that points to the exact same object. There are ways around this that we'll visit later on.
 
-
 Prototypal Inheritance, The Event Loop & Advanced DOM will also be visited later.
 
-
 ---
+
 # Data Structures, Modern Operators & Strings
+
 ---
 
 # Destructuring Arrays
-
 
 ```js
 const restaurant = {
@@ -1077,8 +1060,6 @@ const [first, , second] = restaurant.categories;
 console.log(first, second) // Italian Vegetarian
 ```
 
-
-
 Without destructuring if we wanted to swap the main and secondary values we would need to create a temp value to pass around the variables so we didn't lose them in memory when reassigning.
 
 ```js
@@ -1090,16 +1071,12 @@ secondary = temp;
 console.log(main, secondary); // Vegetarian Italian
 ```
 
-
-
 With destructuring:
 
 ```js
 [main, secondary] = [secondary, main];
 console.log(main, secondary); // Vegetarian Italian
 ```
-
-
 
 Receiving 2 return values from a function:
 
@@ -1110,36 +1087,29 @@ Receiving 2 return values from a function:
 
 restaurant.order(2, 0); // Garlic Bread, Pizza
 
-const [starter, main] = restaurant.order(2, 0); 
+const [starter, main] = restaurant.order(2, 0);
 console.log(starter, main); // Garlic Bread, Pizza
 ```
-
-
 
 Nested arrays:
 
 ```js
 const nested = [2, 4, [5, 6]];
 
-const [i, ,j] = nested;
+const [i, , j] = nested;
 console.log(i, j); // 2 [5,6]
 ```
-
-
 
 Returning all values (Destructuring inside of destructuring):
 
 ```js
 const nested = [2, 4, [5, 6]];
 
-const [i, ,[j, k]] = nested;
-console.log(i, j, k) // 2 5 6
+const [i, , [j, k]] = nested;
+console.log(i, j, k); // 2 5 6
 ```
 
-
-
 We can also set default values for the variables when we are extracting them which is useful when we don't know the length of an array.
-
 
 Default values(Not knowing the length of the array)
 
@@ -1148,14 +1118,12 @@ const [p, q, r] = [8, 9];
 console.log(p, q, r); // 8 9 undefined
 ```
 
-
 Set the default values;
 
 ```js
 const [p = 1, q = 1, r = 1] = [8, 9];
 console.log(p, q, r); // 8 9 1
 ```
-
 
 # Destructuring Objects
 
@@ -1189,59 +1157,57 @@ const restaurant = {
 For destructing objects we use curly braces and we have to use variables that exactly match the property name on the object. The order of an object is not defined so we can just use the variable names in the order we want them for our new destructured object.
 
 ```js
-const {name, openingHours, categories} = restaurant;
+const { name, openingHours, categories } = restaurant;
 console.log(name, openingHours, categories);
-    // Classico Italiano
-    // thu: {
-    //   open: 12,
-    //   close: 22,
-    // },
-    // fri: {
-    //   open: 11,
-    //   close: 23,
-    // },
-    // sat: {
-    //   open: 0, 
-    //   close: 24,
-    // },
-    // ['Italian', 'Pizzeria', 'Vegetarian', 'Organic']
-```   
-
-
-
+// Classico Italiano
+// thu: {
+//   open: 12,
+//   close: 22,
+// },
+// fri: {
+//   open: 11,
+//   close: 23,
+// },
+// sat: {
+//   open: 0,
+//   close: 24,
+// },
+// ['Italian', 'Pizzeria', 'Vegetarian', 'Organic']
+```
 
 Variable names different from property names(Useful for dealing with 3rd party data that we need to rename):
 
 ```js
-const {name: restaurantName, openingHours: hours, categories: tags} = restaurant;
+const {
+  name: restaurantName,
+  openingHours: hours,
+  categories: tags,
+} = restaurant;
 console.log(restaurantName, hours, tags);
-    // Classico Italiano
-    // thu: {
-    //   open: 12,
-    //   close: 22,
-    // },
-    // fri: {
-    //   open: 11,
-    //   close: 23,
-    // },
-    // sat: {
-    //   open: 0, 
-    //   close: 24,
-    // },
-    // ['Italian', 'Pizzeria', 'Vegetarian', 'Organic']
+// Classico Italiano
+// thu: {
+//   open: 12,
+//   close: 22,
+// },
+// fri: {
+//   open: 11,
+//   close: 23,
+// },
+// sat: {
+//   open: 0,
+//   close: 24,
+// },
+// ['Italian', 'Pizzeria', 'Vegetarian', 'Organic']
 ```
-
 
 Setting default values for properties that do not exist(or we are not sure exist) on the object. Here we set just an empty array as a default for menu as that property does not exist on the object. Without it it will just return undefined
 
 ```js
-const {menu = [], starterMenu: starters = []} = restaurant;
+const { menu = [], starterMenu: starters = [] } = restaurant;
 console.log(menu, starters);
 // []
 // ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad']
 ```
-
-
 
 Mutating variables while destructuring objects:
 
@@ -1252,16 +1218,15 @@ const obj = {a: 23, b: 7, c: 14};
 
 {a, b} = obj; // Uncaught SyntaxError: Unexpected token '='
 ```
+
 We want a to become 23 and b to become 7.
 
 We cannot use const because a & b are already declared. We cannot just use let because it would declare new variables and they are already declared. We cannot just omit the variable type declaration because JS expects a code block and we cannot assign anything to a code block so we get an error. The trick is to wrap it in parentheses.
 
 ```js
-({a, b} = obj);
-console.log(a, b) // 23 7
+({ a, b } = obj);
+console.log(a, b); // 23 7
 ```
-
-
 
 Nested Objects:
 
@@ -1295,22 +1260,24 @@ console.log(fri);
 Destructuring further:
 
 ```js
-const {fri: {open, close}} = openingHours;
+const {
+  fri: { open, close },
+} = openingHours;
 console.log(open, close);
 // 11 23
 ```
+
 We can also rename any variable at any level with the colons:
 
 ```js
-const {fri: {open: o, close: c}} = openingHours;
+const {
+  fri: { open: o, close: c },
+} = openingHours;
 ```
-
-
 
 Destructuring parameters in functions:
 
 Often times there will be functions with a lot of parameters and it can be hard to know the order of the parameters for the person using the function, so instead of defining the parameters manually we can pass the function an object and it will automatically destructure for us
-
 
 ```js
 orderDelivery: function({starterIndex = 1, mainIndex = 0, time = '20:00', address}) {
@@ -1338,66 +1305,57 @@ Used on the right hand side of the assignment operator ( = ...)
 ```js
 const arr = [7, 8, 9];
 
-const badArr = [1, 2, arr[0], arr[1], arr[2]]; 
+const badArr = [1, 2, arr[0], arr[1], arr[2]];
 console.log(badArr); // [1, 2, 7 , 8, 9]
 
 const newArr = [1, 2, ...arr];
 console.log(newArr); // [1, 2, 7 , 8, 9]
 ```
 
-
-
 Passing arguments into functions to get each item individually:
 
 ```js
-console.log(...newArr) // 1, 2, 7, 8, 9
+console.log(...newArr); // 1, 2, 7, 8, 9
 ```
 
 More practical example:
 
 ```js
-const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+const newMenu = [...restaurant.mainMenu, "Gnocci"];
 console.log(newMenu);
 // ['Pizza', 'Pasta', 'Risotto', 'Gnocci'],
 ```
+
 Again the above creates a brand new array and is not mutating the original
 
 The spread operator takes ALL the elements from an array and also doesn't create new variables.
 
 Can only use it where we have values separated by commas.
 
-
-
-
 2 important use cases:
 
 1. Create shallow copy of an array
 2. Merge 2 arrays together
 
-
-Shallow Copy: 
+Shallow Copy:
 
 ```js
 const mainMenuCopy = [...restaurant.mainMenu];
 ```
 
-Joining 2 Arrays: 
+Joining 2 Arrays:
 
 ```js
 const menu = [...starterMenu, ...mainMenu];
 ```
 
-
-
 The spread operator works on all iterables(arrays, strings, maps and sets but not objects).
 
 ```js
-const str = 'Jonas';
-const letters = [...str, ' ', 'S.'];
+const str = "Jonas";
+const letters = [...str, " ", "S."];
 console.log(letters); // ["J", "o", "n", "a", "s", " ", "S."]
 ```
-
-
 
 The spread operator cannot be used within template literals because it does not expect values separated by commas.
 
@@ -1405,8 +1363,6 @@ The spread operator cannot be used within template literals because it does not 
 console.log(`${...str} Schmedtmann`);
 // Uncaught SyntaxError: Unexpected Token '...'
 ```
-
-
 
 Function with spread operator:
 
@@ -1425,30 +1381,28 @@ prompt('Ingredient 3?')
 restaurant.orderPasta(...ingredients);
 ```
 
-
-
 Spread operator with objects:
 
 ```js
-const newRestaurant = {foundingYear: 1998 , ...restaurant, founder: 'Guiseppe'};
+const newRestaurant = {
+  foundingYear: 1998,
+  ...restaurant,
+  founder: "Guiseppe",
+};
 console.log(newRestaurant);
 ```
-
-
 
 Shallow copy with objects:
 
 ```js
-const restaurantCopy = {...restaurant};
-restaurantCopy.name = 'Ristorante Roma';
+const restaurantCopy = { ...restaurant };
+restaurantCopy.name = "Ristorante Roma";
 
-console.log(restaurantCopy.name); 
+console.log(restaurantCopy.name);
 // Ristorante Roma
-console.log(restaurant.name); 
+console.log(restaurant.name);
 // Classico Italiano
 ```
-
-
 
 # Rest Pattern & Parameters
 
@@ -1458,7 +1412,6 @@ Used on the left hand side of the spread operator ( ... =)
 
 It collects the unused items in the destructuring assignment into one array
 
-
 ```js
 const [a, b, ...others] = [1, 2, 3, 4, 5];
 
@@ -1466,21 +1419,20 @@ console.log(a, b, others);
 // 1 2 [3, 4, 5];
 ```
 
-
-
 We can use both spread and rest operator at the same time:
 
 ```js
-const [pizza, , risotto, ...otherFood] = [...restaurant.mainMenu, ...restaurant.starterMenu];
+const [pizza, , risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
 
-console.log(pizza, risotto, otherFood)
+console.log(pizza, risotto, otherFood);
 // Pizza Risotto
 // ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad']
 ```
 
 The rest needs to be the last element and there can be only one in the destructuring assignment or it will not work.
-
-
 
 Rest operator with objects:
 
@@ -1498,30 +1450,29 @@ console.log(weekdays);
 //     },
 ```
 
-
-
 Rest operator (Rest Arguments) with functions:
 
 It is called rest and not spread here because it is collecting all the individual numbers into one array.
 
 We want our add function to accept any amount of arguments
+
 ```js
-const add = function(...numbers) {
+const add = function (...numbers) {
   let sum = 0;
-  for(let i = 0; i < numbers.length; i++) sum += numbers[i];
+  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
   console.log(sum);
-}
+};
 add(2, 3);
 add(5, 3, 7, 2);
 add(8, 2, 5, 3, 2, 1, 4);
 ```
 
 Another way:
+
 ```js
 const x = [23. 5. 7]
 add(...x);
 ```
-
 
 Examples:
 
@@ -1540,18 +1491,13 @@ restaurant.orderPizza('mushrooms');
 // []
 ```
 
-
-
 Recap:
 
+The spread and rest syntax look the exact same but behave in opposite ways depending on where they are used.
 
-The spread and rest syntax look the exact same but behave in opposite ways depending on where they are used. 
-
-The spread operator is used where we would write values separated by commas. 
+The spread operator is used where we would write values separated by commas.
 
 The rest operator is used where we would write variable names separated by commas.
-
-
 
 # Short Circuiting && and ||
 
@@ -1568,10 +1514,10 @@ Logical operators:
 3. Ability to short circuit
 
 ```js
-console.log(3 || 'Jonas');
+console.log(3 || "Jonas");
 // 3
 
-console.log('' || 'Jonas');
+console.log("" || "Jonas");
 // Jonas
 // First value is falsey and second is truthy
 
@@ -1582,15 +1528,13 @@ console.log(undefined || null);
 // null
 // undefined is falsey and returns null even though it is falsey
 
-
-console.log(undefined || 0 || '' || 'Hello' || 23 || null);
+console.log(undefined || 0 || "" || "Hello" || 23 || null);
 // Hello
 ```
 
 Short-circuiting:
 
 If the first operand is truthy it will immediately return that value and not evaluate the second operand at all
-
 
 Property not on an object:
 
@@ -1615,21 +1559,18 @@ const guests2 = restaurant.numGuests || 10;
 
 This allows us to not use if else or ternary.
 
-
-
 && Operator:
 
-Works in the exact opposite way as the  || operator
+Works in the exact opposite way as the || operator
 
 If the first value is falsey it will short circuit and return that value.
 
 ```js
-console.log(0 && 'Jonas')
+console.log(0 && "Jonas");
 // 0
-console.log(7 && 'Jonas')
+console.log(7 && "Jonas");
 // Jonas
 ```
-
 
 Practical example:
 
@@ -1637,12 +1578,12 @@ Checking to see if orderPizza exists.
 
 ```js
 if (restaurant.orderPizza) {
-  restaurant.orderPizza('mushrooms', 'spinach');
+  restaurant.orderPizza("mushrooms", "spinach");
 }
 ```
 
 ```js
-restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach')
+restaurant.orderPizza && restaurant.orderPizza("mushrooms", "spinach");
 ```
 
 # Nullish Coalescing Operator
@@ -1662,7 +1603,7 @@ So we use the nullish coalescing operator:
 restaurant.numGuests = 0;
 const guests = restaurant.numGuests || 10;
 
-const guestsCorrect = restaurant. numGuests ?? 10;
+const guestsCorrect = restaurant.numGuests ?? 10;
 console.log(guestsCorrect);
 // 0
 ```
@@ -1671,37 +1612,35 @@ This works because this operator works with the concept of nullish values instea
 
 Nullish values are null & undefined. (NOT 0 or the '' empty string)
 
+# For Of Loop (ES6)
 
-
- # For Of Loop (ES6)
-
- ```js
+```js
 const menu = [...restaurant.starterMenu, restaurant.mainMenu];
 
 for (const item of menu) console.log(item);
- ```
- The for of loop removes the need to set up a counter, a condition and operator that you need to do in the for loop.
+```
 
- In the for of we specify a variable name for each element that will be iterated over in the array and the array of which we will iterate over. Then it automatically loops through the array for us.
+The for of loop removes the need to set up a counter, a condition and operator that you need to do in the for loop.
 
- We can also use the continue and break statements with this loop whereas other ways Ex.) forEach() you cannot break.
+In the for of we specify a variable name for each element that will be iterated over in the array and the array of which we will iterate over. Then it automatically loops through the array for us.
 
- The for of is hard to get the index as it is a pain. It was designed just to get the current element in that iteration of the array.
+We can also use the continue and break statements with this loop whereas other ways Ex.) forEach() you cannot break.
 
- Loops must contain an iterable. Keep in mind non-iterables like objects will need to be converted before iterating over.
+The for of is hard to get the index as it is a pain. It was designed just to get the current element in that iteration of the array.
 
- ```js
+Loops must contain an iterable. Keep in mind non-iterables like objects will need to be converted before iterating over.
+
+```js
 for (const [i, element] of menu.entries()) {
   console.log(item);
 
-  console.log(`${i + 1}: ${el}`)
+  console.log(`${i + 1}: ${el}`);
 }
 
 console.log(menu.entries()); // Array Iterator - returns an array or arrays
- ```
+```
 
- We can also use destructuring in loops.
-
+We can also use destructuring in loops.
 
 # Enhanced Object Literals
 
@@ -1744,8 +1683,6 @@ const restaurant = {
 
 ```
 
-
-
 2. For methods, we no longer need to create a property and set it to a function expression
 
 ```js
@@ -1765,43 +1702,41 @@ const restaurant = {
 
 3. We can now compute property names instead of having to write them out manually/literally. Before property names could not be computed.
 
-
 ```js
-const weekdays = ['mon', 'tues', 'wed', 'thurs', 'fri', 'sat', 'sun'];
+const weekdays = ["mon", "tues", "wed", "thurs", "fri", "sat", "sun"];
 
 // Instead of this...
 const openingHours = {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, 
-      close: 24,
-    },
-  };
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0,
+    close: 24,
+  },
+};
 
 // We can do this...
 const openingHours = {
-    [weekdays[3]]: {
-      open: 12,
-      close: 22,
-    },
-    [weekdays[4]]: {
-      open: 11,
-      close: 23,
-    },
-    [`day-${2 + 4}`]: {
-      open: 0,
-      close: 24,
-    },
-  };
+  [weekdays[3]]: {
+    open: 12,
+    close: 22,
+  },
+  [weekdays[4]]: {
+    open: 11,
+    close: 23,
+  },
+  [`day-${2 + 4}`]: {
+    open: 0,
+    close: 24,
+  },
+};
 ```
-
 
 # Optional Chaining
 
@@ -1820,15 +1755,14 @@ console.log(restaurant.openingHours.mon.open); // Uncaught TypeError: Cannot rea
 So we would have to check with a conditional statement
 
 ```js
-if(restaurant.openingHours.mon)
-console.log(restaurant.openingHours.mon.open);
+if (restaurant.openingHours.mon) console.log(restaurant.openingHours.mon.open);
 ```
 
 With deeply nest objects this gets out of hand very quickly especially if the object has many optional properties
 
 ```js
-if(restaurant.openingHours && restaurant.openingHours.mon)
-console.log(restaurant.openingHours.mon.open);
+if (restaurant.openingHours && restaurant.openingHours.mon)
+  console.log(restaurant.openingHours.mon.open);
 ```
 
 So with optional chaining
@@ -1841,36 +1775,33 @@ console.log(restaurant.openingHours?.mon?.open);
 
 Only if the property before the question mark exists then the next property will be read, if not a nullish check is preformed and if an undefined or null is found then undefined is immediately returned. The ? optional chaining can have multiple ? in the statement.
 
-
 We can use the nullish coalescing operator with the optional chaining operator to take the returned undefined value and have a default value that catches it.
 
-```js  Real Example
-const weekdays = ['mon', 'tues', 'wed', 'thurs', 'fri', 'sat', 'sun'];
+```js Real Example
+const weekdays = ["mon", "tues", "wed", "thurs", "fri", "sat", "sun"];
 
-for(const day of weekdays) {
-  const open = restaurant.openingHours[day]?.open ?? 'closed';
-  console.log(`On ${day}, we open at ${ open}`);
+for (const day of weekdays) {
+  const open = restaurant.openingHours[day]?.open ?? "closed";
+  console.log(`On ${day}, we open at ${open}`);
 }
 ```
 
 Optional chaining with methods:
 
-
 ```js
 // Exists
-console.log(restaurant.order?.(0, 1) ?? 'Method does not exist.');
+console.log(restaurant.order?.(0, 1) ?? "Method does not exist.");
 
 // Does not exist
-console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist.');
+console.log(restaurant.orderRisotto?.(0, 1) ?? "Method does not exist.");
 ```
 
 Optional chaining with arrays:
 
-
 ```js
-const users = [{ name: 'Jonas', email: 'hello@jonas.io' }];
+const users = [{ name: "Jonas", email: "hello@jonas.io" }];
 
-console.log(users[0]?.name ?? 'User array empty');
+console.log(users[0]?.name ?? "User array empty");
 ```
 
 # Looping Objects
@@ -1879,42 +1810,35 @@ We can also loop over objects which are not iterables but we need to do it in an
 
 We have different options depending on if we want to loop over the object property names(keys), values or both together.
 
-
-
-```js  Keys
+```js Keys
 const properties = Object.keys(openingHours);
 console.log(properties);
 
-console.log(`We are open ${properties.length} days of the week`)
+console.log(`We are open ${properties.length} days of the week`);
 
 let openStr = `We are open on ${properties.length} days:`;
 
-for(const day of Object.keys(openingHours)) {
+for (const day of Object.keys(openingHours)) {
   openStr += `${day},`;
   console.log(openStr);
   // We are open on 3 days: thu, fri, sat
 }
 ```
 
-
 ```js Values
 Object.values(openingHours);
 ```
 
-
-
 ```js Key & Values
 const entries = Object.entries(openingHours);
 
-for(const [key, {open , close}] of entries) {
+for (const [key, { open, close }] of entries) {
   console.log(`On ${key} we open at ${open} and close at ${close}`);
 }
 ```
 
 With Object.entries the object needs to be passed as an argument to the method whereas with arrays it is called on the array itself using the . notation.
-Ex. menu.entries(); 
-
-
+Ex. menu.entries();
 
 # Sets
 
@@ -1924,34 +1848,34 @@ With sets you need to pass in an iterable, the most common being an array. Sets 
 
 ```js
 const ordersSet = new Set([
-  'Pasta',
-  'Pizza',
-  'Pizza',
-  'Risotto',
-  'Pasta',
-  'Pizza'
-  ]);
+  "Pasta",
+  "Pizza",
+  "Pizza",
+  "Risotto",
+  "Pasta",
+  "Pizza",
+]);
 
 console.log(ordersSet);
 // Set(3) {"Pasta", "Pizza", "Risotto"}
 
-console.log(new Set('Jonas'));
+console.log(new Set("Jonas"));
 // Set (5) {"J", "o", "n", "a", "s"}
 
 console.log(ordersSet.size);
 // 3
 
-console.log(ordersSet.has('Pizza'));
+console.log(ordersSet.has("Pizza"));
 // True
-console.log(ordersSet.has('Bread'));
+console.log(ordersSet.has("Bread"));
 // False
 
-ordersSet.add('Garlic Bread');
-ordersSet.add('Garlic Bread');
+ordersSet.add("Garlic Bread");
+ordersSet.add("Garlic Bread");
 console.log(ordersSet);
 // Set(4) {"Pasta", "Pizza", "Risotto", "Garlic Bread"}
 
-orderSet.delete('Risotto');
+orderSet.delete("Risotto");
 console.log(ordersSet);
 // Set(3) {"Pasta", "Pizza", "Garlic Bread"}
 
@@ -1959,7 +1883,6 @@ orderSet.clear();
 console.log(orderSet);
 // Set(0) {}
 ```
-
 
 There are no indexes in sets. There is no need to get values out of the set. All values are unique and their orders do not matter. You only need to know whether or not the set has the value or not. You do this using the .has() method.
 
@@ -1969,23 +1892,21 @@ Sets are iterables so we can loop over them.
 
 ```js
 const ordersSet = new Set([
-  'Pasta',
-  'Pizza',
-  'Pizza',
-  'Risotto',
-  'Pasta',
-  'Pizza'
-  ]);
+  "Pasta",
+  "Pizza",
+  "Pizza",
+  "Risotto",
+  "Pasta",
+  "Pizza",
+]);
 
-for(const order of ordersSet) console.log(order);
-
+for (const order of ordersSet) console.log(order);
 ```
 
 A large use case: (Removing duplicate values from arrays)
 
-
 ```js
-const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+const staff = ["Waiter", "Chef", "Waiter", "Manager", "Chef", "Waiter"];
 
 const staffUnique = new Set(staff);
 console.log(staffUnique);
@@ -2003,34 +1924,33 @@ console.log(staffUnique);
 You can skip creating an array if you only need to know the amount of unique positions in the set. The same goes with any other iterable.
 
 ```js
-console.log(new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size)
+console.log(
+  new Set(["Waiter", "Chef", "Waiter", "Manager", "Chef", "Waiter"]).size
+);
 // 3
 ```
 
 Sets are not intended to replace arrays. Arrays are great for storing values in order that may contain duplicates. They are also great for manipulating data. Set are great for their property of only holding unique values and a few straight forward methods make them easy to work with. They are not nearly as important as array.
 
-
 # Maps
 
 Maps are used to map values to keys. They are similar to objects but the main difference is that the key in a maps key/value pair can have any type, whereas in objects the keys can only be strings.
 
-
 ```js
 const restaurant = new Map();
-restaurant.set('name', 'Classico Italiano');
-restaurant.set(1, 'Firenze, Italliano');
-restaurant.set(2, 'Lisbon, Portugal');
+restaurant.set("name", "Classico Italiano");
+restaurant.set(1, "Firenze, Italliano");
+restaurant.set(2, "Lisbon, Portugal");
 
 restaurant
-  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
-  .set('open', 11)
-  .set('close', 23)
-  .set(true, 'We are open')
-  .set(false, 'We are closed');
+  .set("categories", ["Italian", "Pizzeria", "Vegetarian", "Organic"])
+  .set("open", 11)
+  .set("close", 23)
+  .set(true, "We are open")
+  .set(false, "We are closed");
 // You can chain sets
 
-
-console.log(restaurant.get('name'));
+console.log(restaurant.get("name"));
 // Classico Italliano
 
 console.log(restaurant.get(true));
@@ -2038,24 +1958,24 @@ console.log(restaurant.get(true));
 
 // When retrieving keys you must use the matching data type
 
-console.log(restaurant.get('true'));
+console.log(restaurant.get("true"));
 // Undefined
 ```
 
-
 ```js
 const time = 21;
-;
-console.log(restaurant.get(time > restaurant.get('open') && time < rest.get('close')));
+console.log(
+  restaurant.get(time > restaurant.get("open") && time < rest.get("close"))
+);
 // We are open
 ```
-The above is clever but fairly unreadable so use with caution.
 
+The above is clever but fairly unreadable so use with caution.
 
 More methods:
 
 ```js
-console.log(restaurant.has('categories'));
+console.log(restaurant.has("categories"));
 // true
 
 restaurant.delete(2);
@@ -2066,12 +1986,13 @@ console.log(restaurant.size);
 restaurant.clear();
 // Map(0)
 ```
+
 With objects you can use the delete operator but it is really slow and should be avoided.
 
 Arrays/Objects as map keys:
 
 ```js
-restaurant.set([1, 2], 'Test')
+restaurant.set([1, 2], "Test");
 
 console.log(restaurant);
 // key: [1, 2]
@@ -2085,93 +2006,87 @@ This does not work because these are 2 different objects stored in memory so we 
 
 ```js
 const arr = [1, 2];
-restaurant.set(arr, 'Test');
+restaurant.set(arr, "Test");
 
 console.log(restaurant.get(arr));
 // Test
 ```
 
-
 Objects as keys in Maps are very useful for storing DOM elements as they are a special type of object.
 
 ```js
-restaurant.set(document.querySelector('h1'), 'Heading');
+restaurant.set(document.querySelector("h1"), "Heading");
 ```
-
 
 # Maps - Iterating
 
-
 Another way to set keys and values is to pass an array of arrays into the Map because using the set() method can become cumbersome.
+
 ```js
 const question = new Map([
-  ['question', 'What is the best programming language in the world?'],
-  [1, 'C++'],
-  [2, 'Java'],
-  [3, 'JavaScript'],
-  ['correct', 3],
-  [true, 'Correct!!'],
-  [false, 'Try Again!'],
+  ["question", "What is the best programming language in the world?"],
+  [1, "C++"],
+  [2, "Java"],
+  [3, "JavaScript"],
+  ["correct", 3],
+  [true, "Correct!!"],
+  [false, "Try Again!"],
 ]);
 ```
+
 Object.entries() returns an array of arrays so this means there is an easy way to convert from Objects to Maps.
-
-
 
 ```js
 const openingHours = {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, 
-      close: 24,
-    },
-  };
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0,
+    close: 24,
+  },
+};
 
 const hoursMap = new Map(Object.entries(openingHours));
 
 console.log(hoursMap);
 ```
 
-
 Map iteration:
-
 
 ```js
 const question = new Map([
-  ['question', 'What is the best programming language in the world?'],
-  [1, 'C++'],
-  [2, 'Java'],
-  [3, 'JavaScript'],
-  ['correct', 3],
-  [true, 'Correct!!'],
-  [false, 'Try Again!'],
+  ["question", "What is the best programming language in the world?"],
+  [1, "C++"],
+  [2, "Java"],
+  [3, "JavaScript"],
+  ["correct", 3],
+  [true, "Correct!!"],
+  [false, "Try Again!"],
 ]);
 
 // Fake quiz app
 
-console.log(question.get('question'))
+console.log(question.get("question"));
 
 for (const [key, value] of question) {
-  if(typeof key === 'number') {
+  if (typeof key === "number") {
     console.log(`Answer ${key}: ${value}`);
   }
 }
-const answer = Number(prompt('Your answer'));
+const answer = Number(prompt("Your answer"));
 console.log(answer);
 // 3
 
-console.log(question.get(question.get('correct') === answer));
+console.log(question.get(question.get("correct") === answer));
 ```
 
 The quiz app shows the benefit of being able to have booleans as keys.
-
 
 Converting a map to an array (Using the spread operator):
 
@@ -2186,6 +2101,7 @@ question.entries();
 question.keys();
 question.values();
 ```
+
 These do return an Iterator so you need to spread them into an array.
 
 ```js
@@ -2193,7 +2109,6 @@ console.log([...question.entries()]);
 console.log([...question.keys()]);
 console.log([...question.values()]);
 ```
-
 
 # Which Data Structure To Use
 
@@ -2215,7 +2130,6 @@ There are usually always collections of this data that needs to be stored and we
 
 There are 4 main data structures in Javascript. Objects, Array, Maps & Sets.
 
-
 Simple list:
 Use Arrays or Sets
 
@@ -2223,30 +2137,33 @@ Key Value pairs:
 Use Objects or Maps
 
 Other built-in data-structures:
+
 - WeakMap
 - WeakSet
 
 Non-built in:
+
 - Stacks
 - Queues
 - Linked Lists
 - Trees
 - Hash Tables
 
-
 Arrays vs Sets & Objects vs Maps
 
-
 Arrays:
+
 - Use when you need ORDERED list of values (might contain duplicates)
 - Use when you need to MANIPULATE data. (Many built in methods)
 
 Sets:
+
 - Use when you need to work with UNIQUE values
-- Use when HIGH-PERFORMANCE is required (Up to 10x faster than arrays ex.) searching/deleting) 
+- Use when HIGH-PERFORMANCE is required (Up to 10x faster than arrays ex.) searching/deleting)
 - Use to REMOVE DUPLICATES from arrays
 
 Objects:
+
 - More traditional key/value store but has been abused especially with maps now available in ES6
 - Easier to write and access values with . & []
 - Use when you need to include functions(methods in the data structure)
@@ -2254,6 +2171,7 @@ Objects:
 - Use when working with JSON(Can convert to a map)
 
 Maps:
+
 - Better performance
 - KEYS can have ANY DATA TYPE
 - Easy to iterate
@@ -2261,41 +2179,36 @@ Maps:
 - Use when you simply need to map keys to values
 - Use when the keys need to be another data type than string
 
-
 # Strings
 
 All string methods are case sensitive
 
-
 ```js
-const airline = 'Air Canada'
-const plane = '747';
+const airline = "Air Canada";
+const plane = "747";
 
 console.log(plane[0]);
 // "7"
 console.log(plane[1]);
 // "4"
-console.log('747'[2]);
+console.log("747"[2]);
 // "7"
-
 
 console.log(airline.length);
 // 10
-console.log('747'.length);
+console.log("747".length);
 // 3
 
-
-console.log(airline.indexOf('r'));
+console.log(airline.indexOf("r"));
 // 2
-console.log(airline.lastIndexOf('a'));
+console.log(airline.lastIndexOf("a"));
 // 10
-console.log(airline.indexOf('Canada'));
+console.log(airline.indexOf("Canada"));
 // Case sensitive 4 (gives starting position)
-console.log(airline.indexOf('Air'));
+console.log(airline.indexOf("Air"));
 // 0
-console.log(airline.indexOf('canada'));
+console.log(airline.indexOf("canada"));
 // -1 (not in string)
-
 
 // Slice allows you to define the desired starting and ending index
 
@@ -2304,9 +2217,9 @@ console.log(airline.slice(4));
 console.log(airline.slice(4, 7));
 // Can
 
-console.log(airline.slice(0, airline.indexOf(' ')));
+console.log(airline.slice(0, airline.indexOf(" ")));
 // Air
-console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+console.log(airline.slice(airline.lastIndexOf(" ") + 1));
 // Canada
 
 console.log(airline.slice(-6));
@@ -2315,21 +2228,20 @@ console.log(airline.slice(0, -7));
 // Air
 ```
 
-
 ```js Example
 // B & E are middle seats in this example
-const  checkMiddleSeat = function(seat){
+const checkMiddleSeat = function (seat) {
   const letter = seat.slice(-1);
-  if(letter === 'B' || letter === 'E') {
-    console.log('You got the middle seat');
+  if (letter === "B" || letter === "E") {
+    console.log("You got the middle seat");
   } else {
-    console.log('You got lucky!')
+    console.log("You got lucky!");
   }
-}
+};
 
-checkMiddleSeat('11B');
-checkMiddleSeat('23C');
-checkMiddleSeat('3E');
+checkMiddleSeat("11B");
+checkMiddleSeat("23C");
+checkMiddleSeat("3E");
 ```
 
 Strings are just primitives so why do they have methods?
@@ -2337,15 +2249,14 @@ Strings are just primitives so why do they have methods?
 Whenever we call a method on a string JS converts the primitive to an object with the same content then the methods are called on that object. This is called boxing in JS.
 
 ```js
-console.log(new String('Jonas'));
+console.log(new String("Jonas"));
 // String {"jonas"}
 
-console.log(typeof new String('Jonas'));
+console.log(typeof new String("Jonas"));
 // object
 ```
 
 All methods called on a string object return a primitive string.
-
 
 ```js
 console.log(airline.toLowerCase());
@@ -2354,15 +2265,16 @@ console.log(airline.toUpperCase());
 // AIR CANADA
 
 // Fix capitalization in a names
-const passenger = 'jOnAs';
+const passenger = "jOnAs";
 const passengerLower = passenger.toLowerCase();
-const passengerCorrect = passengerLower[0].toUpperCase() + passengerLower.slice(1);
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
 console.log(passengerCorrect);
 // Jonas
 
 // Comparing email
-const email = 'hello@jonas.io';
-const loginEmail = '  Hello@Jonas.Io \n';
+const email = "hello@jonas.io";
+const loginEmail = "  Hello@Jonas.Io \n";
 
 const lowerEmail = loginEmail.toLowerCase();
 const trimmedEmail = lowerEmail.trim();
@@ -2376,137 +2288,132 @@ console.log(email === normalizedEmail);
 // true
 ```
 
-
 ```js Replacing
-const priceGB = '288,97£';
-const priceUS = priceGB.replace('£', '$').replace(',','.');
+const priceGB = "288,97£";
+const priceUS = priceGB.replace("£", "$").replace(",", ".");
 console.log(priceUS);
 // 288.97$
 
-const annoucement = 'All passengers come to boarding door 23. Boarding door 23.';
+const annoucement =
+  "All passengers come to boarding door 23. Boarding door 23.";
 
-console.log(announcement.replace('door', 'gate'));
+console.log(announcement.replace("door", "gate"));
 // All passengers come to boarding gate 23. Boarding door 23.
 ```
 
 Regular Expression:
 
 ```js
-console.log(announcement.replace(/door/g, 'gate'));
+console.log(announcement.replace(/door/g, "gate"));
 // All passengers come to boarding gate 23. Boarding gate 23.
 ```
-
 
 Booleans:
 
 ```js
-const plane = 'A320neo';
-console.log(plane.includes('A320'));
+const plane = "A320neo";
+console.log(plane.includes("A320"));
 // true
-console.log(plane.includes('boeing'));
+console.log(plane.includes("boeing"));
 // false
-console.log(plane.startsWith('Air'));
+console.log(plane.startsWith("Air"));
 // false
-console.log(plane.endsWith('neo'));
+console.log(plane.endsWith("neo"));
 // true
 ```
 
 All of the above methods DO NOT mutate the original string.
 
-
-
 ```js
-console.log(`a very nice string`.split(' '));
+console.log(`a very nice string`.split(" "));
 // Array(4) [ "a", "very", "nice", "string" ]
 
-const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+const [firstName, lastName] = "Jonas Schmedtmann".split(" ");
 console.log(firstName);
 // Jonas
 
-const fullName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+const fullName = ["Mr.", firstName, lastName.toUpperCase()].join(" ");
 console.log(fullName);
 // Mr. Jonas SCHMEDTMANN
 
-
-const capitalizeName = function(fullName) {
-  const names = fullName.split(' ');
+const capitalizeName = function (fullName) {
+  const names = fullName.split(" ");
   const namesUpper = [];
 
   for (const name of fullName) {
     // namesUpper.push(name[0].toUpperCase() + name.slice(1));
     namesUpper.push(name.replace(name[0], name[0].toUpperCase()));
   }
-  console.log(namesUpper.join(' '));
-}
+  console.log(namesUpper.join(" "));
+};
 
-capitalizeName('jessica ann smith davis');
+capitalizeName("jessica ann smith davis");
 // Jessica Ann Smith Davis
-capitalizeName('joans schmedtmann')
+capitalizeName("joans schmedtmann");
 // Jonas Schmedtmann
 ```
 
 Padding a string - add a number of characters to a string until it has a certain desired length
 
 ```js
-const message = 'Go to gate 23';
-console.log(message.padStart(25, '+'));
+const message = "Go to gate 23";
+console.log(message.padStart(25, "+"));
 // This increases the string length to 25
 // ++++++++++++Go to gate 23
 
-console.log(message.padStart(25, '+').padEnd(30, '+'));
+console.log(message.padStart(25, "+").padEnd(30, "+"));
 // Now the string length is 35
 // ++++++++++++Go to gate 23+++++
 ```
 
 ```js Credit Card example
-const maskCreditCard = function(number) {
-  const str = number + '';
+const maskCreditCard = function (number) {
+  const str = number + "";
   // Converts number to string
   const last = str.slice(-4);
-  return last.padStart(str.length, '•')
-
-}
+  return last.padStart(str.length, "•");
+};
 
 maskCreditCard(99999893);
 maskCreditCard(4554466657774989893);
-maskCreditCard('4554466657774989893');
+maskCreditCard("4554466657774989893");
 ```
 
 Repeat Method:
 
 ```js
-const message2 = 'Bad weather... All Departures Delayed...';
+const message2 = "Bad weather... All Departures Delayed...";
 console.log(message.repeat(5));
 // "Bad weather... All Departures Delayed...Bad weather... All Departures Delayed...Bad weather... All Departures Delayed...Bad weather... All Departures Delayed...Bad weather... All Departures Delayed..."
 ```
 
 ```js
-const planesInLine = function(n) {
-  console.log(`There are ${n} planes in line ${'[PLANE]'.repeat(n)}`);
-}
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${"[PLANE]".repeat(n)}`);
+};
 
 planesInLine(5);
 // " There are 5 planes in line [PLANE][PLANE][PLANE][PLANE][PLANE] "
 ```
 
+---
 
---- 
 # A Closer Look At Functions
+
 ---
 
 # Default Parameters
 
-
 Some parameters in functions can have a set default.
-
 
 ```js
 const bookings = [];
 
-const createBooking = function(flightNum,
- numPassengers = 1,
- price = 199 * numPassengers) {
-
+const createBooking = function (
+  flightNum,
+  numPassengers = 1,
+  price = 199 * numPassengers
+) {
   // Old way of setting default params
   numPassenger = numPassengers || 1;
   price = price || 199;
@@ -2515,49 +2422,47 @@ const createBooking = function(flightNum,
   // You can also perform operations in the params
   // In those operations you can use PREVIOUS (only previous) declared params in your operations
 
-
   const booking = {
     flightNum,
     numPassengers,
-    price
-  }
+    price,
+  };
   console.log(booking);
   bookings.push(booking);
-}
-createBooking('LH123');
+};
+createBooking("LH123");
 // {flightNum: "LH123", numPassengers: undefined, price: undefined}
 
-createBooking('LH123', 2, 800);
+createBooking("LH123", 2, 800);
 // {flightNum: "LH123", numPassengers: 2, price: 800}
 
-createBooking('LH123', undefined, 800);
+createBooking("LH123", undefined, 800);
 // The only way to skip a parameter is to set it to Undefined
 
-createBooking('LH123', 800);
+createBooking("LH123", 800);
 // Trying to skip numPassengers and set price to 800 does not work as the arguments are mapped to the params in order
 // {flightNum: "LH123", numPassengers: 800, price: undefined}
 ```
 
-
 # Passing Arguments - Value vs Reference
 
 ```js
-const flight = 'LH234';
+const flight = "LH234";
 const jonas = {
-  name: 'Jonas Schmedtmann',
+  name: "Jonas Schmedtmann",
   passport: 123456789,
-}
+};
 
-const checkIn = function(flightNum, passenger) {
-  flightNum = 'LH999';
-  passenger.name = 'Mr. ' + passenger.name;
+const checkIn = function (flightNum, passenger) {
+  flightNum = "LH999";
+  passenger.name = "Mr. " + passenger.name;
 
-  if(passenger.passport === 123456789) {
-    alert('Check in')
+  if (passenger.passport === 123456789) {
+    alert("Check in");
   } else {
-    alert('Wrong passport')
+    alert("Wrong passport");
   }
-}
+};
 
 checkIn(flight, jonas);
 console.log(flight);
@@ -2569,6 +2474,7 @@ console.log(jonas);
 The flight is a primitive (a string) and when it is passed into the function the flightNum param in the checkIn() function is basically a copy of the original value not the original.
 
 It is the same as saying:
+
 ```js
 const flightNum = flight;
 ```
@@ -2585,7 +2491,7 @@ const passenger = jonas;
 
 These both point to the same object in memory and is why it is mutated when altering the passenger param in the checkIn() function.
 
-* See line 907 for chapter on primitives vs reference types.
+- See line 907 for chapter on primitives vs reference types.
 
 Passing a primitive type to a function is the same as creating a copy outside the function.
 
@@ -2594,13 +2500,13 @@ Passing an object to a function, anything altered will be reflected in the origi
 Because of this behavior we must be careful and pay attention to multiple functions interacting with the same object and use our knowledge of primitives vs reference types(objects) to avoid issues.
 
 ```js Simple example of the issue
-const newPassport = function(person) {
+const newPassport = function (person) {
   person.passport = Math.trunc(Math.random() * 10000000);
-}
+};
 
 newPassport(jonas);
 // Here the original object is altered
-checkIn(flight, jonas)
+checkIn(flight, jonas);
 // So now this function throws an error
 ```
 
@@ -2615,8 +2521,6 @@ In JS for objects we pass a reference, however that reference is still a value. 
 So basically we PASS A REFERENCE to the function but we DO NOT PASS BY REFERENCE.
 
 This is an important distinction.
-
-
 
 # First-Class & Higher Order Functions
 
@@ -2636,8 +2540,6 @@ We can also return functions from other functions.
 
 Functions even have their own set of methods (bind, call ,apply).
 
-
-
 Higher Order Function:
 
 These are functions that receive another function as an argument or that returns a new function or both.
@@ -2652,25 +2554,23 @@ First class functions is only a concept. It is the concept that in a language li
 
 Because of this we can write higher order functions.
 
-
 # Functions Accepting Callback functions
 
 ```js
 // Changes first word to uppercase
-const upperFirstWord = function(str) {
-  const [first, ...other] = str.split(' ');
-  return [first.toUpperCase(), ...others].join(' ');
-}
-
+const upperFirstWord = function (str) {
+  const [first, ...other] = str.split(" ");
+  return [first.toUpperCase(), ...others].join(" ");
+};
 
 // Higher order function
-const transformer = function(str, fn) {
-  console.log(`Original string: ${str}`)
+const transformer = function (str, fn) {
+  console.log(`Original string: ${str}`);
   console.log(`Transformed string: ${fn(str)}`);
-  console.log(`Transformed by: ${fn.name}`)
-}
+  console.log(`Transformed by: ${fn.name}`);
+};
 
-transformer('Javascript is the best', upperFirstWord);
+transformer("Javascript is the best", upperFirstWord);
 // Original string: Javascript is the best
 // Transformed string: JAVASCRIPT is the best
 // Transformed by: upperFirstWord
@@ -2678,44 +2578,40 @@ transformer('Javascript is the best', upperFirstWord);
 
 Callbacks are very helpful for abstraction. Hiding away the fine details so we can think about programs at a higher abstract level.
 
-
 # Functions Returning Functions
 
 ```js
-const greet = function(greeting) {
-  return function(name) {
+const greet = function (greeting) {
+  return function (name) {
     console.log(`${greeting} ${name}`);
-  }
-}
+  };
+};
 
 // We store the result of the greet function in a variable and that variable value is now essentially a function. And more specifically it is the returned function within the greet function. And now we can call the greeterHey function as if it was any other function we defined ourselves
-const greeterHey = greet('Hey');
+const greeterHey = greet("Hey");
 
-greeterHey('Jonas');
+greeterHey("Jonas");
 // Hey Jonas
-greeterHey('Steven');
+greeterHey("Steven");
 // Hey Steven
 ```
 
 YUou can also do it another way all at once instead of storing the inner function call in a variable.
 
 ```js
-greet('Hello')('Jonas')
+greet("Hello")("Jonas");
 // Hello Jonas
 ```
 
 This concept of functions returning functions is extremely important in the functional programming paradigm.
 
-
 ```js As an arrow function
-const greet = greeting => name => console.log(`${greeting} ${name}`);
+const greet = (greeting) => (name) => console.log(`${greeting} ${name}`);
 ```
-
 
 # Call & Apply Methods
 
 Setting the this keyword manually.
-
 
 ```js
 const lufthansa = {
@@ -2784,45 +2680,44 @@ book.call(swiss, ..flightData);
 
 Bind does not immediately call the function. Instead it returns a new function where the this keyword is bound. Its set to whatever value we pass into bind.
 
-
 ```js
 const bookEW = book.bind(eurowings);
 // Now in the bookEW function the this keyword is always bound to eurowings
-bookEW(23, 'Steven Williams');
+bookEW(23, "Steven Williams");
 
 const bookLH = book.bind(lufthansa);
 const bookLX = book.bind(swiss);
 
 // This allows us to set the this keyword only once instead of every time we use the call method
 
-
 const bookEW23 = book.bind(eurowings, 23);
 // We can go further here by presetting the flight number, and all we need to provide now is a name and it will book to the specified airline and flight number
-bookEW23('Jonas Schmedtmann');
+bookEW23("Jonas Schmedtmann");
 ```
 
 Specifying parts of the arguments before hand is called partial application.
-
 
 Using Objects with Event Listeners:
 
 ```js
 lufthansa.planes = 300;
-lufthansa.buyPlane = function() {
+lufthansa.buyPlane = function () {
   console.log(this);
   this.planes++;
   console.log(this.planes);
-}
+};
 
 // Imagine a button with class="buy" on a page
 
-document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane);
+document.querySelector(".buy").addEventListener("click", lufthansa.buyPlane);
 
 // When clicking === NaN because the this keyword is now the button element
 
 // So now we need to set the this keyword
 // We need to pass in a function and not to call it and we know that the call method calls a function whereas the bind method returns a new function.
-document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+document
+  .querySelector(".buy")
+  .addEventListener("click", lufthansa.buyPlane.bind(lufthansa));
 ```
 
 The bind method really needs to be understood. Study if required.
@@ -2847,11 +2742,11 @@ runOnce();
 (() => console.log('This will never run again'))();
 ```
 
-Functions create scopes. Functions do not have access to variables from an inner scope. 
+Functions create scopes. Functions do not have access to variables from an inner scope.
 
 ```js
-(function() {
-  console.log('This will never run again')
+(function () {
+  console.log("This will never run again");
   const isPrivate = 23;
 })();
 console.log(isPrivate);
@@ -2874,21 +2769,19 @@ console.log(notPrivate);
 
 IIFE's aren't used as much anymore in ES6 because of this but still have their place.
 
-
-
 # Closures
 
 Closures are not a feature that we explicitly use. They happen automatically in certain situations.
 
 ```js
-const secureBooking = function() {
+const secureBooking = function () {
   let passengerCount = 0;
 
-  return function() {
+  return function () {
     passengerCount++;
     console.log(`${passengerCount} passengers`);
-  }
-}
+  };
+};
 
 // Now booker is a function as well
 const booker = secureBooking();
@@ -2906,18 +2799,17 @@ In the call stack and scope chain:
 
 - Now the secureBooking() execution context is finished and pops off the stack
 
-
 Back to code:
 
 ```js
-const secureBooking = function() {
+const secureBooking = function () {
   let passengerCount = 0;
 
-  return function() {
+  return function () {
     passengerCount++;
     console.log(`${passengerCount} passengers`);
-  }
-}
+  };
+};
 
 // Now booker is a function as well
 const booker = secureBooking();
@@ -2933,13 +2825,11 @@ booker();
 
 How is it possible that the secureBooking() function has finished executing and its execution context has popped off the call stack but the passengerCount variable is still being updated?
 
-
 A closure makes a function remember all the variables that existed at the functions "birth place" or declaration.
 
 We can imagine the secureBooking as being the birthplace of the booker function.
 
 Back in the call stack and scope chain:
-
 
 - Again the secureBooking() execution context has already been removed from the call stack
 
@@ -2961,8 +2851,7 @@ Back in the call stack and scope chain:
 
 This connection is what is called closure
 
-
-* Any function always has access to the variable environment of the execution context in which the function was created even after that execution context is gone.
+- Any function always has access to the variable environment of the execution context in which the function was created even after that execution context is gone.
 
 So the closure is the variable environment attached to the function exactly as it was at the time and place the function was created.
 
@@ -2976,38 +2865,36 @@ We say the booker function closed over its parents variable environment or scope
 
 - This is repeated for the next 2 calls of the booker function because the booker function will have access to the variable environment holding the passengerCount variable FOREVER.
 
-
 Summary/Definitions:
 
 Formal
+
 1. A closure is the closed-over variable environment of the execution context in which the function was created, even after that execution context is gone.
 
-Informal
-2. A closure gives a function access to all the variables of its parent function, even after that parent function has returned. The function keeps a reference to its outer scope, which preserves the scope chain throughout time
+Informal 2. A closure gives a function access to all the variables of its parent function, even after that parent function has returned. The function keeps a reference to its outer scope, which preserves the scope chain throughout time
 
 JS creates closures automatically and there is no way for us to explicitly access closed over variables they are just an internal property of a function.
 
 We can only observe them by seeing that variables are accessible even after they seem to be gone.
-
 
 ```js
 console.dir(booker);
 // In Chrome we can see in the Scopes tab there is a Closure tab that has the passengerCount variable from the secureBooking
 ```
 
-
 ---
+
 # Working With Arrays
+
 ---
 
 # Simple Array Methods
 
-
 ```js Sample Data
 const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
+  ["USD", "United States dollar"],
+  ["EUR", "Euro"],
+  ["GBP", "Pound sterling"],
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -3015,14 +2902,13 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 All instances of arrays have access to built in methods because of prototypal inheritance.
 
-
 ```js SLICE
 // SLICE
 // The slice methods allows us to take a piece of an array without mutating the original array.
 
 // The first argument is the beginning and the second argument is where to go to
 
-let arr = ['a', 'b', 'c', 'd', 'e'];
+let arr = ["a", "b", "c", "d", "e"];
 
 console.log(arr.slice(2));
 // ["c", "d", "e"]
@@ -3045,14 +2931,13 @@ console.log([...arr]);
 // Exact same as using the spread operator and neither one has a benefit over the other except slice can be chained with multiple methods.
 ```
 
-
 ```js SPLICE
 // SPLICE
 // The splice method works the same way as slice except it does mutate the original array.
 
 // The first argument is the beginning and the second argument is how many elements to delete
 
-let arr = ['a', 'b', 'c', 'd', 'e'];
+let arr = ["a", "b", "c", "d", "e"];
 
 console.log(splice(2));
 console.log(arr);
@@ -3070,12 +2955,11 @@ console.log(arr);
 // ["a", "d"]
 ```
 
-
 ```js REVERSE
 // REVERSE
 // Reverses an array in place and mutates the original array
 
-let arr2 = ['j', 'i', 'h', 'g', 'f'];
+let arr2 = ["j", "i", "h", "g", "f"];
 
 console.log(arr2.reverse());
 // ["f", "g", "h", "i", "j"]
@@ -3100,15 +2984,11 @@ console.log([...arr, ...arr2]);
 // JOIN
 // Joins elements of an array with a separator that we specify
 
-console.log(letters.join(' - '));
+console.log(letters.join(" - "));
 // a - b - c - d - e - f - g - h - i - j
 ```
 
-
-
-
 # Looping Arrays - forEach
-
 
 ```js forEach
 // forEach
@@ -3118,7 +2998,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // With a for of loop
 for (const movement of movements) {
-  if(movement > 0) {
+  if (movement > 0) {
     console.log(`You deposited the ${movement}`);
   } else {
     console.log(`You withdrew ${Math.abs(movement)}`);
@@ -3126,38 +3006,36 @@ for (const movement of movements) {
   }
 }
 
-// You deposited the 200 
-// You deposited the 450 
-// You withdrew 400 
-// You deposited the 3000 
-// You withdrew 650 
-// You withdrew 130 
-// You deposited the 70 
+// You deposited the 200
+// You deposited the 450
+// You withdrew 400
+// You deposited the 3000
+// You withdrew 650
+// You withdrew 130
+// You deposited the 70
 // You deposited the 1300
-
 
 // With forEach method
 
 // forEach is a higher order function that requires a callback that is called on each element on the array
 
 movements.forEach((movement) => {
-  if(movement > 0) {
+  if (movement > 0) {
     console.log(`You deposited the ${movement}`);
   } else {
     console.log(`You withdrew ${Math.abs(movement)}`);
   }
 });
 
-// You deposited the 200 
-// You deposited the 450 
-// You withdrew 400 
-// You deposited the 3000 
-// You withdrew 650 
-// You withdrew 130 
-// You deposited the 70 
+// You deposited the 200
+// You deposited the 450
+// You withdrew 400
+// You deposited the 3000
+// You withdrew 650
+// You withdrew 130
+// You deposited the 70
 // You deposited the 1300
 ```
-
 
 If we need access to a counter variable
 
@@ -3167,7 +3045,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // With a for of loop we can access the current index by using the .entries method to get an array of arrays
 
 for (const [i, movement] of movements.entries()) {
-  if(movement > 0) {
+  if (movement > 0) {
     console.log(`Movement ${i + 1}: You deposited ${movement}`);
   } else {
     console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
@@ -3175,16 +3053,14 @@ for (const [i, movement] of movements.entries()) {
   }
 }
 
-// Movement 1: You deposited 200 
-// Movement 2: You deposited 450 
-// Movement 3: You withdrew 400 
-// Movement 4: You deposited 3000 
-// Movement 5: You withdrew 650 
-// Movement 6: You withdrew 130 
-// Movement 7: You deposited 70 
+// Movement 1: You deposited 200
+// Movement 2: You deposited 450
+// Movement 3: You withdrew 400
+// Movement 4: You deposited 3000
+// Movement 5: You withdrew 650
+// Movement 6: You withdrew 130
+// Movement 7: You deposited 70
 // Movement 8: You deposited 1300
-
-
 
 // With forEach
 // forEach passes in the current element, the index and the array that we are looping over to its callback function
@@ -3194,7 +3070,7 @@ for (const [i, movement] of movements.entries()) {
 // We can omit some if we'd like but they will then appear in the corresponding defined order
 
 movements.forEach((mov, i, arr) => {
-  if(mov > 0) {
+  if (mov > 0) {
     console.log(`Movement ${i + 1}: You deposited ${mov}`);
   } else {
     console.log(`Movement ${i + 1}: You withdrew ${Math.abs(mov)}`);
@@ -3202,13 +3078,13 @@ movements.forEach((mov, i, arr) => {
   }
 });
 
-// Movement 1: You deposited 200 
-// Movement 2: You deposited 450 
-// Movement 3: You withdrew 400 
-// Movement 4: You deposited 3000 
-// Movement 5: You withdrew 650 
-// Movement 6: You withdrew 130 
-// Movement 7: You deposited 70 
+// Movement 1: You deposited 200
+// Movement 2: You deposited 450
+// Movement 3: You withdrew 400
+// Movement 4: You deposited 3000
+// Movement 5: You withdrew 650
+// Movement 6: You withdrew 130
+// Movement 7: You deposited 70
 // Movement 8: You deposited 1300
 ```
 
@@ -3218,36 +3094,31 @@ forEach the element is first then the index.
 
 for of the index is first then the element.
 
-
 When to use:
 
 You cannot break out of a forEach loop and it will always loop over the entire array. With for of you can use the continue and break statements to exit the loop.
-
 
 # forEach With Maps And Sets
 
 ```js MAPS
 const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
+  ["USD", "United States dollar"],
+  ["EUR", "Euro"],
+  ["GBP", "Pound sterling"],
 ]);
-
 
 // Similar to the array loop but for a map it goes in the order of value, key then map
 currencies.forEach((value, key, map) => {
   console.log(`${key}: ${value}`);
 });
 
-///USD: United States dollar 
-// EUR: Euro 
+///USD: United States dollar
+// EUR: Euro
 // GBP: Pound sterling
 ```
 
-
-
 ```js SETS
-const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+const currenciesUnique = new Set(["USD", "GBP", "USD", "EUR", "EUR"]);
 console.log(currenciesUnique);
 //[ "USD", "GBP", "EUR" ]
 
@@ -3255,23 +3126,21 @@ currenciesUnique.forEach((value, key, map) => {
   console.log(`${key}: ${value}`);
 });
 
-// USD: USD 
-// GBP: GBP 
+// USD: USD
+// GBP: GBP
 // EUR: EUR
 
-// Sets don't have keys or indexes so when designing the forEach loop the developers left it having 3 parameters but when used on sets the 2nd key param just equals the first param 
-
+// Sets don't have keys or indexes so when designing the forEach loop the developers left it having 3 parameters but when used on sets the 2nd key param just equals the first param
 
 // In this instance we use an underscore _ which is the standard in JS for just a throw away variable
 currenciesUnique.forEach((value, _, map) => {
   console.log(`${key}: ${value}`);
 });
 
-// USD: USD 
-// GBP: GBP 
+// USD: USD
+// GBP: GBP
 // EUR: EUR
 ```
-
 
 # Creating DOM Elements
 
@@ -3281,28 +3150,24 @@ currenciesUnique.forEach((value, _, map) => {
 
 - It is bad practice tyo mutate function parameters. Rather create a copy and mutate that
 
-
-
-
 # Map, Filter & Reduce
-
 
 Overview:
 
 Map:
+
 - Used for looping over Arrays
 - Similar to forEach but creates a new array with all the new values mapped to it and does not mutate the original like forEach
 
-
 Filter:
+
 - Used to filter for elements in the original array that satisfy the conditions
 - These elements are put into a new array
 
-
 Reduce:
+
 - Boils down all the elements of the original array into a single value
 - Uses an accumulator and current value
-
 
 ```js MAP METHOD
 // We want to convert EUR to USD
@@ -3311,7 +3176,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const eurToUsd = 1.1;
 
-const movementsUSD = movements.map(mov => {
+const movementsUSD = movements.map((mov) => {
   return mov * eurToUsd;
 });
 console.log(movements);
@@ -3323,51 +3188,49 @@ The big difference between map and forEach is that the forEach method creates si
 A side effect is any application state change that is observable outside the function other than its return value.
 Side effects include: Modifying any external variable or object property ex.) a global variable, or a variable in the parent function scope chain.
 
-
 There is a push toward functional programming in modern JS.
 
-
-* Side note
-It is handy to use the ternary operator especially when working with strings if the returned string needs to be only one or another option.
+- Side note
+  It is handy to use the ternary operator especially when working with strings if the returned string needs to be only one or another option.
 
 ```js
-`Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'}`
+`Movement ${i + 1}: You ${mov > 0 ? "deposited" : "withdrew"}`;
 ```
 
-
-
-
 ```js MAP METHOD
-const user = 'Steven Thomas Williams'; // stw
+const user = "Steven Thomas Williams"; // stw
 
-const username = user.toLowerCase().split(' ').map(el => {
-  return el[0];
-}).join('');
+const username = user
+  .toLowerCase()
+  .split(" ")
+  .map((el) => {
+    return el[0];
+  })
+  .join("");
 // stw
-
 
 // Also formatting the code makes it more readable
 const username = user
   .toLowerCase()
-  .split(' ')
-  .map(el => el[0])
-  .join('');
+  .split(" ")
+  .map((el) => el[0])
+  .join("");
 ```
 
 We can combine different methods knowing which method can be called on what data type in the proper order.
 
-Above we have  strong that is changed to lowercase then split into an array. We can then call map which is an array method which returns another array which we can call the array method join on and get our user name as a result.
+Above we have strong that is changed to lowercase then split into an array. We can then call map which is an array method which returns another array which we can call the array method join on and get our user name as a result.
 
 ```js
 const createUserNames = (accs) => {
   accs.forEach((acc) => {
     acc.username = acc.owner
       .toLowerCase()
-      .split(' ')
-      .map(el => el[0])
-      .join('');
+      .split(" ")
+      .map((el) => el[0])
+      .join("");
   });
-}
+};
 createUserNames(accounts);
 ```
 
@@ -3375,10 +3238,7 @@ We then turn it into a reusable function for any data inputted to get the same r
 
 The forEach method creates the side effect of adding a property of username to each account and updating it with the value we specified. This is why we do not have to explicitly set a return from the function as the forEach just "Does some work" for us.
 
-
-
 # Filter Method
-
 
 ```js FILTER
 // Filter
@@ -3395,7 +3255,6 @@ console.log(deposits);
 
 The big advantage of using these built in methods is that we can chain them whereas with the for of loop you cannot
 
-
 # Reduce Method
 
 ```js REDUCE
@@ -3406,14 +3265,12 @@ The big advantage of using these built in methods is that we can chain them wher
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-
-const result = movements.reduce(function(acc, cur) {
+const result = movements.reduce(function (acc, cur) {
   return acc + cur;
 }, 0);
 console.log(result);
 // 3840
 ```
-
 
 We can use reduce to return more than just number.
 
@@ -3423,21 +3280,22 @@ Ex.) Get the max value in the array
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const maxValue = movements.reduce((acc, cur) => {
-  acc >= cur ?  acc = acc : acc = cur;
+  acc >= cur ? (acc = acc) : (acc = cur);
   return acc;
 }, movements[0]);
 ```
 
 Do not use 0 when you are trying to find the max or min value as the second param of reduce. Use the first element in the array.
 
-
 # Chaining Methods
-
 
 ```js
 const eurToUsd = 1.1;
 
-const totalDepositInUsd = movements.filter(mov => mov > 0).map(mov => mov * eurToUsd).reduce((acc, cur) => acc + cur, 0);
+const totalDepositInUsd = movements
+  .filter((mov) => mov > 0)
+  .map((mov) => mov * eurToUsd)
+  .reduce((acc, cur) => acc + cur, 0);
 // 5522
 ```
 
@@ -3445,21 +3303,20 @@ Above the filter method returns an array. We can then call map on that array. an
 
 Keep in mind "pipelines"(chaining) like this can be hard to debug. So it is good to utilize the array parameter in the callback functions on each following step to find the previous calculation that went wrong
 
-
 ```js Debugging Chaining
 // Here maybe we accidentally set the filter to everything less than 0 (withdrawals) when we only wanted positive values(deposits)
 
 const eurToUsd = 1.1;
 
 const totalDepositInUsd = movements
-  .filter(mov => mov < 0)
+  .filter((mov) => mov < 0)
   .map((mov, i, arr) => {
-    console.log(arr)
+    console.log(arr);
     // [-400, -650, -130]
     return mov * eurToUsd;
   })
   .reduce((acc, cur) => acc + cur, 0);
-  // -1298
+// -1298
 ```
 
 Keep In Mind:
@@ -3468,29 +3325,27 @@ Keep In Mind:
 
 2. It is a bad practice in JS to chain methods that mutate the under laying array. Ex.) Splice or reverse. Even though you can but in a large scale app it is good practice to avoid this.
 
-
 # Find Method
-
 
 ```js Find
 // find
 // Also takes a callback that loops over the array
-// Does not return a new array. It only returns the first element that satisfies the specified condition 
+// Does not return a new array. It only returns the first element that satisfies the specified condition
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-movements.find(mov => mov < 0);
+movements.find((mov) => mov < 0);
 // -400
-``` 
+```
 
 # Random notes
 
-* Side note
+- Side note
 
 For your own sanity, please try to remember use parentheses when calling the preventDefault method.
 
 ```js
-element.addEventListener('click', function(e) {
+element.addEventListener("click", function (e) {
   e.preventDefault;
   // This DOES NOT work
 
@@ -3504,22 +3359,22 @@ element.addEventListener('click', function(e) {
 - The assignment operator works from right to left and you can use it for multiple variables. Handy for resets.
 
 ```js
-inputLoginUsername.value = inputLoginPin.value = '';
+inputLoginUsername.value = inputLoginPin.value = "";
 ```
 
 - Optional chaining is important when searching as we can avoid errors or handle them easily with the nullish coalescing because something that is not found will return undefined
-
 
 # findIndex Method
 
 To delete and element we use the splice method. To use splice we need the index so this is where findIndex comes in.
 
-
 ```js findIndex
 // findIndex
 // This method also takes a callback function which has 4 params of the current element, index of the current element, the array and a thisArg.
 
-const index = accounts.findIndex(acc => acc.username === currentAccount.username);
+const index = accounts.findIndex(
+  (acc) => acc.username === currentAccount.username
+);
 accounts.splice(index, 1);
 ```
 
@@ -3527,8 +3382,7 @@ The major difference between findIndex and indexOf is that with indexOf you can 
 
 With findIndex you can create complex logic to return a boolean and get the desired index that satisfies that boolean.
 
-
-# some & every 
+# some & every
 
 ```js includes
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -3536,8 +3390,8 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 console.log(movements.includes(-130));
 // true
 ```
-Includes can only really test for exact equality.
 
+Includes can only really test for exact equality.
 
 some() allows us to do conditional tests.
 
@@ -3545,17 +3399,16 @@ some() allows us to do conditional tests.
 // some
 // Takes a callback function for us to create complex conditionals
 
-const anyDeposits = movements.some(mov => mov > 0);
+const anyDeposits = movements.some((mov) => mov > 0);
 console.log(anyDeposits);
 // true
 ```
-
 
 ```js every
 // every
 // Similar to some but every single element must meets the condition in the callback function
 
-const anyDeposits = movements.every(mov => mov > 0);
+const anyDeposits = movements.every((mov) => mov > 0);
 console.log(anyDeposits);
 // false
 ```
@@ -3563,13 +3416,12 @@ console.log(anyDeposits);
 If we find that we have repetitive callback methods, then we can put them into a separate callback to be reused across our code base and keep it DRY.
 
 ```js
-const deposit = mov => mov > 0;
+const deposit = (mov) => mov > 0;
 
 movements.some(deposit);
 movements.every(deposit);
 movements.filter(deposit);
 ```
-
 
 # flat & flatMap
 
@@ -3597,28 +3449,28 @@ A bank wants to get the overall balance of all accounts
 
 ```js Sample data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: "Jonas Schmedtmann",
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: "Jessica Davis",
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
 };
 
 const account3 = {
-  owner: 'Steven Thomas Williams',
+  owner: "Steven Thomas Williams",
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
 };
 
 const account4 = {
-  owner: 'Sarah Smith',
+  owner: "Sarah Smith",
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
@@ -3626,9 +3478,7 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
-
-
-const accountMovements = accounts.map(acc => acc.movements);
+const accountMovements = accounts.map((acc) => acc.movements);
 console.log(accountMovements);
 // 0: Array(8) [ 200, 450, -400, … ]
 // 1: Array(8) [ 5000, 3400, -150, … ]
@@ -3642,17 +3492,14 @@ overallBalance = allMovements.reduce((acc, cur) => acc + cur, 0);
 console.log(overallBalance);
 // 17840
 
-
-
 // We can chain it as well
 overallBalance = accounts
-  .map(acc => acc.movements)
+  .map((acc) => acc.movements)
   .flat()
   .reduce((acc, cur) => acc + cur, 0);
 ```
 
 Using a map first then flattening it is a very common operation and that is why flatMap was introduced and is better for performance
-
 
 ```js flatMap
 // flatMap
@@ -3660,24 +3507,21 @@ Using a map first then flattening it is a very common operation and that is why 
 // CAN ONLY GO ONE LEVEL DEEP
 
 overallBalance = accounts
-  .flatMap(acc => acc.movements)
+  .flatMap((acc) => acc.movements)
   .reduce((acc, cur) => acc + cur, 0);
 // 17480
 ```
 
-
 # Sorting Arrays
-
 
 ```js sort
 // sort
 // MUTATES the original array
 
-const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+const owners = ["Jonas", "Zach", "Adam", "Martha"];
 
 owners.sort();
 //[ "Adam", "Jonas", "Martha", "Zach" ]
-
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -3690,7 +3534,6 @@ movements.sort();
 
 We fix this by passing in a compare callback function
 
-
 ```js sort
 // The callback function takes 2 arguments
 // a is the current value
@@ -3700,7 +3543,7 @@ We fix this by passing in a compare callback function
 
 // If we return a value greater than 0 than B will before A (Switch Order)
 movements.sort((a, b) => {
-  if(a > b) 
+  if(a > b)
     return 1;
   if(b > a)
     return -1;
@@ -3709,7 +3552,7 @@ movements.sort((a, b) => {
 // [ -650, -400, -130, 70, 200, 450, 1300, 3000 ]
 
 movements.sort((a, b) => {
-  if(a > b) 
+  if(a > b)
     return -1;
   if(b > a)
     return 1;
@@ -3717,19 +3560,18 @@ movements.sort((a, b) => {
 // descending
 // [ 3000, 1300, 450, 200, 70, -130, -400, -650 ]
 
-// We can simplify this be doing 
+// We can simplify this be doing
 movements.sort((a, b) => a - b;
 );
 ```
+
 The method works by analyzing if the returned value is greater or less than 0 so we can just use a - b or b - a to get the exact same desired result. We have to return the calculated value from the function. With an arrow function its easy because it has the implicit return.
 
-Ex.) 
+Ex.)
 400 - (-600) = 1000
 (-600) - 400 = -1000
 
-
 Don't use the sort method on mixed data type arrays.
-
 
 # State Variable
 
@@ -3767,9 +3609,7 @@ btnSort.addEventListener('click', function(e) {
 });
 ```
 
-
 # Creating & Filling Arrays
-
 
 ```js fill
 // fill
@@ -3786,12 +3626,11 @@ x.fill(1, 3, 5);
 // Array(7) [ <3 empty slots>, 1, 1, <2 empty slots> ]
 ```
 
-
 ```js Array.from
 // Takes an object as the first param specifying the length
 // The the second param is a callback function the same as the map method where we get the current element, the index and the array.
 
-const y = Array.from({length: 7}, () => 1);
+const y = Array.from({ length: 7 }, () => 1);
 console.log(y);
 // [ 1, 1, 1, 1, 1, 1, 1 ]
 
@@ -3803,21 +3642,18 @@ console.log(z);
 
 This method was originally introduced to create arrays from array-like structures so we can then use all the built in array methods on them.
 
-
 ```js
-const movementsUI = Array.from(document.querySelectorAll('movements__value'));
+const movementsUI = Array.from(document.querySelectorAll("movements__value"));
 ```
 
 You can also convert array-like structures into an array using the spread operator. But then any methods would need to be applied after spreading, you could not chain onto the spread.
 
 ```js
-const movementsUI  = [...document.querySelectorAll('movements__value')]
+const movementsUI = [...document.querySelectorAll("movements__value")];
 ```
-
 
 # Which Array Method To Used
 
- 
 Need - MUTATE THE ORIGINAL:
 
 Insert:
@@ -3833,10 +3669,9 @@ Delete:
 
 Others:
 
-- .reverse 
+- .reverse
 - .sort
 - .fill
-
 
 Need - A NEW ARRAY:
 
@@ -3847,19 +3682,14 @@ Need - A NEW ARRAY:
 - .flat (flatten as deep as needed)
 - .flatMap (flattens 1 level with callback)
 
-
-
 Need - ARRAY INDEX:
 
 - .indexOf (based on value)
 - .findIndex (based on conditional)
 
-
 Need - ARRAY ELEMENT
 
 - .find (based on conditional)
-
-
 
 Need - ARRAY INCLUDES
 
@@ -3867,32 +3697,27 @@ Need - ARRAY INCLUDES
 - .some (based on conditional)
 - .every (based on conditional)
 
-
-
 Need - A NEW STRING
 
 - .join (based on separator)
-
-
 
 Need - TRANSFORM A VALUE
 
 .reduce() (boil down to a single value of any type even a new array or object)
 
-
 Need - TO LOOP AN ARRAY
 
 - .forEach (based on callback/doesn't create a new array just loops over it)
 
-
 ---
+
 # Numbers, Dates, Intl & Timers
+
 ---
 
 # Converting & Checking Numbers
 
 In JS all numbers are represented internally as floating point numbers even if we write them at full integers
-
 
 ```js
 console.log(23 === 23.0);
@@ -3922,56 +3747,55 @@ This is why JS is not the best language for precise mathematical or financial ca
 
 An easy way to convert a string to a number is using the plus operator because when JS sees it it will try to perform type coercion.
 
-
 Converting:
+
 ```js
 console.log(Number(23));
-console.log(+'23');
+console.log(+"23");
 ```
 
 Parsing:
 
 ```js parseInt
 // parseInt
-console.log(Number.parseInt('30px'), 10);
+console.log(Number.parseInt("30px"), 10);
 // 30
-console.log(Number.parseInt('e23'), 10);
+console.log(Number.parseInt("e23"), 10);
 // NaN
 ```
-JS has some methods on the Number object to try and figure out what number a string may be. They HAVE TO START WITH A NUMBER to work.
 
+JS has some methods on the Number object to try and figure out what number a string may be. They HAVE TO START WITH A NUMBER to work.
 
 The parseInt function accepts a second argument which is its radix (the base in the mathematical numeral systems) so we should always specify that because depending on the input with no radix specified JS will assume different radix resulting in unreliable behavior.
 
 ```js parseFloat
 // parseFloat
 
-console.log(Number.parseFloat('2.5rem'));
+console.log(Number.parseFloat("2.5rem"));
 // 2.5
-console.log(Number.parseInt('2.5rem'));
+console.log(Number.parseInt("2.5rem"));
 // 2
 ```
-
 
 ```js
 // Check if value is NaN
 console.log(Number.isNaN(20));
 // false
-console.log(Number.isNaN('20'));
+console.log(Number.isNaN("20"));
 // false
-console.log(Number.isNaN(+'20X'));
+console.log(Number.isNaN(+"20X"));
 // true
-console.log(Number.isNaN(23/0));
+console.log(Number.isNaN(23 / 0));
 // Infinity
-// false 
+// false
 
 // The isFinite method is the best way to check if a value is a real number when working with Floating Point number, and should be the go to out of these 3
 
 console.log(Number.isFinite(20));
 // true
-console.log(Number.isFinite('20'));
+console.log(Number.isFinite("20"));
 // false
-console.log(Number.isFinite(+'20X'));
+console.log(Number.isFinite(+"20X"));
 // false
 console.log(Number.isFinite(23 / 0));
 // false
@@ -3982,25 +3806,23 @@ console.log(Number.isInteger(23));
 // true
 ```
 
-
 # Math & Rounding
 
 ```js
 // Square root
 console.log(Math.sqrt(25));
 // 5
-console.log(25 ** (1/2));
+console.log(25 ** (1 / 2));
 // 5
 
 // Cubic root
-console.log(8 ** (1/3));
-
+console.log(8 ** (1 / 3));
 
 console.log(Math.max(5, 18, 23, 11, 2));
 // 23
-console.log(Math.max(5, 18, '23', 11, 2));
+console.log(Math.max(5, 18, "23", 11, 2));
 // 23
-console.log(Math.max(5, 18, '23px', 11, 2));
+console.log(Math.max(5, 18, "23px", 11, 2));
 // NaN
 // Does type coercion but not parsing
 
@@ -4008,22 +3830,19 @@ console.log(Math.min(5, 18, 23, 11, 2));
 //2
 
 // Area of a circle (pi times radius squared)
-console.log(Math.PI * Number.parseFloat('10px') ** 2)
+console.log(Math.PI * Number.parseFloat("10px") ** 2);
 // 314px
-
 
 console.log(Math.trunc(Math.random() * 6) + 1);
 
-const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + 1) + min;
+const randomInt = (min, max) =>
+  Math.trunc(Math.random() * (max - min) + 1) + min;
 // Math.random give us a number between 0 and 1
 
 // 0...1 -> 0...(max - min) -> min...(max - min + min) -> min...max
 ```
 
-
-
 ```js Rounding Intergers
-
 // All these methods do type coercion
 console.log(Math.trunc(23.3));
 // 23
@@ -4035,7 +3854,6 @@ console.log(Math.ceil(23.3));
 console.log(Math.floor(23.9));
 // 23
 
-
 // .floor and .trunc do the same when dealing with positive numbers
 
 console.log(Math.trunc(-23.3));
@@ -4043,13 +3861,12 @@ console.log(Math.trunc(-23.3));
 console.log(Math.floor(-23.3));
 // -24
 
-// Truncating removes the decimal point completely whereas flooring actually rounds down 
+// Truncating removes the decimal point completely whereas flooring actually rounds down
 ```
-
 
 ```js Rounding decimals
 console.log((2.7).toFixed(0));
-// 3 
+// 3
 // toFixed always returns a string an not a number
 // The argument it takes is how many decimal places you wanted
 console.log((2.345).toFixed(2));
@@ -4058,7 +3875,6 @@ console.log((2.345).toFixed(2));
 // Easy conversion to numbers (just add the plus operator)
 console.log(+(2.345).toFixed(0));
 ```
-
 
 # Remainder Operator (Modulus)
 
@@ -4078,10 +3894,11 @@ console.log(6 % 2);
 console.log(7 % 2);
 // 1
 ```
+
 So we can write a function to check if a value is even or odd.
 
 ```js
-const isEven = n => n % 2 === 0;
+const isEven = (n) => n % 2 === 0;
 
 isEven(8);
 // true
@@ -4089,33 +3906,30 @@ isEven(13);
 // false
 ```
 
-We can then use this in our script for things like manipulating DOM elements. 
+We can then use this in our script for things like manipulating DOM elements.
 
 ```js
 // Must be attached to an event listener to run other wise on load the data overwrites it and it just looks normal
 
-  [...document.querySelectorAll('.movements__row')].forEach(function(row, i) {
-    if(i % 2 === 0) {
-      row.style.backgroundColor = '#DDD';
-    }
-  })
-```
-
-
-```js With Event Listener
-labelBalance.addEventListener('click', () => {
-  [...document.querySelectorAll('.movements__row')].forEach(function(row, i) {
-    // Every second list item changes its background to a lighter grey
-    if(i % 2 === 0) {
-      row.style.backgroundColor = '#DDD';
-    }
-  })
+[...document.querySelectorAll(".movements__row")].forEach(function (row, i) {
+  if (i % 2 === 0) {
+    row.style.backgroundColor = "#DDD";
+  }
 });
 ```
 
+```js With Event Listener
+labelBalance.addEventListener("click", () => {
+  [...document.querySelectorAll(".movements__row")].forEach(function (row, i) {
+    // Every second list item changes its background to a lighter grey
+    if (i % 2 === 0) {
+      row.style.backgroundColor = "#DDD";
+    }
+  });
+});
+```
 
 # BigInt (ES2020)
-
 
 Numbers are represented internally as 64 bits which means there are 64 0s and 1s to represent any given number. 53 of the 64 are used to store the digits themselves. The rest are for storing the position of the decimal point and the Sin. If there are only 53 bits to store the numbers then that means there is a limit to how big numbers can be.
 
@@ -4165,24 +3979,24 @@ console.log(huge * BigInt(num));
 console.log(12345902456092456n > 15);
 // true
 
-console.log(203954576578679789789 + ' is a big number');
+console.log(203954576578679789789 + " is a big number");
 //203954576578679800000 is a big number
 
 console.log(Math.sqrt(16n));
 // Uncaught TypeError: can't convert BigInt to number
 
-console.log(10/3);
+console.log(10 / 3);
 // 3.33333333333333333
-console.log(10n/3n);
+console.log(10n / 3n);
 // 3n
 ```
-
 
 # Creating Dates
 
 JS Dates use the Unix Epoch which is when time in JS starts counting from. This is Jan 1st 1970 at midnight. Timezones affect this. (Based in miliseconds)
 
-Ex.)  
+Ex.)
+
 ```js
 console.log(new Date(0));
 // Wed Dec 31 1969 17:00:00 GMT-0700 (Mountain Standard Time)
@@ -4198,17 +4012,17 @@ console.log(now);
 // Date Sat Oct 31 2020 13:59:45 GMT-0600 (Mountain Daylight Time)
 ```
 
-2. Passing the date function a string 
+2. Passing the date function a string
 
 ```js
-console.log(new Date('Aug 2 2020 19:05:41'));
+console.log(new Date("Aug 2 2020 19:05:41"));
 // Date Sun Aug 02 2020 19:05:41 GMT-0600 (Mountain Daylight Time)
 
-console.log(new Date('December 25, 2015'));
+console.log(new Date("December 25, 2015"));
 // This works but passing dates not created by JS can be unreliable
 ```
 
-3. Passing numbers to the date function in descending order (year, month, day, hour etc.) 
+3. Passing numbers to the date function in descending order (year, month, day, hour etc.)
 
 ```js
 console.log(new Date(2037, 10, 19, 15, 23, 5));
@@ -4218,6 +4032,7 @@ console.log(new Date(2037, 10, 19));
 ```
 
 4. Passing calculations to the date function to work with the Unix Epoch
+
 ```js
 console.log(new Date(0));
 // Wed Dec 31 1969 17:00:00 GMT-0700 (Mountain Standard Time)
@@ -4225,7 +4040,6 @@ console.log(new Date(3 * 24 * 60 * 60 * 1000));
 // 3 days after the Epoch
 //Sat Jan 03 1970 17:00:00 GMT-0700 (Mountain Standard Time)
 ```
-
 
 Working with dates:
 
@@ -4259,21 +4073,21 @@ console.log(future.getTime());
 console.log(new Date(2142282180000));
 // Thu Nov 19 2037 15:23:00 GMT-0700 (Mountain Standard Time)
 
-console.log(Date.now())
+console.log(Date.now());
 // 1604179326235
 ```
 
 There are also methods for each of the corresponding methods above for setting.
 
 ```js
-future.setFullYear(2040)
+future.setFullYear(2040);
 console.log(future);
 // Mon Nov 19 2040 15:23:00 GMT-0700 (Mountain Standard Time)
 ```
 
 # Random Notes
 
-We can change data types into strings using template literals and then call string methods on them. Here for example we change this date into a string and specify that we want a max length of 2 and a padded character of 0, so if it was 10 or higher it would not pad because the max length  has already been reached
+We can change data types into strings using template literals and then call string methods on them. Here for example we change this date into a string and specify that we want a max length of 2 and a padded character of 0, so if it was 10 or higher it would not pad because the max length has already been reached
 
 ```js
 const day = `${now.getDate()}`.padStart(2, 0);
@@ -4283,33 +4097,34 @@ A common practice is looping through 2 arrays at the same time (see the for Each
 
 ```js
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: "Jonas Schmedtmann",
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 
   movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2020-04-01T10:17:24.185Z',
-    '2020-05-08T14:11:59.604Z',
-    '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    "2019-11-18T21:31:17.178Z",
+    "2019-12-23T07:42:02.383Z",
+    "2020-01-28T09:15:04.904Z",
+    "2020-04-01T10:17:24.185Z",
+    "2020-05-08T14:11:59.604Z",
+    "2020-05-27T17:01:17.194Z",
+    "2020-07-11T23:36:17.929Z",
+    "2020-07-12T10:51:36.790Z",
   ],
-  currency: 'EUR',
-  locale: 'pt-PT', // de-DE
+  currency: "EUR",
+  locale: "pt-PT", // de-DE
 };
 
-
 const displayMovements = function (acc, sort = false) {
-  containerMovements.innerHTML = '';
+  containerMovements.innerHTML = "";
 
-  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
 
   movs.forEach(function (mov, i) {
-    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const type = mov > 0 ? "deposit" : "withdrawal";
 
     // Since the movements and dates are related they will have the same amount of corresponding indexes. Then we loop over the dates with the index from each movements as they will match each date. We create a date from each iteration and store it in a variable so we can access the Date objects methods.
     const date = new Date(acc.movementsDates[i]);
@@ -4324,23 +4139,22 @@ const displayMovements = function (acc, sort = false) {
       </div>
     `;
 
-    containerMovements.insertAdjacentHTML('afterbegin', html);
+    containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 };
 ```
 
 # Operations With Dates
 
-
 ```js
 const future = new Date(2037, 10, 19, 15, 23);
 console.log(+future);
 
-
 // Absolute here will negate negative numbers so it doesn't matter which date is first as its the same distance in time away from one another
-const calcDaysPassed = (date1, date2) => Math.abs(date2 - date1) / (1000 * 60 * 60 * 24)
+const calcDaysPassed = (date1, date2) =>
+  Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
 
-daysPassed1 = calcDaysPassed(new Date(2037, 10, 19), new Date (2037, 11, 1));
+daysPassed1 = calcDaysPassed(new Date(2037, 10, 19), new Date(2037, 11, 1));
 ```
 
 # Random Notes
@@ -4348,45 +4162,41 @@ daysPassed1 = calcDaysPassed(new Date(2037, 10, 19), new Date (2037, 11, 1));
 It can be common to have this many returns, because as the code runs if the condition is met, it will be returned and it will exit the function.
 
 ```js
-const formatMovementDate = function(date) {
-  const calcDaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+const formatMovementDate = function (date) {
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
   const daysPassed = calcDaysPassed(new Date(), date);
 
-  if(daysPassed === 0) return 'Today';
-  if(daysPassed === 1) return 'Yesterday';
-  if(daysPassed <= 7) return `${daysPassed} days ago`;
-
+  if (daysPassed === 0) return "Today";
+  if (daysPassed === 1) return "Yesterday";
+  if (daysPassed <= 7) return `${daysPassed} days ago`;
 
   const day = `${date.getDate()}`.padStart(2, 0);
   const month = `${date.getMonth() + 1}`.padStart(2, 0);
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
-  
-}
+};
 ```
 
 # Internationalization (Intl) - Dates/Times
 
-A DOM element can be set as the result of calling the Intl.DateTimeFormat() on it. The formatter accepts 2 arguments, the locale and an options object. We can dynamically grab the locale from the navigator.language so whoever is viewing it the date is formatted in their locale. Then the options object specifies how we want each part of our date to be formatted. This object is usually stored in variable to keep the code cleaner. 
+A DOM element can be set as the result of calling the Intl.DateTimeFormat() on it. The formatter accepts 2 arguments, the locale and an options object. We can dynamically grab the locale from the navigator.language so whoever is viewing it the date is formatted in their locale. Then the options object specifies how we want each part of our date to be formatted. This object is usually stored in variable to keep the code cleaner.
 See MDN for reference on specific customization. Then the the we want to format is passed to the formatter using the .format() method with the date passed as the argument.
-
 
 ```js
 const now = new Date();
 const options = {
-  year: 'numeric',
-  weekday: 'long',
-  month: 'short',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric'
-}
+  year: "numeric",
+  weekday: "long",
+  month: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+};
 const locale = navigator.language;
 labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
 ```
-
-
 
 # Internationalization (Intl) - Numbers
 
@@ -4400,65 +4210,66 @@ const options = {
   // style: "percentage",
   style: "currency",
 
-  currency: 'EUR',
+  currency: "EUR",
 
   // unit: 'mile-per-hour'
   // unit: 'celsius',
-}
+};
 
-console.log('US:', new Intl.NumberFormat('en-US', options).format(num));
+console.log("US:", new Intl.NumberFormat("en-US", options).format(num));
 // US: 3,884,764.23
 
-console.log('GErmany:', new Intl.NumberFormat('de-DE', options).format(num));
+console.log("GErmany:", new Intl.NumberFormat("de-DE", options).format(num));
 // Germany: 3.884.764,23
 
-console.log('Syria:', new Intl.NumberFormat('ar-SY', options).format(num));
+console.log("Syria:", new Intl.NumberFormat("ar-SY", options).format(num));
 // Syria: ٣٬٨٨٤٬٧٦٤٫٢٣
 
 // Or just grab the users locale
-console.log(navigator.language, new Intl.NumberFormat(navigator.language, options).format(num));
+console.log(
+  navigator.language,
+  new Intl.NumberFormat(navigator.language, options).format(num)
+);
 // en-CA 3,884,764.23
 
-
-// US: 3,884,764.23 mph 
-// GErmany: 3.884.764,23 mi/h 
-// Syria: ٣٬٨٨٤٬٧٦٤٫٢٣ ميل/س 
+// US: 3,884,764.23 mph
+// GErmany: 3.884.764,23 mi/h
+// Syria: ٣٬٨٨٤٬٧٦٤٫٢٣ ميل/س
 // en-CA 3,884,764.23 mph
 ```
 
 We can build useful helper functions out of these APIs for reuse across applications.
 
-
 ```js
-const formatCur = function(value, locale, currency) {
+const formatCur = function (value, locale, currency) {
   return new Intl.NumberFormat(locale, {
-    style: 'currency',
+    style: "currency",
     currency,
   }).format(value);
-}
+};
 ```
-
 
 # Timers
 
 Set timeout takes a callback and how long in milliseconds it should wait until it runs. It only runs once.
 
 ```js
-setTimeout(() => console.log('Here is your pizza.'),3000);
+setTimeout(() => console.log("Here is your pizza."), 3000);
 ```
 
 For repeated actions use setInterval.
 
 ```js
-setInterval(function() {
+setInterval(function () {
   const now = new Date();
   console.log(now);
-}, 1000)
+}, 1000);
 ```
 
-
 ---
+
 # Advanced DOM & DOM EVents
+
 ---
 
 The DOM is basically the interface between JS and the browser(More specifically HTML documents that are rendered in and by the browser).
@@ -4471,34 +4282,29 @@ The DOM is basically the interface between JS and the browser(More specifically 
 
 - DOM is a very complex API that contains lots of methods and properties to interact with the DOM tree
 
-
 How the DOM API is organized behind the scenes:
 
-- Every single node in the DOM tree is of the type Node. 
+- Every single node in the DOM tree is of the type Node.
 
 - Each node is represented in JS by an object. (Everything in JS is an object). This gives access to special node methods and properties based on what type of node it is
-Ex.) .textContent, .parentNode, .cloneNode() etc.
+  Ex.) .textContent, .parentNode, .cloneNode() etc.
 
 There are 4 child node types:
 
 - Element
-HTML element <p></p>
+  HTML element <p></p>
 - Text
-paragraph
+  paragraph
 - Comment
 <!--  -->
 - Document
-
 
 Each element will be represented internally as an object and has internally an HTML element child type. There is a different type of HTMLElement for each HTMLElement.
 Ex.) HTMLButtonElement, HTMLDivElement, HTMLLinkElement etc.
 
 There is inheritance of methods and properties. All children elements have access to their parents properties.
 
-
 The DOM API needs a way for all nodes to listen to events. So there is a parent node type called EventTarget that is parent of nodes and parent of the window. So every single type of node has access to event listeners because of inheritance.
-
-
 
 # Selecting, Creating & Deleting Elements
 
@@ -4512,24 +4318,22 @@ console.log(document.documentElement);
 console.log(document.head);
 console.log(document.body);
 
-const allSections = document.querySelectorAll('.section');
+const allSections = document.querySelectorAll(".section");
 // returns a node list
 ```
 
 The .getElementsByTagName will return an HTML Collection
-```js
-const allButtons = document.getElementsByTagName('button');
-```
-
-An HTML Collection returned from the .getElementsByTagName will auto update (This is called a live collection) so if for example a button is removed from the DOM in the instance above the allButtons would have one less element in it. Whereas with a node list even after deleting a section in the DOM it would still show in the allSection variable. 
-
 
 ```js
- document.getElementsByClassName('btn');
- // This also returns a live HTML collection
+const allButtons = document.getElementsByTagName("button");
 ```
 
+An HTML Collection returned from the .getElementsByTagName will auto update (This is called a live collection) so if for example a button is removed from the DOM in the instance above the allButtons would have one less element in it. Whereas with a node list even after deleting a section in the DOM it would still show in the allSection variable.
 
+```js
+document.getElementsByClassName("btn");
+// This also returns a live HTML collection
+```
 
 Creating & Inserting:
 
@@ -4537,12 +4341,14 @@ Creating & Inserting:
 // .insertAdjacentHTML
 
 // This creates a DOM element
-const message = document.createElement('div');
+const message = document.createElement("div");
 
 // And we can alter it
-message.classList.add('cookie-message');
-message.textContent = 'We use cookies for improved functionality and analytics.';
-message.innerHTML = 'We use cookies for improved functionality and analytics. <button class"btn btn--close-cookie">Got it!</button>';
+message.classList.add("cookie-message");
+message.textContent =
+  "We use cookies for improved functionality and analytics.";
+message.innerHTML =
+  'We use cookies for improved functionality and analytics. <button class"btn btn--close-cookie">Got it!</button>';
 
 // Then insert it
 header.prepend(message);
@@ -4550,6 +4356,7 @@ header.prepend(message);
 header.append(message);
 // After...
 ```
+
 Keep in mind because we have created an actual DOM element, we can only put it in one place so the above code the prepend would be overwritten by the append and the element would show at the bottom
 
 So if we wanted 2 of the same, which is usually not common but doable:
@@ -4560,38 +4367,41 @@ header.append(message.cloneNode(true));
 ```
 
 There are 2 more methods:
+
 ```js
 header.before(message);
 header.after(message);
 ```
 
-
 Deleting:
 
 ```js
-document.querySelector('.btn--close-cookie').addEventListener('click',function() {
-  message.remove();
-});
+document
+  .querySelector(".btn--close-cookie")
+  .addEventListener("click", function () {
+    message.remove();
+  });
 ```
+
 You used to have to go to the parent element of the element you wanted to delete to delete it. The remove() method is recent.
 
 ```js Old school
-document.querySelector('.btn--close-cookie').addEventListener('click',function() {
-  message.parentElement.removeChild(message);
-});
+document
+  .querySelector(".btn--close-cookie")
+  .addEventListener("click", function () {
+    message.parentElement.removeChild(message);
+  });
 ```
 
-
 # Styles, Attributes & classes
-
 
 Styles:
 
 ```js Setting styles
 // Defines an in-line style
-message.style.backGroundColor = '#37383d';
+message.style.backGroundColor = "#37383d";
 
-message.style.width = '120%';
+message.style.width = "120%";
 
 console.log(message.style.height);
 // Returns nothing
@@ -4602,38 +4412,35 @@ console.log(getComputedStyle(message).color);
 ```
 
 Using getComputedStyle to set styles for elements that have no in-line style defined
-```js
-message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
-```
 
+```js
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + "px";
+```
 
 CSS Custom Properties (CSS Variables):
 
 ```js
-document.documentElement.style.setProperty('--color-primary', '#FF0000');
+document.documentElement.style.setProperty("--color-primary", "#FF0000");
 ```
-
 
 Attributes:
 
 ```js Reading
-const logo = document.querySelector('.nav__logo');
+const logo = document.querySelector(".nav__logo");
 
 console.log(logo.src);
 console.log(logo.alt);
 console.log(logo.className);
 
-logo.getAttribute('alt');
+logo.getAttribute("alt");
 ```
 
 ```js Setting
-logo.alt = 'Beautiful Miinimalist Logo'
+logo.alt = "Beautiful Miinimalist Logo";
 
-
-logo.setAttribute('alt', 'Bankist logo');
+logo.setAttribute("alt", "Bankist logo");
 ```
-
-
 
 Data Attributes:
 
@@ -4650,25 +4457,23 @@ We can specify data attributes on html elements and then access them as a proper
 ```
 
 The value is then located in the dataset object under the name we gave it but camelCased.
+
 ```js
 console.log(logo.dataset.versionNumber);
 // 3.0
 ```
 
-
 # Scrolling
-
 
 Old School ways:
 
 We can use the getBoundingClient to get information about coordinates, scrolling and dimensions the viewport
 
 ```js
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
+const btnScrollTo = document.querySelector(".btn--scroll-to");
+const section1 = document.querySelector("#section--1");
 
-
-btnScrollTo.addEventListener('click',function (e) {
+btnScrollTo.addEventListener("click", function (e) {
   const s1coords = section1.getBoundingClientRect();
   console.log(s1coords);
   console.log(e.target.getBoundingClientRect);
@@ -4687,36 +4492,33 @@ btnScrollTo.addEventListener('click',function (e) {
 If we want to scroll to a position on the page we need to add how much we've scrolled with the page offset otherwise it creates a jumpy effect when clicking to scroll at different point of the page because the element will be at different heights from the top of the vierwport.
 
 ```js
-window.scrollTo(s1coords.left + window.pageXOffset, s1coords.top + window.pageYOffset);
+window.scrollTo(
+  s1coords.left + window.pageXOffset,
+  s1coords.top + window.pageYOffset
+);
 ```
-
 
 We can also pass the scrollTo method an object to specify the behavior.
 
 ```js
 window.scrollTo({
-    left: s1coords.left + window.pageXOffset, 
-    top: s1coords.top + window.pageYOffset,
-    behavior: 'smooth',
-  });
+  left: s1coords.left + window.pageXOffset,
+  top: s1coords.top + window.pageYOffset,
+  behavior: "smooth",
+});
 ```
-
 
 Modern Way (Not supported in all browsers):
 
-
 ```js
-section1.scrollIntoView({behavior:  'smooth'});
+section1.scrollIntoView({ behavior: "smooth" });
 ```
-
 
 # Event Propagation: Bubbling & Capturing
 
 Event listeners by default listen only to the bubbling phase.
 
-
 Say we have some HTML elements as follows:
-
 
 ```html
 <html>
@@ -4738,7 +4540,6 @@ The click event is created and is generated at the root of the document at the t
 
 document -> html -> body -> section -> p -> a
 
-
 Target Phase:
 
 Once the event hits the target the target phase begins. This is where events can be handled right at the target.
@@ -4747,33 +4548,32 @@ Bubbling Phase:
 
 When the event phase has finished and the event has been handled then the event bubbles all the way back up to the root of the document, passing through all parent elements.
 
-As the event travels it is as if the event has happened in each parent element and can be caught and handled on parent elements. 
+As the event travels it is as if the event has happened in each parent element and can be caught and handled on parent elements.
 
 This comes in handy especially when we don't know how many children a parent will have Ex.) a list that is being updated( adding & deleting items)
 Then we can just make the parent responsible for the event because we know it will always be there.
 
 Most events capture and bubble but there are some that only happen directly on the target.
 
-
 All of this is called event propagation.
 
-
 ```js Easy way to visualize in practice
-const randomInt = (min,max) => {
+const randomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
-}
-const randomColor = () => `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+};
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
 
 // Create a target element (link) with a parent element and a parent element for that parent.
 // Then add an event listener of click on each of the 3 elements calling the randomColor function to set the backgroundColor.
 ```
+
 The event target is not the element to which the event listener is attached, but where the event first occurred. So in the above example if you console.log the e.target even when the event occurs at the highest level they will all log the link that was clicked.
 
-
-The event current target is where the event handler is attached. So the parent elements will log themselves. 
+The event current target is where the event handler is attached. So the parent elements will log themselves.
 
 ```js
-e.currentTarget === this
+e.currentTarget === this;
 // true
 ```
 
@@ -4787,9 +4587,7 @@ If we need to listen to the event coming down on the capture phase we pass a 3rd
 
 Capturing is rarely used these days, mostly just bubbling.
 
-
 # Event Delegation - Page Scrolling
-
 
 ```html
 <!-- Navigation Code -->
@@ -4801,26 +4599,26 @@ Capturing is rarely used these days, mostly just bubbling.
 
 <!-- Section Code -->
 <section class="section" id="section--1">
-      <div class="section__title">
-        <h2 class="section__description">Features</h2>
-        <h3 class="section__header">
-          Everything you need in a modern bank and more.
-        </h3>
-      </div>
+  <div class="section__title">
+    <h2 class="section__description">Features</h2>
+    <h3 class="section__header">
+      Everything you need in a modern bank and more.
+    </h3>
+  </div>
 
-...etc
+  ...etc
+</section>
 ```
 
 Here add the corresponding section name to the href in the anchor tag so in the JS we can easily grab it and turn it into an id then scroll it into view when clicked.
 
-
 ```js
-document.querySelectorAll('.nav__link').forEach(function(el) {
-  el.addEventListener('click', function(e) {
+document.querySelectorAll(".nav__link").forEach(function (el) {
+  el.addEventListener("click", function (e) {
     e.preventDefault();
-    const id = this.getAttribute('href');
+    const id = this.getAttribute("href");
     console.log(id);
-    document.querySelector(id).scrollIntoView({behavior:  'smooth'});
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   });
 });
 ```
@@ -4831,26 +4629,22 @@ So we need to use Event Delegation...
 
 There are basically 2 steps to implementing Event Delegation:
 
-1. 
-We put the event listener on a common parent of all the elements we are interested in.
+1.  We put the event listener on a common parent of all the elements we are interested in.
 
-2. 
-In the event listener determine which child element omitted the event
-
+2.  In the event listener determine which child element omitted the event
 
 ```js
-document.querySelector('.nav__links').addEventListener('click', function(e) {
+document.querySelector(".nav__links").addEventListener("click", function (e) {
   e.preventDefault();
 
-  if(e.target.classList.contains('nav__link')) {
-    const id = e.target.getAttribute('href');
-    document.querySelector(id).scrollIntoView({behavior:  'smooth'});
+  if (e.target.classList.contains("nav__link")) {
+    const id = e.target.getAttribute("href");
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   }
-  
 });
 ```
-To summarize, we add an event listener to the parent of all the links and because of event propagation we have access to the e.target which is what was actually clicked on. Then in the if statement we check if the target contains the same class as the elements we want and if so get their href that matches the corresponding section id so we can use it to smooth scroll into view on click.
 
+To summarize, we add an event listener to the parent of all the links and because of event propagation we have access to the e.target which is what was actually clicked on. Then in the if statement we check if the target contains the same class as the elements we want and if so get their href that matches the corresponding section id so we can use it to smooth scroll into view on click.
 
 # DOM Traversal
 
@@ -4926,95 +4720,91 @@ console.log(h1.nextSibling);
 });
 ```
 
-
 # Tabbed Components
 
-
 ```js
-tabsContainer.addEventListener('click', function(e) {
-  const clicked = e.target.closest('.operations__tab');
+tabsContainer.addEventListener("click", function (e) {
+  const clicked = e.target.closest(".operations__tab");
   console.log(clicked);
 });
 ```
+
 We can use the closest method when we have nested elements to avoid unwanted issues in the event propagation. Here without it we have a span element inside the button class wrapping the number on the button. But if we are trying to click on the button but click the span then we are dealing with different elements when trying to traverse. We cant just go e.target.parentElement, because when we click the span the parent is the button and when we click the button the parent is a different element. So this helps whichever is clicked find a common parent.
 
 ```js
 // Guard clause
-  if(!clicked) return;
+if (!clicked) return;
 ```
 
 In our function we add a guard clause because we could still click outside one of the buttons but inside the tabsContainers that we're listening to, and if there is no parent of the button/span we get a null TypeError.
 
-
 ```js Final Code for reference
-tabsContainer.addEventListener('click', function(e) {
-  const clicked = e.target.closest('.operations__tab');
+tabsContainer.addEventListener("click", function (e) {
+  const clicked = e.target.closest(".operations__tab");
 
   // Guard Clause
-  if(!clicked) return;
-
+  if (!clicked) return;
 
   // Clear/Remove Clases
-  tabs.forEach(t => t.classList.remove('operations__tab--active'));
-  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
-  
+  tabs.forEach((t) => t.classList.remove("operations__tab--active"));
+  tabsContent.forEach((c) => c.classList.remove("operations__content--active"));
+
   // Active Tab
-  clicked.classList.add('operations__tab--active');
+  clicked.classList.add("operations__tab--active");
 
   // Activate Content Area
-  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add("operations__content--active");
 });
 ```
-
 
 # Passing Arguments To Event Handlers
 
-
 ```js
-
-const handleHover = function(e, opacity) {
-  if(e.target.classList.contains('nav__link')) {
+const handleHover = function (e, opacity) {
+  if (e.target.classList.contains("nav__link")) {
     const link = e.target;
-    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
-    const logo = link.closest('.nav').querySelector('img');
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+    const logo = link.closest(".nav").querySelector("img");
 
-    siblings.forEach(el => {
-      if(el !==link) el.style.opacity = opacity;
+    siblings.forEach((el) => {
+      if (el !== link) el.style.opacity = opacity;
       logo.style.opacity = opacity;
     });
   }
-}
+};
 
-nav.addEventListener('mouseover', function(e) {
+nav.addEventListener("mouseover", function (e) {
   handleHover(e, 0.5);
 });
 
-nav.addEventListener('mouseout', function(e) {
-handleHover(e, 1);
+nav.addEventListener("mouseout", function (e) {
+  handleHover(e, 1);
 });
 ```
-Here we cannot pass the handleHover directly to the event listeners as we need to pass it parameters and that would result in a function call and our functions don't return anything and would result in undefined being passed as a callback which the add event listener weill not accept. So we use an anonymous function then call our function with the required arguments. 
+
+Here we cannot pass the handleHover directly to the event listeners as we need to pass it parameters and that would result in a function call and our functions don't return anything and would result in undefined being passed as a callback which the add event listener weill not accept. So we use an anonymous function then call our function with the required arguments.
 
 However we can do better using the .bind method.
 
 ```js
-
-const handleHover = function(e) {
-  if(e.target.classList.contains('nav__link')) {
+const handleHover = function (e) {
+  if (e.target.classList.contains("nav__link")) {
     const link = e.target;
-    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
-    const logo = link.closest('.nav').querySelector('img');
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+    const logo = link.closest(".nav").querySelector("img");
 
-    siblings.forEach(el => {
-      if(el !==link) el.style.opacity = this;
+    siblings.forEach((el) => {
+      if (el !== link) el.style.opacity = this;
       logo.style.opacity = this;
     });
   }
-}
+};
 
-nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener("mouseover", handleHover.bind(0.5));
 
-nav.addEventListener('mouseout', handleHover.bind(1));
+nav.addEventListener("mouseout", handleHover.bind(1));
 ```
 
 A handler callback function can only take one argument which is the event. so we bind the this keyword of the handler function to the value we need as a work around to get an extra value into the function. If we need even more values we could pass an array or even an object instead of just a single value. (A bit of hack or work around)
@@ -5027,24 +4817,22 @@ So because the bind method returns another function and does not actually call a
 
 Pretty fuckin' slick.
 
-
 # Sticky Nav
 
 ```js
 const initialCoords = section1.getBoundingClientRect();
 
-window.addEventListener('scroll', function() {
+window.addEventListener("scroll", function () {
   console.log(window.scrollY);
 
-  if(window.scrollY > initialCoords.top) nav.classList.add('sticky') 
-  else nav.classList.remove('sticky');
+  if (window.scrollY > initialCoords.top) nav.classList.add("sticky");
+  else nav.classList.remove("sticky");
 });
 ```
 
-Above works but is really bad for performance because when your using the scroll event in th add event listener it fires and listens all the time because of the scrolling. 
+Above works but is really bad for performance because when your using the scroll event in th add event listener it fires and listens all the time because of the scrolling.
 
 Instead we use the Intersection Observer API
-
 
 # Intersection Observer API
 
@@ -5052,26 +4840,22 @@ This API allows our code to observe changes to the way that a certain target ele
 
 How does it work:
 
-
 ```js
 // Intersection Observer
 // Takes a callback function and an object of options
 
 const obsCallback = function (entries, observer) {
-  entries.forEach(entry => console.log(entry))
+  entries.forEach((entry) => console.log(entry));
 };
 
 const obsOptions = {
   root: null,
   threshold: [0, 0.2],
-}
+};
 
 const observer = new IntersectionObserver(obsCallback, obsOptions);
 
 observer.observe(section1);
-
-
-
 
 // In the console
 
@@ -5087,21 +4871,19 @@ observer.observe(section1);
 
 The options control the circumstances under which the callback is invoked. It includes the root, rootMargin and threshold. The root defaults to the browser viewport if not specified or if null, otherwise it is the specified element that is used for checking visibility of the target. rootMargin is like an offset and is specified only in pixels. The threshold indicates what percentage of the targets visibility the callback should be executed at NOT MATTER SCROLLING UP OR DOWN (Ex.) Threshold of 0.1 & scrolling only down, it will fire when 10% of the target has entered the viewport AND when there is 10% remaining in the viewport ) and can also be an array of values.
 
-
 The observer callback takes 2 arguments. Entries & observer object itself.
 
-
 ```js
-const header = document.querySelector('.header');
+const header = document.querySelector(".header");
 
-const navOffset = - nav.offsetHeight + 'px';
+const navOffset = -nav.offsetHeight + "px";
 
-const stickyNav = function(entries) {
+const stickyNav = function (entries) {
   const [entry] = entries;
   console.log(entry);
-  if(!entry.isIntersecting) nav.classList.add('sticky')
-  else nav.classList.remove('sticky');
-}
+  if (!entry.isIntersecting) nav.classList.add("sticky");
+  else nav.classList.remove("sticky");
+};
 
 const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
@@ -5112,102 +4894,94 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 headerObserver.observe(header);
 ```
 
-
-
 # Reveal Elements On Scroll
 
 ```js
-const allSections = document.querySelectorAll('.section');
+const allSections = document.querySelectorAll(".section");
 
-const revealSection = function(entries, observer) {
+const revealSection = function (entries, observer) {
   const [entry] = entries;
   console.log(entry);
 
-  if(!entry.isIntersecting) return;
-  entry.target.classList.remove('section--hidden');
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove("section--hidden");
   observer.unobserve(entry.target);
-}
+};
 
 const sectionObserver = new IntersectionObserver(revealSection, {
   root: null,
-  threshold: 0.15
+  threshold: 0.15,
 });
 
-allSections.forEach(function(section) {
+allSections.forEach(function (section) {
   sectionObserver.observe(section);
-  section.classList.add('section--hidden');
+  section.classList.add("section--hidden");
 });
 ```
 
 Again here we use the IntersectionObserver. We store all sections in the all section variable and loop over them, observing each section and hiding them off the start. Then we define out InterSectionObserver and then define our callback where we destructure each entry from the entries that we told the observer to observe in the forEach. Then we use a guard clause to return if not intersecting and then show each section and finally remove the observer to enhance performance and stop the even from firing even after the animation has already been performed.
 
-
-
 # Lazy Loading
 
 Images have the biggest impact on performance. So we can use lazy loading to only load the images when we need them.
 
-
 ```html
 <div class="features">
-        <img
-          src="img/digital-lazy.jpg"
-          data-src="img/digital.jpg"
-          alt="Computer"
-          class="features__img lazy-img"
-        />
-...etc
+  <img
+    src="img/digital-lazy.jpg"
+    data-src="img/digital.jpg"
+    alt="Computer"
+    class="features__img lazy-img"
+  />
+  ...etc
+</div>
 ```
 
 ```js
-const imgTargets = document.querySelectorAll('img[data-src]');
+const imgTargets = document.querySelectorAll("img[data-src]");
 
-const loadImg = function(entries, observer) {
+const loadImg = function (entries, observer) {
   const [entry] = entries;
 
-  if(!entry.isIntersecting) return;
+  if (!entry.isIntersecting) return;
 
   // Replace src attr with data-src
   entry.target.src = entry.target.dataset.src;
   // entry.target.classList.remove('lazy-img');
 
-  entry.target.addEventListener('load', function () {
-  entry.target.classList.remove('lazy-img');
+  entry.target.addEventListener("load", function () {
+    entry.target.classList.remove("lazy-img");
   });
 
   observer.unobserve(entry.target);
-
 };
 
 const imgObserver = new IntersectionObserver(loadImg, {
   root: null,
   threshold: 0,
-  rootMargin: '200px'
-})
+  rootMargin: "200px",
+});
 
-imgTargets.forEach(img => imgObserver.observe(img));
+imgTargets.forEach((img) => imgObserver.observe(img));
 ```
 
 So we set up the html with a very tiny img that is blurred our with CSS to keep our file size down. Then we use the IntersectionObserver to replace the low res image with the high res one, only removing the blur when the high res img is actually loaded with an event listener on the load event. Otherwise users with slow connections will have the blur removed and will be viewing the low res img while waiting for the high res one to load. We also use the rootMargin to ensure that these images are being lazy loaded a little bit before the user scrolls down as to decrease the amount of time the image is blurry. We don't really need users to know that we are lazy loading.
-
-
 
 # Lifecycle DOM Events
 
 Lifecycle means from when the page is first accessed until the user leaves it.
 
-
 1. DOM Content Loaded
 
-- This event is fired by the document as soon as the HTML is completely parsed which means it has been downloaded and converted to the DOM 
-tree. 
+- This event is fired by the document as soon as the HTML is completely parsed which means it has been downloaded and converted to the DOM
+  tree.
 
 - All script must be downloaded and executed before the DOM Content Loaded event can happen.
 
 - It does not wait for other extrenal resources such as images, only HTML and JS need to be loaded
 
 ```js
-document.addEventListener('DOMContentLoaded', function(e) {
+document.addEventListener("DOMContentLoaded", function (e) {
   console.log(e);
 });
 
@@ -5233,13 +5007,12 @@ We can then view this in the network tab (at a slower rate if needed)
 
 So with our script tag at the bottom of the HTML we don't need to listen to this event.
 
-
 2. Load EVent
 
-- The load event is fired when the HTML AND all external resources like images are loaded. 
+- The load event is fired when the HTML AND all external resources like images are loaded.
 
 ```js
-window.addEventListener('load', function(e) {
+window.addEventListener("load", function (e) {
   console.log(e);
 });
 
@@ -5263,7 +5036,6 @@ window.addEventListener('load', function(e) {
 
 We can also observe this in the network tab and again see how fast things are loading and how big files are.
 
-
 3. Before Unload
 
 - This event is created immediately before a user is about to leave a page.
@@ -5275,17 +5047,16 @@ Ex.) When the user clicks the x button to leave the page
 - This is the event we can use to ask users if they are sure they want to leave the page
 
 ```js
-window.addEventListener('beforeunload', function(e) {
+window.addEventListener("beforeunload", function (e) {
   e.preventDefault();
   console.log(e);
-  e.returnValue = '';
+  e.returnValue = "";
 });
 ```
 
 The pop up that asks if they are sure they want to leave is NOT customizable as previous developers abused it.
 
 A messsage like this can be annoying, so only use it if there are things workj that user has done that they may not want to have erased by leaving the page.
-
 
 # Efficient Script Loading: Defer & Async
 
@@ -5296,7 +5067,7 @@ REGULAR:
 Head:
 
 - HTML beigns to parse and the DOM tree begins to be built
-built
+  built
 - The script tag is then found, the HTML is paused until the script tag is exectued
 - HTML finsishes parsing after script tag is executed
 - DOM Content Loaded Event is fired
@@ -5312,7 +5083,8 @@ Body:
 Not the most optimied because the script tage could have been found while the HTML was still being parsed.
 
 ---
-* Keep in mind Async & Defer will never be put in the body end because the HTML will have already finished parsing so it makes no sense they would ever go there.
+
+- Keep in mind Async & Defer will never be put in the body end because the HTML will have already finished parsing so it makes no sense they would ever go there.
 
 ASYNC:
 
@@ -5323,7 +5095,6 @@ Head:
 
 Even though the pausing of the HTML seems not idela this is still actually faster then just including the script tage at the body end.
 
-
 ---
 
 DEFER:
@@ -5333,21 +5104,16 @@ Head:
 - Script is loaded at the same time that the HTML is being parsed and only executed after the HTML is finished
 - DOM Content Loaded EVent is fired
 
-
 ---
-
-
 
 Regular vs Async vs Defer
 
-* These use cases assume Regular at end of body and both Async & Defer in head as discussed previously.
-
+- These use cases assume Regular at end of body and both Async & Defer in head as discussed previously.
 
 Regular:
 
 - Scripts are fetched and executed after HTML is completely parsed
 - Use if you need to support old browsers (Legacy browsers don't support async & defer)
-
 
 Async:
 
@@ -5355,7 +5121,6 @@ Async:
 - Usually the DOMContentLoaded event waits for all scripts to execute, except for async scripts. So DOMContentLoaed does not wait for an async script and if there is a large script file may fire before the script is event fetched and ran.
 - Scripts are not guaranteed to execute in order, whichever script comes in first is executed first
 - Use for any 3rd party scripts that order doesn't matter Ex.) Analytic scripts
-
 
 Defer:
 
@@ -5367,8 +5132,6 @@ Defer:
 
 - THIS IS THE BEST OVERALL SOLUTION! USE FOR YOUR OWN SCRIPTS, AND WHEN ORDER MATTERS Ex.) Including a library that your scripts depend on.
 
-
-
 ```js
 <script defer src="script.js"></script>
 <script async src="script.js"></script>
@@ -5376,9 +5139,10 @@ Defer:
 
 In the network tab we can view the time it takes for the DOMContentLoaded event to fire and compare the different scenarios.
 
-
 ---
+
 # Object Oriented Programming (OOP)
+
 ---
 
 - OOP is a paradigm (style of writing and organizing) that is based on the concept of objects.
@@ -5395,8 +5159,6 @@ In the network tab we can view the time it takes for the DOMContentLoaded event 
 
 - OOP was developed with the goal of organizing code, to make it more flexible & easier to maintain (avoid "spaghetti code")
 
-
-
 Classes & Instances (Traditional OOP):
 
 A class is a blueprint used to create new objects based on rules described in the class.
@@ -5410,7 +5172,7 @@ How to design classes (model real-world data into classes)..
 1. Abstraction
 
 - Ignoring or hiding away details that don't matter, allowing us to get an overview perspective of the thing we're implementing, instead of messing with details that don't really matter to our implementation.
-Ex.) Designing all the features of an iphone, but the user doesn't need to know how every little feature works it just works in an easy manner
+  Ex.) Designing all the features of an iphone, but the user doesn't need to know how every little feature works it just works in an easy manner
 
 2. Encapsulation
 
@@ -5424,7 +5186,6 @@ Ex.) Designing all the features of an iphone, but the user doesn't need to know 
 4. Polymorphism
 
 - A child class can overwrite a method it inherited from a parent class (it is more complex than this, but this is a short summary)
-
 
 # OOP In JavaScript
 
@@ -5440,27 +5201,28 @@ All objects have a prototype and are linked to a prototype object. The prototype
 
 In classical OOP the behaviour (methods) are copied from the class to all instances.
 
-
 How do we actually create prototypes?
 And how do we link objects to prototypes?
 How can we create new objects, without having classes?
 
-3 Ways to implement prototypal inheritance: 
+3 Ways to implement prototypal inheritance:
 
 1. Constructor functions
+
 - Technique that was adopted as a standard to create objects from a function
 - This is how built-in objects like Arrays, Maps or Sets are actually implemented
 
 2. ES6 Classes
+
 - Modern alternative to constructor function syntax
 - Syntactic sugar: behing the scenes, ES6 classes work exactly like constructor functions
 - ES6 classes do not behave like classes in classical OOP
 
 3. Object.create()
+
 - Easiest most straightforward way of linking and object to a prototype object
 
 All 4 main principles of OOP are important and valid with prototypal inheritance.
-
 
 # Constructor Functions & The new Operator
 
@@ -5478,21 +5240,22 @@ Behind the scenes 4 things happen when using the new keyword to call a construct
 4. The function automatically returns the empty object
 
 ```js
-const Person = function(firstName, birthYear) {
+const Person = function (firstName, birthYear) {
   // Instance properties
   this.firstName = firstName;
   this.birthYear = birthYear;
-}
+};
 
-const jonas = new Person('Jonas', 1991);
+const jonas = new Person("Jonas", 1991);
 console.log(jonas);
 // Object { firstName: "Jonas", birthYear: 1991 }
 ```
+
 Now we can use this constructor to create as many objects as we want.
 
 ```js
-const matilda = new Person('Matilda', 2017);
-const jack = new Person('Jack', 1975);
+const matilda = new Person("Matilda", 2017);
+const jack = new Person("Jack", 1975);
 ```
 
 There are not actual classes in JS. The constructor function is used to mimick classes and therefore when we create objects using the constructor function those objects are said to be instances of the constructor.
@@ -5506,39 +5269,36 @@ console.log(jonas instanceof Person);
 Methods:
 
 ```js
-const Person = function(firstName, birthYear) {
+const Person = function (firstName, birthYear) {
   // Instance properties
   this.firstName = firstName;
   this.birthYear = birthYear;
 
   // Never create a method inside a constructor function like this
-  this.calcAge = function() {
+  this.calcAge = function () {
     console.log(2037 - this.birthYear);
-  }
-}
+  };
+};
 ```
 
 We don't create methods on constructor functions because everysingle instance would carry around that method and would be bad for performance. Instead we use prototypes and prototypal inheritance...
-
 
 # Prototypes
 
 Each and every function automatically has a property called prototype. Every object created by a certain constructor function will get access to all the methods and properties that we define on the constructors prototype property.
 
-
 ```js
-
-const Person = function(firstName, birthYear) {
+const Person = function (firstName, birthYear) {
   // Instance properties
   this.firstName = firstName;
   this.birthYear = birthYear;
-}
-const jonas = new Person('Jonas', 1991);
+};
+const jonas = new Person("Jonas", 1991);
 
 // Setting the prototype method
-Person.prototype.calcAge = function() {
-    console.log(2037 - this.birthYear);
-  };
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
 
 jonas.calcAge();
 // 46
@@ -5557,9 +5317,10 @@ console.log(jonas.__proto___);
 console.log(jonas.__proto__ === Person.prototype);
 //true
 ```
+
 Here we can see that the jonas object does not have the calcAge function in it. But we still have access to it due to prototypal inheritance. And now there is only one copy of the function, saving memory. The this keyword is also set to the object calling the method. So everything works.
 
-* Person.prototype is not the prototype of Person. It is used as the prototype of all instances of Person. This is an important distinction.
+- Person.prototype is not the prototype of Person. It is used as the prototype of all instances of Person. This is an important distinction.
 
 ```js
 console.log(Person.prototype.isPrototypeOf(jonas));
@@ -5573,7 +5334,7 @@ The confusion is due to bad naming. A better name could have been used such as .
 We can also set properties on the prototype, not just methods.
 
 ```js
-Person.prototype.species = 'Homo Sapiens';
+Person.prototype.species = "Homo Sapiens";
 console.log(jonas);
 // {…}
 // birthYear: 1991
@@ -5597,12 +5358,11 @@ console.log(Person);
 //    <prototype>: Object { … }
 //    <prototype>: ()
 
-console.log(jonas.hasOwnProperty('firstName'));
+console.log(jonas.hasOwnProperty("firstName"));
 // true
-console.log(jonas.hasOwnProperty('species'));
+console.log(jonas.hasOwnProperty("species"));
 // false
 ```
-
 
 # Prototypal Inheritance & The Prototype Chain
 
@@ -5623,7 +5383,6 @@ The ability for an object to look to its prototype for a method or property or i
 
 The top of the scope chain is null.
 
-
 # Prototypal Inheritance On Built In Objects
 
 ```js
@@ -5641,17 +5400,13 @@ It is possible to change the prototype of the built-in object but it shouldn't b
 
 Secondly on a team this would become a free for all and would cause major bugs.
 
-
-
 # ES6 Classes
 
 Classes in JS implement prototypal inheritance but allow people coming from other programming languages to understand it easier.
 
 ```js Class Expression
 // Class Expression
-class Person {
-
-}
+class Person {}
 
 // Class Declaration
 const Person = class {
@@ -5663,15 +5418,14 @@ const Person = class {
   calcAge() {
     console.log(2037 - this.birthYear);
   }
-}
+};
 
-const jessica = new Person('jessica', 1996);
+const jessica = new Person("jessica", 1996);
 console.log(jessica);
 // Object { firstName: "jessica", birthYear: 1996 }
 ```
 
 Any properties or methods written INSIDE the constructor will be on every instance of that class. Every property or method written OUTSIDE the constructor are automatically put on the prototype property.
-
 
 Important differences with classes.
 
@@ -5683,15 +5437,13 @@ Important differences with classes.
 
 Constructor functions are not old or deprecated.
 
-
-
 # Setters & Getters
 
 Every object can have setter & getters which get & set a value.
 
 ```js
 const account = {
-  owner: 'jonas',
+  owner: "jonas",
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
 
   get latest() {
@@ -5699,7 +5451,7 @@ const account = {
   },
   set latest(mov) {
     this.movement.push(mov);
-  }
+  },
 };
 
 console.log(account.latest);
@@ -5710,6 +5462,7 @@ console.log(account.latest);
 account.latest = 50;
 // Using a setter
 ```
+
 Getters and setters allow us to access functions as if they were properties instead of using parentheses to call a method. Both must be prepended with their corresponding keyword (get or set) and setters require one single paramater.
 
 ```js
@@ -5727,16 +5480,15 @@ const Person = class {
   get age() {
     return 2037 - this.birthYear;
   }
-}
+};
 
-const jessica = new Person('jessica', 1996);
-console.log(jessica.age)
+const jessica = new Person("jessica", 1996);
+console.log(jessica.age);
 // 41
 // Sets this as a property on the jessica prototype now as well
 
 // They work pretty much the exact same as any regular method
 ```
-
 
 ```js
 const Person = class {
@@ -5785,7 +5537,6 @@ console.log(jessica.fullName);
 
 The getters and setter can be useful some times. For example above it allows for validation for the fullName of the class.
 
-
 # Static Methods
 
 Static methods are attached to the top constructor and not in the prototype chain and such are not inherited by any instances of the class or constructor.
@@ -5805,10 +5556,10 @@ We can set them for our own constructors and classes.
 Constructor:
 
 ```js
-Person.hey = function() {
-  console.log('Hi there');
+Person.hey = function () {
+  console.log("Hi there");
   console.log(this);
-}
+};
 Person.hey();
 ```
 
@@ -5830,18 +5581,15 @@ const Person = class {
   }
   // Static Methods
   static hey() {
-    console.log('Hi there');
+    console.log("Hi there");
     console.log(this);
   }
-}
+};
 ```
-
 
 # Object.create()
 
-
-With object.create there is still prototypal inheritance but there is no prototype properties, no constructor function and no new operator. We can use object.create to manually set the prototype of an object to any other object that we want. 
-
+With object.create there is still prototypal inheritance but there is no prototype properties, no constructor function and no new operator. We can use object.create to manually set the prototype of an object to any other object that we want.
 
 ```js
 const PersonPrototype = {
@@ -5849,7 +5597,6 @@ const PersonPrototype = {
     console.log(2037 - this.birthYear);
   },
 };
-
 
 const steven = Object.create(PersonPrototype);
 console.log(steven);
@@ -5860,20 +5607,16 @@ console.log(steven);
 
 Whereas constructor functions automatically will set instances of it to a prototype, with Object.create we manually set what prototype of what object we want it to have.
 
-
-
 # Inheritance Between "Classes": Constructor Functions
 
-
-
 ```js
-const Person = function(firstName, birthYear) {
+const Person = function (firstName, birthYear) {
   this.firstName = firstName;
   this.birthYear = birthYear;
 };
 
 Person.prototype.calcAge = function () {
-  console.log(2037 - this.birthYear)
+  console.log(2037 - this.birthYear);
 };
 
 const Student = function (firstName, birthYear, course) {
@@ -5885,7 +5628,7 @@ const Student = function (firstName, birthYear, course) {
   // Person(firstName, birthYear);
 
   // So we use the call method to set the this keyword to this constructor
-  Person.call(this, firstName, birthYear)
+  Person.call(this, firstName, birthYear);
 
   this.course = course;
 };
@@ -5897,20 +5640,17 @@ Student.prototype = Object.create(Person.prototype);
 // We cannot do the following as it would break the prototype chain making student & person effectively same object
 // Student.prototype = Person.prototype;
 
-
 Student.prototype.introduce = function () {
   console.log(`My name is ${this.firstName} and I study ${this.course}`);
 };
 
-const mike = new Student('Mike', 2020, 'Comp Sci');
+const mike = new Student("Mike", 2020, "Comp Sci");
 mike.introduce();
 mike.calcAge();
 // The mike.calAge() is found by looking up the prototype chain until it finds it on the person.prototype
 ```
 
-
 # Inheritance Between "Classes": ES6 Classes
-
 
 ```js
 const Person = class {
@@ -5928,32 +5668,28 @@ const Person = class {
   }
   // Static Methods
   static hey() {
-    console.log('Hi there');
+    console.log("Hi there");
     console.log(this);
   }
-}
+};
 
 class Student extends Person {
   constructor(firsName, birthYear, course) {
-    super(firstName, birthYear)
+    super(firstName, birthYear);
     // The super(parent class constructor) always needs to happen first because it sets the this keyword
     this.course = course;
   }
 }
 
-
-const martha = new Student('martha', 2012, 'Comp Sci');
+const martha = new Student("martha", 2012, "Comp Sci");
 ```
 
 If you dont need any new properties or methods in the child class you can omit writing the above constructor function and still access the parent constructor.
 
-
 ```js
-class Student extends Person {
-  
-}
+class Student extends Person {}
 
-const martha = new Student('martha', 2012);
+const martha = new Student("martha", 2012);
 
 console.log(martha);
 // Student { firstName: "martha", birthYear: 2012}
@@ -5961,25 +5697,25 @@ marth.calcAge();
 // 25
 ```
 
-
 Overwriting methods of parent constructors: (Polymorphism)
 
 ```js
 class Student extends Person {
   constructor(firsName, birthYear, course) {
-    super(firstName, birthYear)
+    super(firstName, birthYear);
     // The super(parent class constructor) always needs to happen first because it sets the this keyword
     this.course = course;
   }
 
   calcAge() {
-    console.log(`This function overwrites the Person calcAge() function. This is polymorphism.`)
+    console.log(
+      `This function overwrites the Person calcAge() function. This is polymorphism.`
+    );
   }
 }
 martha.calcAge();
 // This function overwrites the Person calcAge() function. This is polymorphism.
 ```
-
 
 # Inheritance Between "Classes": Object.create()
 
@@ -6008,14 +5744,12 @@ StudentProto.introduce = function () {
 };
 
 const jay = Object.create(StudentProto);
-jay.init('Jay', 2010, 'Compuetr Science');
+jay.init("Jay", 2010, "Compuetr Science");
 jay.introduce();
 jay.calcAge();
 ```
 
-
 # Another Class Example
-
 
 ```js
 class Account {
@@ -6027,7 +5761,7 @@ class Account {
   }
 }
 
-acc1 = new Account('Jonas', 'Eur', 1111, []);
+acc1 = new Account("Jonas", "Eur", 1111, []);
 console.log(acc1);
 ```
 
@@ -6046,11 +5780,10 @@ class Account {
   }
 }
 
-acc1 = new Account('Jonas', 'Eur', 1111);
+acc1 = new Account("Jonas", "Eur", 1111);
 console.log(acc1);
 // Thanks for opening an account, Jonas
 // Object { owner: "Jonas", currency: "Eur", pin: 1111, movements: [], locale: "en-CA" }
-
 
 // This should not be done, a method to interact with the properties should be created to avoid bugs as the app grows
 // acc1.movements.push(250);
@@ -6077,12 +5810,10 @@ class Account {
     this.deposit(-val);
   }
 }
-acc1 = new Account('Jonas', 'Eur', 1111);
+acc1 = new Account("Jonas", "Eur", 1111);
 acc1.deposit(250);
 acc1.withdraw(140);
 ```
-
-
 
 # Encapsulation: Protected Properties & Methods
 
@@ -6129,19 +5860,18 @@ class Account {
   }
 
   requestLoan(val) {
-    if(this._approveLoan(val)) {
+    if (this._approveLoan(val)) {
       this.deposit(val);
-      console.log('Loan approved');
+      console.log("Loan approved");
     }
   }
 }
-acc1 = new Account('Jonas', 'Eur', 1111);
+acc1 = new Account("Jonas", "Eur", 1111);
 acc1.deposit(250);
 acc1.withdraw(140);
 ```
 
 # Encapsulation: Priavte Class Fields & Methods
-
 
 This is a proposal currently at Stage 3 so is very likely will move to Stage 4 and become part of the language
 
@@ -6152,21 +5882,25 @@ As long as you understand prototypal inheritance and constructor functions then 
 There are 8 different kinds of fields & methods in this proposal but we will only focus on 4:
 
 1. Public Fields (instances)
+
 - A field is a property that will be on all instances so we could call them public instance fields
 - In our example these are the movements and navigator as we explicitly set them
 - They are not on the prototype
 - Also referenceable by the this keyword
 
 2. Private Fields (instances)
+
 - Makes it so properties ar enot accessible from the outside
 - Defined by prepending the # symbol
 - Public Methods can still access Private Fields
 - They are not on the prototype
 
 3. Public Methods
+
 - This is how the methods already are in the public interface
 
 4. Private Methods
+
 - Useful to hide implementation details from the outside
 - Not yet available
 - Defined by prepending the # symbol
@@ -6175,12 +5909,12 @@ There is also the static version of these but we wont go through these.
 
 ```js
 class Account {
-// 1. Public Fields
-locale = navigator.language;
+  // 1. Public Fields
+  locale = navigator.language;
 
-// 2. Private Fields
-#movements = [];
-#pin;
+  // 2. Private Fields
+  #movements = [];
+  #pin;
 
   constructor(owner, currency, pin) {
     this.owner = owner;
@@ -6193,7 +5927,7 @@ locale = navigator.language;
     console.log(`Thanks for opening an account, ${owner}`);
   }
 
-// 3. Public Methods
+  // 3. Public Methods
   // Public Interface (API)
   getMovements() {
     return this.movements;
@@ -6208,18 +5942,18 @@ locale = navigator.language;
   }
 
   requestLoan(val) {
-    if(this.#approveLoan(val)) {
+    if (this.#approveLoan(val)) {
       this.deposit(val);
-      console.log('Loan approved');
+      console.log("Loan approved");
     }
   }
 
-    // 4. Private Methods
+  // 4. Private Methods
   #approveLoan(val) {
     return true;
   }
 }
-acc1 = new Account('Jonas', 'Eur', 1111);
+acc1 = new Account("Jonas", "Eur", 1111);
 acc1.deposit(250);
 acc1.withdraw(140);
 
@@ -6229,11 +5963,9 @@ console.log(acc1.#pin);
 // Error
 ```
 
-
 # Chaining Methods
 
 We can chain methods with the methods within our class. We just need to return the object by returning the this keyword in function we want to chain.
-
 
 ```js
 class Account {
@@ -6268,15 +6000,14 @@ class Account {
   }
 
   requestLoan(val) {
-    if(this._approveLoan(val)) {
+    if (this._approveLoan(val)) {
       this.deposit(val);
-      console.log('Loan approved');
+      console.log("Loan approved");
       return this;
     }
   }
 }
-acc1 = new Account('Jonas', 'Eur', 1111);
-
+acc1 = new Account("Jonas", "Eur", 1111);
 
 // Chaining
 acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
@@ -6286,12 +6017,11 @@ acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
 
 https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649125#content
 
-
 ---
+
 # OOP, Geolocation, External Libraries & More
+
 ---
-
-
 
 # Project Planning
 
@@ -6300,23 +6030,25 @@ Overview:
 PLANNING:
 
 1. User Stories
+
 - A description of the applications functionality from the users perspective. All the user stories put together will describe the entire functionality of the entire application.
 
 2. User Stories
+
 - The User Stories will layout all the different features that the appplication requires
 
 3. Features
-- Then we put all the Features in to a flowchart 
+
+- Then we put all the Features in to a flowchart
 - This is WHAT we are going to build
 
 4. Architecture
-- HOW we build it and implement all of the functionality
 
+- HOW we build it and implement all of the functionality
 
 DEVELOPMENT:
 
 - Implementation of our plan using code
-
 
 ---
 
@@ -6330,19 +6062,17 @@ In Depth:
 
 - In this step we really need to put ourselves in the users shoes
 
-
 ## Features
 
 - Directly based on the user stories
 
 - For each corresponding User Story we list out any related feature and the best type of feature to satify the user story
 
-
 ## Flowchart
 
 - Don't waste too much time on this as a beginner. With more experience then more details can be added at the beginning.
 
-- Again starts with the User Story and moves across time with corresponding events from the beginning which is the page load 
+- Again starts with the User Story and moves across time with corresponding events from the beginning which is the page load
 
 - Contains all the features that we need to implement
 
@@ -6358,7 +6088,6 @@ In Depth:
 
 - This is only what the prgram does NOT how
 
-
 ## Architecture
 
 - We dont always need the perfect final architecture figured out in the beginning
@@ -6367,28 +6096,28 @@ In Depth:
 
 - As we need more organization and ways to manage data then we come back to architecture planning
 
-
-
 # Geolocation API
 
 Very easy to use API. The geolocation API is called on the navigator and takes 2 functions. The first in case of success and takes a position parameter and the second in the error handler function that you define yourself.
 
 ```js
 // Check to see if the API exists for older browsers
-if(navigator.geolocation)
-navigator.geolocation.getCurrentPosition(function(position) {
-    console.log(position);
-    const {latitude} = position.coords;
-    const {longitude} = position.coords;
-}, function() {
-    alert('Could not get your position.');
-});
+if (navigator.geolocation)
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      console.log(position);
+      const { latitude } = position.coords;
+      const { longitude } = position.coords;
+    },
+    function () {
+      alert("Could not get your position.");
+    }
+  );
 // GeolocationPosition
 // coords: GeolocationCoordinates { latitude: 51.16429689414933, longitude: -114.06903031626517, altitude: 1092.517578125, … }
 // timestamp: 1604602517571
 // <prototype>: GeolocationPositionPrototype { coords: Getter, timestamp: Getter, … }
 ```
-
 
 # Leaflet Library: Displaying The Map
 
@@ -6434,64 +6163,64 @@ navigator.geolocation.getCurrentPosition(function(position) {
 ```js
 let map, mapEvent;
 
+if (navigator.geolocation)
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      const { latitude } = position.coords;
+      const { longitude } = position.coords;
+      console.log(`https://www.google.ca/maps/@${latitude},${longitude}`);
 
-if(navigator.geolocation)
-navigator.geolocation.getCurrentPosition(function(position) {
-    const {latitude} = position.coords;
-    const {longitude} = position.coords;
-    console.log(`https://www.google.ca/maps/@${latitude},${longitude}`);
+      const coords = [latitude, longitude];
 
-    const coords = [latitude, longitude];
+      map = L.map("map").setView(coords, 13);
 
-    map = L.map('map').setView(coords, 13);
+      L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Handle click on map
-    map.on('click', function(mapE) {
+      // Handle click on map
+      map.on("click", function (mapE) {
         mapEvent = mapE;
-        form.classList.remove('hidden');
+        form.classList.remove("hidden");
         inputDistance.focus();
-    });
-}, 
-function() {
-    alert('Could not get your position.');
+      });
+    },
+    function () {
+      alert("Could not get your position.");
     }
-);
+  );
 
-form.addEventListener('submit', function (e) { 
-    // Clear input fields
-    inputDistance.value = inputDuration.value = inputCadence.calue = inputElevation.value = '';
+form.addEventListener("submit", function (e) {
+  // Clear input fields
+  inputDistance.value = inputDuration.value = inputCadence.calue = inputElevation.value =
+    "";
 
-    // Display marker
-    e.preventDefault();
-    const {lat, lng} = mapEvent.latlng;
-    L.marker([lat, lng])
+  // Display marker
+  e.preventDefault();
+  const { lat, lng } = mapEvent.latlng;
+  L.marker([lat, lng])
     .addTo(map)
     .bindPopup(
-        L.popup({
-            maxWidth: 250,
-            minWidth: 100,
-            autoClose: false,
-            closeOnClick: false,
-            className: 'running-popup',
-        })
+      L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+        className: "running-popup",
+      })
     )
-    .setPopupContent('Workout')
+    .setPopupContent("Workout")
     .openPopup();
 });
 
-inputType.addEventListener('change', function() {
-    inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
-    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+inputType.addEventListener("change", function () {
+  inputElevation.closest(".form__row").classList.toggle("form__row--hidden");
+  inputCadence.closest(".form__row").classList.toggle("form__row--hidden");
 });
 ```
 
 By this point our code is getting fairly large and it is time to think about architecture in the next section.
-
-
 
 # Project Architecture
 
@@ -6505,6 +6234,7 @@ Start by what the layout of our classes will be:
 
 Parent Class:
 WORKOUT
+
 - id
 - distance
 - duration
@@ -6514,6 +6244,7 @@ WORKOUT
 
 Child Class 1:
 RUNNING
+
 - name
 - cadence
 - pace
@@ -6521,6 +6252,7 @@ RUNNING
 
 Child Class 2:
 CYCLING
+
 - name
 - evelvationGain
 - speed
@@ -6538,50 +6270,37 @@ And then we will create a class called App that will hold all of these functions
 
 Class App
 APP
+
 - workouts (array holding running or cycling objects)
 - map
 
 - constructor ()
-  - this._getPosition (when a new app class is instantiated any methods called in the constructor function run, so we instantiate in the global scope and get postion on page load)
-- _getPosition()
-- _loadMap(position)
-- _showForm()
-- _toggleElevationField()
-- _newWorkout (new Running() or Cycling())
+  - this.\_getPosition (when a new app class is instantiated any methods called in the constructor function run, so we instantiate in the global scope and get postion on page load)
+- \_getPosition()
+- \_loadMap(position)
+- \_showForm()
+- \_toggleElevationField()
+- \_newWorkout (new Running() or Cycling())
 
   In bigger apps there are classes similar to our App class here but divided even further.
   Ex.) One class that strictly deals with the UI and one that deals with the business logic(under laying data)
 
-
 # Refactoring For Architecture
-
 
 Lay out the base for the class then fill/refactor as required. Putting classes at the top as they are not hoisted.
 
 ```js
 class App {
-    constructor(){
-
-    }
-    _getPosition(){
-
-    }
-    _loadMap(){
-
-    }
-    _showForm(){
-
-    }
-    _toggleElevationField(){
-
-    }
-    _newWorkout(){
-        
-    }
+  constructor() {}
+  _getPosition() {}
+  _loadMap() {}
+  _showForm() {}
+  _toggleElevationField() {}
+  _newWorkout() {}
 }
 ```
 
-There is a bit of pain point when refactoring with event listeners because they bind the this key word to the element that it was called on so we needed to use bind in several places to fix this. 
+There is a bit of pain point when refactoring with event listeners because they bind the this key word to the element that it was called on so we needed to use bind in several places to fix this.
 
 This is because event callback functions are treated as regular function calls and with regular function calls the this key word points to the parent scope(what its being called on) or in strict mode undefined.
 
@@ -6591,124 +6310,123 @@ Finished Refactoring:
 
 ```js
 class App {
-    // Private instances properties (available on all instances of App)
-    #map;
-    #mapEvent;
+  // Private instances properties (available on all instances of App)
+  #map;
+  #mapEvent;
 
-    constructor(){
-        this._getPosition();
+  constructor() {
+    this._getPosition();
 
-        form.addEventListener('submit', this._newWorkout.bind(this));
-        
-        inputType.addEventListener('change', this._toggleElevationField);
-    }
-    _getPosition(){
-        if(navigator.geolocation)
-            navigator.geolocation.getCurrentPosition(this._loadMap.bind(this), function() {
-                alert('Could not get your position.');
-                }
-            );
-    }
-    _loadMap(position){
-        const {latitude} = position.coords;
-        const {longitude} = position.coords;
-        console.log(`https://www.google.ca/maps/@${latitude},${longitude}`);
+    form.addEventListener("submit", this._newWorkout.bind(this));
 
-        const coords = [latitude, longitude];
+    inputType.addEventListener("change", this._toggleElevationField);
+  }
+  _getPosition() {
+    if (navigator.geolocation)
+      navigator.geolocation.getCurrentPosition(
+        this._loadMap.bind(this),
+        function () {
+          alert("Could not get your position.");
+        }
+      );
+  }
+  _loadMap(position) {
+    const { latitude } = position.coords;
+    const { longitude } = position.coords;
+    console.log(`https://www.google.ca/maps/@${latitude},${longitude}`);
 
-        this.#map = L.map('map').setView(coords, 13);
+    const coords = [latitude, longitude];
 
-        L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(this.#map);
+    this.#map = L.map("map").setView(coords, 13);
 
-        // Handle click on map
-        this.#map.on('click', this._showForm.bind(this));
-        
-    }
-    _showForm(mapE){
-        this.#mapEvent = mapE;
-        form.classList.remove('hidden');
-        inputDistance.focus();
-    }
-    _toggleElevationField(){
-        inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
-        inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
-    }
-    _newWorkout(e){
-        e.preventDefault();
-        
-        // Clear input fields
-        inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = '';
-    
-        // Display marker
-        const {lat, lng} = this.#mapEvent.latlng;
-        L.marker([lat, lng])
-        .addTo(this.#map)
-        .bindPopup(
-            L.popup({
-                maxWidth: 250,
-                minWidth: 100,
-                autoClose: false,
-                closeOnClick: false,
-                className: 'running-popup',
-            })
-        )
-        .setPopupContent('Workout')
-        .openPopup();
-    }
+    L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.#map);
+
+    // Handle click on map
+    this.#map.on("click", this._showForm.bind(this));
+  }
+  _showForm(mapE) {
+    this.#mapEvent = mapE;
+    form.classList.remove("hidden");
+    inputDistance.focus();
+  }
+  _toggleElevationField() {
+    inputElevation.closest(".form__row").classList.toggle("form__row--hidden");
+    inputCadence.closest(".form__row").classList.toggle("form__row--hidden");
+  }
+  _newWorkout(e) {
+    e.preventDefault();
+
+    // Clear input fields
+    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value =
+      "";
+
+    // Display marker
+    const { lat, lng } = this.#mapEvent.latlng;
+    L.marker([lat, lng])
+      .addTo(this.#map)
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          autoClose: false,
+          closeOnClick: false,
+          className: "running-popup",
+        })
+      )
+      .setPopupContent("Workout")
+      .openPopup();
+  }
 }
 
 const app = new App();
 ```
 
-
 # Managing Data: Creating Classes
-
 
 ```js
 class Workout {
-    date = new Date();
-    // Relying on time is a very bad idea for ids but this is just a practice
-    id = (Date.now() + '').slice(-10);
+  date = new Date();
+  // Relying on time is a very bad idea for ids but this is just a practice
+  id = (Date.now() + "").slice(-10);
 
-    constructor(coords, distance, duration) {
-        this.coords = coords; // [lat, lng]
-        this.distance = distance; // in km
-        this.duration = duration; // in min
-    }
-
+  constructor(coords, distance, duration) {
+    this.coords = coords; // [lat, lng]
+    this.distance = distance; // in km
+    this.duration = duration; // in min
+  }
 }
 
-class Running extends Workout{
-    constructor(coords, distance, duration, cadence) {
-        super(coords, distance, duration);
-        this.cadence = cadence;
-        this.calcPace();
-    }
+class Running extends Workout {
+  constructor(coords, distance, duration, cadence) {
+    super(coords, distance, duration);
+    this.cadence = cadence;
+    this.calcPace();
+  }
 
-    calcPace() {
-        // min/km
-        this.pace = this.duration / this.distance;
-        return this.pace;
-    }
+  calcPace() {
+    // min/km
+    this.pace = this.duration / this.distance;
+    return this.pace;
+  }
 }
 
-class Cycling extends Workout{
-    constructor(coords, distance, duration, elevationGain) {
-        super(coords, distance, duration);
-        this.elevationGain = elevationGain;
-        this.calcSpeed();
-    }
+class Cycling extends Workout {
+  constructor(coords, distance, duration, elevationGain) {
+    super(coords, distance, duration);
+    this.elevationGain = elevationGain;
+    this.calcSpeed();
+  }
 
-    calcSpeed() {
-        //km/h
-        this.speed = this.distance / (this.duration / 60);
-        return this.speed;
-    }
+  calcSpeed() {
+    //km/h
+    this.speed = this.distance / (this.duration / 60);
+    return this.speed;
+  }
 }
 ```
-
 
 # Creating A New Workout
 
@@ -6750,28 +6468,27 @@ _newWorkout(e){
 
         // Clear input fields
         inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = '';
-        
+
     }
 ```
-
 
 # Final App & Considerations
 
 ```js
-'use strict';
+"use strict";
 
-const form = document.querySelector('.form');
-const containerWorkouts = document.querySelector('.workouts');
-const inputType = document.querySelector('.form__input--type');
-const inputDistance = document.querySelector('.form__input--distance');
-const inputDuration = document.querySelector('.form__input--duration');
-const inputCadence = document.querySelector('.form__input--cadence');
-const inputElevation = document.querySelector('.form__input--elevation');
+const form = document.querySelector(".form");
+const containerWorkouts = document.querySelector(".workouts");
+const inputType = document.querySelector(".form__input--type");
+const inputDistance = document.querySelector(".form__input--distance");
+const inputDuration = document.querySelector(".form__input--duration");
+const inputCadence = document.querySelector(".form__input--cadence");
+const inputElevation = document.querySelector(".form__input--elevation");
 
 class Workout {
   date = new Date();
   // Relying on time is a very bad idea for ids but this is just a practice
-  id = (Date.now() + '').slice(-10);
+  id = (Date.now() + "").slice(-10);
   clicks = 0;
 
   constructor(coords, distance, duration) {
@@ -6795,7 +6512,7 @@ class Workout {
 }
 
 class Running extends Workout {
-  type = 'running';
+  type = "running";
 
   constructor(coords, distance, duration, cadence) {
     super(coords, distance, duration);
@@ -6812,7 +6529,7 @@ class Running extends Workout {
 }
 
 class Cycling extends Workout {
-  type = 'cycling';
+  type = "cycling";
 
   constructor(coords, distance, duration, elevationGain) {
     super(coords, distance, duration);
@@ -6843,18 +6560,18 @@ class App {
     this._getLocalStorage();
 
     // Attach evnt handlers
-    form.addEventListener('submit', this._newWorkout.bind(this));
+    form.addEventListener("submit", this._newWorkout.bind(this));
 
-    inputType.addEventListener('change', this._toggleElevationField);
+    inputType.addEventListener("change", this._toggleElevationField);
 
-    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+    containerWorkouts.addEventListener("click", this._moveToPopup.bind(this));
   }
   _getPosition() {
     if (navigator.geolocation)
       navigator.geolocation.getCurrentPosition(
         this._loadMap.bind(this),
         function () {
-          alert('Could not get your position.');
+          alert("Could not get your position.");
         }
       );
   }
@@ -6864,45 +6581,45 @@ class App {
 
     const coords = [latitude, longitude];
 
-    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
+    this.#map = L.map("map").setView(coords, this.#mapZoomLevel);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
 
     // Handle click on map
-    this.#map.on('click', this._showForm.bind(this));
+    this.#map.on("click", this._showForm.bind(this));
 
     // Wait for map to load to render markers
-    this.#workouts.forEach(work => {
+    this.#workouts.forEach((work) => {
       this._renderWorkoutMarker(work);
     });
   }
   _showForm(mapE) {
     this.#mapEvent = mapE;
-    form.classList.remove('hidden');
+    form.classList.remove("hidden");
     inputDistance.focus();
   }
 
   _hideForm() {
     // Empty inputs
     inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value =
-      '';
+      "";
     // Hide form
-    form.style.display = 'none';
-    form.classList.add('hidden');
-    setTimeout(() => (form.style.display = 'grid'), 1000);
+    form.style.display = "none";
+    form.classList.add("hidden");
+    setTimeout(() => (form.style.display = "grid"), 1000);
   }
 
   _toggleElevationField() {
-    inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
-    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+    inputElevation.closest(".form__row").classList.toggle("form__row--hidden");
+    inputCadence.closest(".form__row").classList.toggle("form__row--hidden");
   }
   _newWorkout(e) {
     const validInputs = (...inputs) =>
-      inputs.every(inp => Number.isFinite(inp));
-    const allPositive = (...inputs) => inputs.every(inp => inp > 0);
+      inputs.every((inp) => Number.isFinite(inp));
+    const allPositive = (...inputs) => inputs.every((inp) => inp > 0);
 
     e.preventDefault();
 
@@ -6914,7 +6631,7 @@ class App {
     let workout;
 
     // If workout is running, create running object
-    if (type === 'running') {
+    if (type === "running") {
       const cadence = +inputCadence.value;
 
       // Check if data is valid
@@ -6922,13 +6639,13 @@ class App {
         !validInputs(distance, duration, cadence) ||
         !allPositive(distance, duration, cadence)
       )
-        return alert('Please enter a positive number');
+        return alert("Please enter a positive number");
 
       workout = new Running([lat, lng], distance, duration, cadence);
     }
 
     // If workout is cycling, create cycling object
-    if (type === 'cycling') {
+    if (type === "cycling") {
       const elevation = +inputElevation.value;
 
       // Check if data is valid
@@ -6936,7 +6653,7 @@ class App {
         !validInputs(distance, duration, elevation) ||
         !allPositive(distance, duration)
       )
-        return alert('Please enter a number');
+        return alert("Please enter a number");
 
       workout = new Cycling([lat, lng], distance, duration, elevation);
     }
@@ -6970,7 +6687,7 @@ class App {
         })
       )
       .setPopupContent(
-        `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
+        `${workout.type === "running" ? "🏃‍♂️" : "🚴‍♀️"} ${workout.description}`
       )
       .openPopup();
   }
@@ -6981,7 +6698,7 @@ class App {
             <h2 class="workout__title">${workout.description}</h2>
             <div class="workout__details">
                 <span class="workout__icon">${
-                  workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'
+                  workout.type === "running" ? "🏃‍♂️" : "🚴‍♀️"
                 }</span>
                 <span class="workout__value">${workout.distance}</span>
                 <span class="workout__unit">km</span>
@@ -6993,7 +6710,7 @@ class App {
             </div>
         `;
 
-    if (workout.type === 'running')
+    if (workout.type === "running")
       html += `
             <div class="workout__details">
                 <span class="workout__icon">⚡️</span>
@@ -7008,7 +6725,7 @@ class App {
         </li>
         `;
 
-    if (workout.type === 'cycling')
+    if (workout.type === "cycling")
       html += `
             <div class="workout__details">
                 <span class="workout__icon">⚡️</span>
@@ -7023,15 +6740,15 @@ class App {
         </li>
         `;
 
-    form.insertAdjacentHTML('afterend', html);
+    form.insertAdjacentHTML("afterend", html);
   }
 
   _moveToPopup(e) {
-    const workoutEl = e.target.closest('.workout');
+    const workoutEl = e.target.closest(".workout");
     if (!workoutEl) return;
 
     const workout = this.#workouts.find(
-      work => work.id === workoutEl.dataset.id
+      (work) => work.id === workoutEl.dataset.id
     );
 
     this.#map.setView(workout.coords, this.#mapZoomLevel, {
@@ -7046,36 +6763,33 @@ class App {
   }
 
   _setLocalStorage() {
-    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    localStorage.setItem("workouts", JSON.stringify(this.#workouts));
   }
 
   _getLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('workouts'));
+    const data = JSON.parse(localStorage.getItem("workouts"));
 
     if (!data) return;
 
     this.#workouts = data;
-    this.#workouts.forEach(work => {
+    this.#workouts.forEach((work) => {
       this._renderWorkout(work);
     });
   }
 
   reset() {
-    localStorage.removeItem('workouts');
+    localStorage.removeItem("workouts");
     location.reload();
   }
 }
 
 const app = new App();
-
 ```
 
 Considerations:
 
 - Local storage is not the place to store large amount of data as it is blocking.
 - When retrieving objects from local storage they are just regular objects and the prototype chain is broken
-
-
 
 Additional possible features:
 
@@ -7090,14 +6804,13 @@ Additional possible features:
 - Name workouts based on geolocation with 3rd party API responding with location & country
 - display weather data for workout time and place
 
-
 ---
+
 # Asynchronous Javascript: Promises, Async/Await and AJAX
----
 
+---
 
 # Async JS, AJAX & API's
-
 
 Sychronous code:
 
@@ -7105,18 +6818,16 @@ Sychronous code:
 - Long running operations block the code execution
 - Most code is synchronous
 
-
 Asynchronous code:
 
 - Executed after a task that runs in the background finsishes
 - Non-blocking
 - Other code continues to run until the asynchronous task is finished, then the callback function runs
 - All about coordinating the behaviour of a program over a period of time
-- Callback functions/event listeners  do not automatically make code asynchronous
+- Callback functions/event listeners do not automatically make code asynchronous
 - Only certain functions perform asynchronously
 
 Ex.) Setting the src attribute on an img is asynchronous as other code runs until the image is loaded
-
 
 AJAX:
 
@@ -7145,9 +6856,7 @@ API Data formats:
 
 - JSON (JavaSCript OBject Notation), which is just a string that looks exactly like an object so is low on memory to send and easy to use and convert back to an object
 
-
 # Example AJAX Call
-
 
 OLD WAY
 
@@ -7160,10 +6869,10 @@ https://restcountries.eu/
 ```js
 const getCountryData = function (country) {
   const request = new XMLHttpRequest();
-  request.open('GET', `https://restcountries.eu/rest/v2/name/${country}`);
+  request.open("GET", `https://restcountries.eu/rest/v2/name/${country}`);
   request.send();
 
-  request.addEventListener('load', function () {
+  request.addEventListener("load", function () {
     const [data] = JSON.parse(this.responseText);
     console.log(data);
 
@@ -7181,21 +6890,18 @@ const getCountryData = function (country) {
     </div>
   </article>
     `;
-    countriesContainer.insertAdjacentHTML('beforeend', html);
-    countriesContainer.style.opacity = '1';
+    countriesContainer.insertAdjacentHTML("beforeend", html);
+    countriesContainer.style.opacity = "1";
   });
 };
 
-getCountryData('japan');
-getCountryData('australia');
-getCountryData('poland');
-getCountryData('russia');
+getCountryData("japan");
+getCountryData("australia");
+getCountryData("poland");
+getCountryData("russia");
 ```
 
-
 # How The Web Works: Request/Response Cycle
-
-
 
 # How The Web Works
 
@@ -7324,17 +7030,14 @@ https://www.udemy.com/courses/development/web-development/
 
 Where courses/development/web-development are the resources
 
-
 # Callback Hell
-
 
 - A sequence of AJAX calls with each additional call relies on the first
 
 In this case we need to wait for the first call of the country to return so we can get the neighboring countries
 
-
 ```js
-const renderCountry = function (data, className = '') {
+const renderCountry = function (data, className = "") {
   const html = `
     <article class="country ${className}">
     <img class="country__img" src="${data.flag}" />
@@ -7349,17 +7052,17 @@ const renderCountry = function (data, className = '') {
     </div>
   </article>
     `;
-  countriesContainer.insertAdjacentHTML('beforeend', html);
-  countriesContainer.style.opacity = '1';
+  countriesContainer.insertAdjacentHTML("beforeend", html);
+  countriesContainer.style.opacity = "1";
 };
 
 const getCountryData = function (country) {
   // Ajax call country 1
   const request = new XMLHttpRequest();
-  request.open('GET', `https://restcountries.eu/rest/v2/name/${country}`);
+  request.open("GET", `https://restcountries.eu/rest/v2/name/${country}`);
   request.send();
 
-  request.addEventListener('load', function () {
+  request.addEventListener("load", function () {
     const [data] = JSON.parse(this.responseText);
     console.log(data);
 
@@ -7374,18 +7077,18 @@ const getCountryData = function (country) {
 
     // Ajax call country 2
     const request2 = new XMLHttpRequest();
-    request2.open('GET', `https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+    request2.open("GET", `https://restcountries.eu/rest/v2/alpha/${neighbour}`);
     request2.send();
 
-    request2.addEventListener('load', function () {
-        const data2 = JSON.parse(this.responseText);
-        console.log(data2);
-        renderCountry(data2, 'neighbour');
+    request2.addEventListener("load", function () {
+      const data2 = JSON.parse(this.responseText);
+      console.log(data2);
+      renderCountry(data2, "neighbour");
     });
   });
 };
 
-getCountryData('ghana');
+getCountryData("ghana");
 ```
 
 This AJAX call is only 2 levels deep but each additional callback relies on the first.
@@ -7394,12 +7097,11 @@ This happens for all callbacks and after even a few starts become unmanigable, h
 
 The identifying trait is the triangular indentation from the margin.
 
-
 # Promises
 
 ES6 feature that allows us to escape callback hell.
 
-Using the fetch function we can perform a GET request to  a web server which then returns a promise. For more complex requests we can also pass the fetch function an options object.  Then we store it in a variable.
+Using the fetch function we can perform a GET request to a web server which then returns a promise. For more complex requests we can also pass the fetch function an options object. Then we store it in a variable.
 
 ```js
 const request = fetch(`https://restcountries.eu/rest/v2/name/${country}`);
@@ -7408,15 +7110,17 @@ const request = fetch(`https://restcountries.eu/rest/v2/name/${country}`);
 What are promises?
 
 Formal
+
 - An Object that is used as a placeholders for the future result of an asynchronous operation.
 
 Less formal
+
 - A container for an asynchronously delivered value
 
 Even less formal
-- A container for a future value
-Ex.) The response from an AJAX call
 
+- A container for a future value
+  Ex.) The response from an AJAX call
 
 Promsises allow us to:
 
@@ -7428,17 +7132,22 @@ The promise lifecycle:
 
 Sincme promises work with asynchronous operations they are time sensitive and change over time and can be in different states.
 
-
 In the beginning
+
 - The promise is PENDING (before the future value is available)
 - The asynchronous task is still doing its work in the background
 
 When the asynchronous task is finished
+
 - The promise is SETTLED
 - There are 2 types of settled promises
+
 1. Fulfilled
+
 - The value we requested is now available
+
 2. Rejected
+
 - There has been an error during the asynchronous task
 
 In our code we can handle these promises in different ways based on the outcome.
@@ -7449,16 +7158,14 @@ When we use a promise to get the result is called CONSUMING a promise
 
 We can only consume a promise after its been BUILT by the fetch API, most of the time we do not have to build the promise ourself, but we will learn later how and when we have to
 
-
 # Consuming Promises
-
 
 ```js
 const getCountryData = function (country) {
-
-  fetch(`https://restcountries.eu/rest/v2/name/${country}`)
-  .then(function(response) {
-    console.log(response)
+  fetch(`https://restcountries.eu/rest/v2/name/${country}`).then(function (
+    response
+  ) {
+    console.log(response);
   });
 };
 
@@ -7477,7 +7184,6 @@ const getCountryData = function (country) {
 
 To handle the settled promise we can use the .then method on it which takes a callback function that accepts a callback function that takes a paramater of response. The data we are after is in the response body in a ReadableStream. We need to convert this to JSON and within the fetch method all responses have access to the .json method which will convert the readable stream to JSON. The .json method is also an asynchronous method so in turn returns a promise, so we will need to use the .then method on it.
 
-
 ```js
 // const getCountryData = function (country) {
 
@@ -7491,17 +7197,14 @@ To handle the settled promise we can use the .then method on it which takes a ca
 //   });
 // };
 
-
 // Refactoed with arrow functions and the implicit return
 
 const getCountryData = function (country) {
-
   fetch(`https://restcountries.eu/rest/v2/name/${country}`)
-  .then(response => response.json())
-  .then(data => renderCountry(data[0]));
+    .then((response) => response.json())
+    .then((data) => renderCountry(data[0]));
 };
 ```
-
 
 # Chaining Promises
 
@@ -7509,35 +7212,30 @@ The two thens from the last lecture are a small chain, but we can go even furthe
 
 Then success value of any any promise is whatever value is returned from the .then method. So inside our second promise (where we actually deal with the data) of the first fetch, we call a return a second fetch that will be a promise that is now the value of the first fetch, so we can call the .then method on the first fetch to handle the promise, again using the .json and a second .then method to deal with our actual data. (Avoid a common pitfall for beginners, see comments in code below), making this pitfall results in the code still working but because we are again nesting callbacks are right back in callback hell.
 
-
-
 ```js
 const getCountryData = function (country) {
-
   fetch(`https://restcountries.eu/rest/v2/name/${country}`)
-  .then(response => response.json())
-  .then(data => {
-    renderCountry(data[0]);
-    const neighbour = data[0].borders[0];
+    .then((response) => response.json())
+    .then((data) => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
 
-    // As from the notes above, many beginners will try to call a fetch method without returning it and as well try to call the .then directly on the unreturned fetch
-    // Ex.)
+      // As from the notes above, many beginners will try to call a fetch method without returning it and as well try to call the .then directly on the unreturned fetch
+      // Ex.)
 
-    // fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`)
-    // .then(response => response.json())
-    // .then(data => renderCountry(data, 'neighbour'));
+      // fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`)
+      // .then(response => response.json())
+      // .then(data => renderCountry(data, 'neighbour'));
 
-    // Country 2
-    return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
-
-  })
-  .then(response => response.json())
-  .then(data => renderCountry(data, 'neighbour'));
+      // Country 2
+      return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+    })
+    .then((response) => response.json())
+    .then((data) => renderCountry(data, "neighbour"));
 };
 ```
 
 Now we have 4 steps (.thens) but we can chain this as long as we need and avoid callback hell with a flat chain of promises.
-
 
 # Error Handling (Handling Rejected Promises)
 
@@ -7545,54 +7243,52 @@ The .then method takes a second callback function as a parameter and is for hand
 
 ```js
 const getCountryData = function (country) {
-
   fetch(`https://restcountries.eu/rest/v2/name/${country}`)
-  .then(response => response.json(),
-  err => alert(err)
-  )
-  .then(data => {
-    renderCountry(data[0]);
-    const neighbour = data[0].borders[0];
+    .then(
+      (response) => response.json(),
+      (err) => alert(err)
+    )
+    .then((data) => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
 
-    // Country 2
-    return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
-
-  })
-  .then(response => response.json(),
-  err => alert(err)
-  )
-  .then(data => renderCountry(data, 'neighbour'));
+      // Country 2
+      return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+    })
+    .then(
+      (response) => response.json(),
+      (err) => alert(err)
+    )
+    .then((data) => renderCountry(data, "neighbour"));
 };
 ```
 
 This gets a bit messy having to add errors in every part of the chain, so we can just add a .catch method at the very end of the chain to catch ANY arror anywhere in the chain, because errors propogate down the chain
 
-
 ```js
 const getCountryData = function (country) {
-
   fetch(`https://restcountries.eu/rest/v2/name/${country}`)
-  .then(response => response.json())
-  .then(data => {
-    renderCountry(data[0]);
-    const neighbour = data[0].borders[0];
+    .then((response) => response.json())
+    .then((data) => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
 
-    // Country 2
-    return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
-  })
-  .then(response => response.json())
-  .then(data => renderCountry(data, 'neighbour'))
-  .catch(err => {
-    console.log(err);
-    renderError(`Something went wrong: ${err.message}. Try again!`);
-  })
-  .finally(() => {
-    countriesContainer.style.opacity = '1';
-  })
+      // Country 2
+      return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+    })
+    .then((response) => response.json())
+    .then((data) => renderCountry(data, "neighbour"))
+    .catch((err) => {
+      console.log(err);
+      renderError(`Something went wrong: ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = "1";
+    });
 };
 
-btn.addEventListener('click', function() {
-  getCountryData('canada');
+btn.addEventListener("click", function () {
+  getCountryData("canada");
 });
 ```
 
@@ -7601,7 +7297,6 @@ Errors are also objects in JS so we can create new ones and access properties on
 Beside .then and .catch there is a .finally method. Whereas the .then runs when the promise is fulfilled and .catch when the promise is rejected, the .finally method ALWAYS runs not matter what. This is useful in a few edge cases. Ex.) A loading spinner that needs to be hidden regardless if the promise was fulfilled or not or in our example we always need the container to fade in. This works because the .catch also returns a promise so we can chain it because the .finally only works on promsises.
 
 The only error a fetch rejects on is no internet connection. In other error instances, Ex.) a bad GET request top the server, the promise isn't actually rejected, so we have to do it manually. Many developers believe it should be rejected.
-
 
 # Throwing Errors Manually
 
@@ -7654,7 +7349,7 @@ With us now throwing our manual error within a .then method will immediately rej
 
 Why bother handling these errors?
 
-First, handling these errors is the only way we can display a proper error message to the user. 
+First, handling these errors is the only way we can display a proper error message to the user.
 
 Second its really bad practice to leave rejected promises hanging around without handling them.
 
@@ -7662,46 +7357,43 @@ What if then an error occurs in our seconds AJAX call?
 
 ```js
 const getCountryData = function (country) {
-
   fetch(`https://restcountries.eu/rest/v2/name/${country}`)
-  .then(response => {
-    console.log(response)
+    .then((response) => {
+      console.log(response);
 
-  // Setting our manual error
-  if(!response.ok)
-    throw new Error (`Country not found (${response.status})`);
+      // Setting our manual error
+      if (!response.ok)
+        throw new Error(`Country not found (${response.status})`);
 
-    return response.json();
-  })
-  .then(data => {
-    renderCountry(data[0]);
-    const neighbour = data[0].borders[0];
+      return response.json();
+    })
+    .then((data) => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
 
-    // Country 2
-    return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
-  })
-  .then(response => {
-    // Setting manual error for 2nd AJAX call
-  if(!response.ok)
-    throw new Error (`Country not found (${response.status})`);
-    return response.json()
-  })
-  .then(data => renderCountry(data, 'neighbour'))
-  .catch(err => {
-    console.log(err);
-    renderError(`Something went wrong: ${err.message}. Try again!`);
-  })
-  .finally(() => {
-    countriesContainer.style.opacity = '1';
-  })
+      // Country 2
+      return fetch(`https://restcountries.eu/rest/v2/alpha/${neighbour}`);
+    })
+    .then((response) => {
+      // Setting manual error for 2nd AJAX call
+      if (!response.ok)
+        throw new Error(`Country not found (${response.status})`);
+      return response.json();
+    })
+    .then((data) => renderCountry(data, "neighbour"))
+    .catch((err) => {
+      console.log(err);
+      renderError(`Something went wrong: ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = "1";
+    });
 };
 ```
 
 Now we have added a manual error to our 2nd AJAX call but are now repeating ourselves.
 
 So what we do is create a helper function that takes a url and an error message that will deal with our fetch, request and error and set a return for it so we get a returned promise.
-
-
 
 ```js
 const getJSON = function(url, errorMsg = ) {
@@ -7714,28 +7406,30 @@ const getJSON = function(url, errorMsg = ) {
 };
 ```
 
-
 ```js
 const getCountryData = function (country) {
   getJSON(
     `https://restcountries.eu/rest/v2/name/${country}`,
-    'Country not found'
-    )
-  .then(data => {
-    renderCountry(data[0]);
-    // const neighbour = data[0].borders[0];
-    const neighbour = 'asdfadfshgj';
-    // Country 2
-    return getJSON(`https://restcountries.eu/rest/v2/alpha/${neighbour}`, 'Country not found');
-  })
-  .then(data => renderCountry(data, 'neighbour'))
-  .catch(err => {
-    console.log(err);
-    renderError(`Something went wrong: ${err.message}. Try again!`);
-  })
-  .finally(() => {
-    countriesContainer.style.opacity = '1';
-  })
+    "Country not found"
+  )
+    .then((data) => {
+      renderCountry(data[0]);
+      // const neighbour = data[0].borders[0];
+      const neighbour = "asdfadfshgj";
+      // Country 2
+      return getJSON(
+        `https://restcountries.eu/rest/v2/alpha/${neighbour}`,
+        "Country not found"
+      );
+    })
+    .then((data) => renderCountry(data, "neighbour"))
+    .catch((err) => {
+      console.log(err);
+      renderError(`Something went wrong: ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = "1";
+    });
 };
 ```
 
@@ -7761,23 +7455,18 @@ const getCountryData = function (country) {
 
 To sum it all up we need to have our apps handle errors properly and have users understand error messages.
 
-
 # Asynchronous JS Behind The Scenes: The Event Loop
-
 
 How can asynchronous code be executed in a non-blocking way if there is only one thread of execution in the engine?
 
-
 ```js
-el = document.querySelector('img');
-el.src = 'dog.jpg';
-el.addEventListener('load', () => {
-  el.classList.add('fadeIn');
+el = document.querySelector("img");
+el.src = "dog.jpg";
+el.addEventListener("load", () => {
+  el.classList.add("fadeIn");
 });
 
-fetch('https://someurl.com/api')
-.then(response => console.log(response));
-
+fetch("https://someurl.com/api").then((response) => console.log(response));
 ```
 
 We have the call stack, web apis, callback queue and event loop.
@@ -7801,7 +7490,7 @@ The callback for that event is then put in the callback queue, which is an order
 This can have implications:
 If we set a 5 second timer and the callback queue has other callbacks in it already then it could take 1 second to finish running the callbacks at the front of the line and it would then take 6 seconds for the timer to run.
 
-The callback queue also contains callbacks from DOM events like clicks or key press etc. DOM events are not asynchronous but still use the callback queue to run their attached callbacks. 
+The callback queue also contains callbacks from DOM events like clicks or key press etc. DOM events are not asynchronous but still use the callback queue to run their attached callbacks.
 
 The event loop looks into the callstack and determines if its empty or not, and if it is empty then it takes the first callback from the callback queue and puts it on the stack to be executed. This is called an event loop tick. It coordinates between the callstack and the callback queue. It does the orchestration of the JS runtime.
 
@@ -7815,55 +7504,51 @@ If a microtask adds a microtask, then that additional microtask is run before an
 
 This is usually not a problem but is how JS works in the browser.
 
-
-
 # Building Our Own Promise
 
 Promises are just a special type of object that take a single argument called the executor function. As soon as the Promise constructor runs it automatically exectues the exector function that takes the 2 arguments of the resolve and reject functions. The resolve function is the value that will be returned if the promise is fulfilled (this value is then available to the .then method). The same as with ther reject function but the value will be available to the .catch method. Then we consume our promise with the .then & .catch methods.
 
 ```js
-const lotteryPromise = new Promise(function(resolve, reject) {
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log("Lottery draw is happening...");
 
-  console.log('Lottery draw is happening...')
-
-  setTimeout(function() {
-  if(Math.random() >= 0.5) {
-    resolve('You WIN!');
-  } else {
-    reject(new Error('You lost your money!'));
-  }
-  }, 2000)
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve("You WIN!");
+    } else {
+      reject(new Error("You lost your money!"));
+    }
+  }, 2000);
 });
 
-
-lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+lotteryPromise
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
 ```
 
 In practice most of the time we only consume promises. We only ever build our own to wrap old callback based functions into promises. This is called promisifying. (Converting callback based async behavior to promise based)
 
 ```js
 // Promisifying setTimeout
-const wait = function(seconds) {
-  return new Promise(function(res, _) {
+const wait = function (seconds) {
+  return new Promise(function (res, _) {
     setTimeout(resolve, seconds * 1000);
   });
 };
 
-
-wait(2).then(() => {
-  console.log('I waited for 2 seconds');
-  return wait(1);
-}).then(() => console.log('I waited for 1 second'));
+wait(2)
+  .then(() => {
+    console.log("I waited for 2 seconds");
+    return wait(1);
+  })
+  .then(() => console.log("I waited for 1 second"));
 ```
 
 # Promisifying The Geolocation API
 
-
 ```js
-
-
-const getPosition = function() {
-  return new Promise(function(resolve, reject) {
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
     // navigator.geolocation.getCurrentPosition(position => resolve(position), err => reject(err));
     navigator.geolocation.getCurrentPosition(resolve, reject);
   });
@@ -7871,89 +7556,84 @@ const getPosition = function() {
 
 // getPosition().then(pos => console.log(pos));
 
-
 const whereAmI = function () {
   getPosition()
-  .then(pos => {
-    const {latitude: lat, longitude: lng} = pos.coords;
+    .then((pos) => {
+      const { latitude: lat, longitude: lng } = pos.coords;
 
-  return fetch(`http://geocode.xyz/${lat},${lng}?geoit=json`)
-  })
-  .then(res => {
-      if(!res.ok) throw new Error(`Problem with geocoding ${res.status}`);
+      return fetch(`http://geocode.xyz/${lat},${lng}?geoit=json`);
+    })
+    .then((res) => {
+      if (!res.ok) throw new Error(`Problem with geocoding ${res.status}`);
       return res.json();
     })
-  .then(data => {
+    .then((data) => {
       console.log(data);
       consol.log(`You are in ${data.city}, ${data.country}`);
 
       return fetch(`https://restcountries.eu/rest/v2/name/${data.country}`);
     })
-  .then(res => {
-      if(!res.ok) throw new Error(`Country not found ${res.status}`);
+    .then((res) => {
+      if (!res.ok) throw new Error(`Country not found ${res.status}`);
 
       return res.json();
     })
-  .then(data => renderCountry(data[0]))
-  .catch(console.error(`${err.message}`));
+    .then((data) => renderCountry(data[0]))
+    .catch(console.error(`${err.message}`));
 };
 ```
 
 # Coding Challenge
 
 ```js
-
-
-
 // Promisifying setTimeout
-const wait = function(seconds) {
-    return new Promise(function(res, _) {
-      setTimeout(res, seconds * 1000);
+const wait = function (seconds) {
+  return new Promise(function (res, _) {
+    setTimeout(res, seconds * 1000);
+  });
+};
+
+const imgContainer = document.querySelector(".images");
+
+const createImg = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement("img");
+    img.src = imgPath;
+
+    img.addEventListener("load", function () {
+      imgContainer.append(img);
+      resolve(img);
     });
-  };
 
-const imgContainer = document.querySelector('.images');
-
-const createImg = function(imgPath) {
-    return new Promise(function(resolve, reject) {
-        const img = document.createElement('img');
-        img.src = imgPath;
-
-        img.addEventListener('load', function() {
-            imgContainer.append(img);
-            resolve(img);
-        });
-
-        img.addEventListener('error', function() {
-            reject(new Error('Image not found'));
-        })
+    img.addEventListener("error", function () {
+      reject(new Error("Image not found"));
     });
+  });
 };
 
 let currentImg;
-createImg('img/img-1.jpg')
-.then(img => {
+createImg("img/img-1.jpg")
+  .then((img) => {
     currentImg = img;
-    console.log('Image 1 loaded');
-     return wait(2);
-})
-.then(() => {
-    currentImg.style.display = 'none';
-    return createImg('img/img-2.jpg');
-})
-.then(img => {
+    console.log("Image 1 loaded");
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = "none";
+    return createImg("img/img-2.jpg");
+  })
+  .then((img) => {
     currentImg = img;
-    console.log('Image 2 loaded');
-     return wait(2);
-})
-.then(() => {
-    currentImg.style.display = 'none';
-})
-.catch(err => console.error(err));
+    console.log("Image 2 loaded");
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = "none";
+  })
+  .catch((err) => console.error(err));
 ```
 
 # Consuming Promises With Async/Await
-
 
 To make a function asynchronous we append async to the beginning of it and inside we can have one or more await functions. The await stops the rest of the code in the async function from running until it gets the resolved value of the promise which we store in a variable
 
@@ -7969,9 +7649,9 @@ console.log('First');
 Async await is just syntactic sugar over the .then methods and under the hood uses the .then methods, so we need to know how both work.
 
 ```js
-const countriesContainer = document.querySelector('.countries');
+const countriesContainer = document.querySelector(".countries");
 
-const renderCountry = function (data, className = '') {
+const renderCountry = function (data, className = "") {
   const html = `
     <article class="country ${className}">
     <img class="country__img" src="${data.flag}" />
@@ -7986,18 +7666,17 @@ const renderCountry = function (data, className = '') {
     </div>
   </article>
     `;
-  countriesContainer.insertAdjacentHTML('beforeend', html);
-  countriesContainer.style.opacity = '1';
+  countriesContainer.insertAdjacentHTML("beforeend", html);
+  countriesContainer.style.opacity = "1";
 };
 
-
-const getPosition = function() {
-  return new Promise(function(resolve, reject) {
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(resolve, reject);
   });
 };
 
-const whereAmI = async function(country) {
+const whereAmI = async function (country) {
   // Geolocation
   const pos = await getPosition();
   const { latitude: lat, longitude: lng } = pos.coords;
@@ -8007,21 +7686,20 @@ const whereAmI = async function(country) {
   const dataGeo = await resGeo.json();
 
   // Country data
-  const res = await fetch(`https://restcountries.eu/rest/v2/name/${dataGeo.country}`);
+  const res = await fetch(
+    `https://restcountries.eu/rest/v2/name/${dataGeo.country}`
+  );
   const data = await res.json();
   renderCountry(data[0]);
-}
+};
 
 whereAmI();
-console.log('First');
-
+console.log("First");
 ```
 
 We need some error handling for async await... so we use a try/catch statement
 
-
 # Error Handling With Try/Catch
-
 
 The catch statement has access to whatever error is thrown in the try statement and we can handle that error accordingly.
 
@@ -8031,156 +7709,151 @@ try {
   const x = 2;
 
   x = 3;
-} catch(err) {
+} catch (err) {
   console.log(err);
 }
 ```
 
 The above example is to show the syntaxt of try/catch, we never actually use try catch for errors we make in writing our code, but for actual errors like ones returned from async functions
 
-
 ```js
-
-const whereAmI = async function(country) {
+const whereAmI = async function (country) {
   try {
     // Geolocation
-  const pos = await getPosition();
-  const { latitude: lat, longitude: lng } = pos.coords;
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
 
-  // Reverse Geocoding
-  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-  if(!res.ok) throw new Error('Problem getting location data');
+    // Reverse Geocoding
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    if (!res.ok) throw new Error("Problem getting location data");
 
-  const dataGeo = await resGeo.json();
+    const dataGeo = await resGeo.json();
 
-  // Country data
-  const res = await fetch(`https://restcountries.eu/rest/v2/name/${dataGeo.country}`);
-  if(!resGeo.ok) throw new Error('Problem getting country');
+    // Country data
+    const res = await fetch(
+      `https://restcountries.eu/rest/v2/name/${dataGeo.country}`
+    );
+    if (!resGeo.ok) throw new Error("Problem getting country");
 
-  const data = await res.json();
-  renderCountry(data[0]);
-  } catch(err) {
+    const data = await res.json();
+    renderCountry(data[0]);
+  } catch (err) {
     console.log(err);
     renderError(`${err.message}`);
   }
-}
+};
 ```
 
 Again if a fetch method loses internet connection then it will error so we need to handle those instances manually.
-
 
 # Returning Values From Async Functions
 
 If we explicitly return a value (below we are returning a string) from an async function that value is going to be the value that is in the promise. If we get an error then that promise will still be fulfilled and well need to handle it manually by rejecting the promise returned from the async function. We can mix and match the .then/.catch with the async await but it can be messy and confusing.
 
-
 ```js
-const whereAmI = async function(country) {
+const whereAmI = async function (country) {
   try {
     // Geolocation
-  const pos = await getPosition();
-  const { latitude: lat, longitude: lng } = pos.coords;
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
 
-  // Reverse Geocoding
-  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-  if(!res.ok) throw new Error('Problem getting location data');
+    // Reverse Geocoding
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    if (!res.ok) throw new Error("Problem getting location data");
 
-  const dataGeo = await resGeo.json();
+    const dataGeo = await resGeo.json();
 
-  // Country data
-  // Purposely making an error here
-  const res = await fetch(`https://restcountries.eu/rest/v2/name/${dataGeo.countrysdfgsfdg}`);
-  if(!resGeo.ok) throw new Error('Problem getting country');
+    // Country data
+    // Purposely making an error here
+    const res = await fetch(
+      `https://restcountries.eu/rest/v2/name/${dataGeo.countrysdfgsfdg}`
+    );
+    if (!resGeo.ok) throw new Error("Problem getting country");
 
-  const data = await res.json();
-  renderCountry(data[0]);
+    const data = await res.json();
+    renderCountry(data[0]);
 
-  // Returning a value
-  return `You are in ${dataGeo.city}, ${dataGeo.country}`;
-
-  } catch(err) {
+    // Returning a value
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+  } catch (err) {
     console.log(err);
     renderError(`${err.message}`);
 
-  // Reject promise returned from async function
+    // Reject promise returned from async function
     throw err;
   }
-}
+};
 
-console.log('1: Will get location');
+console.log("1: Will get location");
 
 whereAmI()
-.then(city => console.log(`2: ${city}`))
-.catch(err => console.error(`2: ${err.message}`))
-.finally(() => console.log('3: Finished getting location'));
+  .then((city) => console.log(`2: ${city}`))
+  .catch((err) => console.error(`2: ${err.message}`))
+  .finally(() => console.log("3: Finished getting location"));
 ```
 
 We can't use await without the async statement andmust be used inside an async function, so we use an IIFE to achieve this.
 
-
 ```js
-(async function() {
+(async function () {
   try {
     const city = await whereAmI();
     console.log(`2: ${cit}`);
-  } catch(err) {
-    console.error(`2: ${err.message}`)
+  } catch (err) {
+    console.error(`2: ${err.message}`);
   }
-  console.log('3: Finished getting location');
+  console.log("3: Finished getting location");
 })();
 ```
 
-
 # Running Promises In Parallel
-
 
 Using the Promise.all combinator takes in an array of promises to run all at the same time instead of each one waiting on the one before it. Then it returns an array of fulfilled promise values. Then we can loop over the data and manipulate it however we want. If any of the promise rejects then the whole thing rejects (short-circuits)
 
 ```js
-
-const get3Countries = async function(c1, c2 ,c3) {
+const get3Countries = async function (c1, c2, c3) {
   try {
     // const [data1] = await getJSON(`https://restcountries.eu/rest/v2/name/${c1}`);
     // const [data2] = await getJSON(`https://restcountries.eu/rest/v2/name/${c2}`);
     // const [data3] = await getJSON(`https://restcountries.eu/rest/v2/name/${c3}`);
-      // console.log(data1.capital, data2.capital, data3.capital);
+    // console.log(data1.capital, data2.capital, data3.capital);
 
     const data = await Promise.all([
       getJSON(`https://restcountries.eu/rest/v2/name/${c1}`),
       getJSON(`https://restcountries.eu/rest/v2/name/${c2}`),
-      getJSON(`https://restcountries.eu/rest/v2/name/${c3}`)]);
-      console.log(data.map(d => d[0].capital));
-
-  } catch(err) {
+      getJSON(`https://restcountries.eu/rest/v2/name/${c3}`),
+    ]);
+    console.log(data.map((d) => d[0].capital));
+  } catch (err) {
     console.log(err);
   }
-}
+};
 ```
 
 # Other Promis Combinators: race, allSettled & any
-
 
 Promise.race:
 
 Receives an array of promises and returns a promise. It returns as soon as the first promise is settled whether rejected or fulfilled, and that promise is returned. (Wins the race);
 
-
 ```js
-(async function() {
+(async function () {
   const res = await Promise.race([
-      getJSON(`https://restcountries.eu/rest/v2/name/italy`),
-      getJSON(`https://restcountries.eu/rest/v2/name/egypt`),
-      getJSON(`https://restcountries.eu/rest/v2/name/mexico`)]);
-      console.log(res[0]);
+    getJSON(`https://restcountries.eu/rest/v2/name/italy`),
+    getJSON(`https://restcountries.eu/rest/v2/name/egypt`),
+    getJSON(`https://restcountries.eu/rest/v2/name/mexico`),
+  ]);
+  console.log(res[0]);
 })();
 ```
+
 In the real world this can be helpful for example if we have a user with a bad internet connection and the fetch request would take forever so we can create a promise that automatically rejects after a period of time.
 
 ```js
-const timeout = function(sec) {
-  return new Promise(function(_, reject) {
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
     setTimeout(function () {
-      reject(new Error('Request took too long'));
+      reject(new Error("Request took too long"));
     }, sec);
   });
 };
@@ -8188,30 +7861,26 @@ const timeout = function(sec) {
 Promise.race([
   getJSON(`https://restcountries.eu/rest/v2/name/italy`),
   timeout(2),
-  ])
-  .then(res => console.log(res[0]))
-  .catch(err => console.log(err));
+])
+  .then((res) => console.log(res[0]))
+  .catch((err) => console.log(err));
 ```
-
 
 Promise.allSettled(ES2020):
 
 Takes an array of promises and returns an array of all the settled promises whether rejected or not. The difference between allSettled and all is that allSettled does not short circuit.
 
-
 Promise.any(ES2021):
 
 Takes an array of promises and returns the first fulfilled promise and ignores all reject promises. Similar to race but excludes rejected promises.
 
-
 ---
+
 # Modern JS DEvelopment: Modules & Tooling
+
 ---
-
-
 
 # Overview Of Modern JS Development
-
 
 Today code is split into modules that can be shared with one another that allows for clean/organized code. This can include 3rd party packages like ones available through npm (node package manager), which was developed along side node.js but has since grown to become the go to for the majority of all 3rd party packages for front & back end development. It is both the repository where packages live as well as the program on our computer in our command line that we use to install and manage the packages.
 
@@ -8229,8 +7898,7 @@ Then we transpile & polyfill our modern code which converts our code back to ES5
 
 Then our JS bundle will be ready for production.
 
-The most common build tools are Webpack or Parcel and they handle these steps for us. Parcel is simpler, webpack has more options for config but is harder. Both  of these are available on npm. As well as other tools like live-server, etc.
-
+The most common build tools are Webpack or Parcel and they handle these steps for us. Parcel is simpler, webpack has more options for config but is harder. Both of these are available on npm. As well as other tools like live-server, etc.
 
 # Overview Of Modules
 
@@ -8244,14 +7912,14 @@ Creates a nice organized codebase that is easier to understand.
 
 Modules allow us to easily reuse the same code, even across multiple products
 
-
-As of ES6 JS has a built in module system. 
+As of ES6 JS has a built in module system.
 
 - Modules stored in files, exactly one module per file
 
 ES6 Modules vs Script:
 
 Modules:
+
 - All top level variable are scoped to the module
 - Always executed in script mode (No need to declare, this is default)
 - Top level this === undefined
@@ -8259,8 +7927,8 @@ Modules:
 - HTML linking (<script src="script.js" type="module">)
 - File downloading is automatically asynchronous in HTML and from one module to another
 
-
 Scripts:
+
 - All top level variables are always global (leads to global namespace pollution where different script will fight over same names)
 - Always executed in sloppy mode (This is default)
 - Top level this === window object
@@ -8268,15 +7936,13 @@ Scripts:
 - HTML linking (<script src="script.js">)
 - Downloaded sybchronously automatically unless explicitly setting the defer or async attribute on the script tag
 
-
 How ES6 Modules are imported:
-
 
 ```js
 // index.js
-import { rand } from './math.js';
-import { showDice } from './dom.js';
-const dice = rand(1, 6 ,2);
+import { rand } from "./math.js";
+import { showDice } from "./dom.js";
+const dice = rand(1, 6, 2);
 showDice(dice);
 ```
 
@@ -8300,7 +7966,7 @@ So by knowing all dependencies between modules before execution bundlers like We
 
 This is why we can only import/export at the top-level.
 
-After the parsing process has figured out which modules it need to import then they are DOWLOADED ASYNCHRONOUSLY from the server. 
+After the parsing process has figured out which modules it need to import then they are DOWLOADED ASYNCHRONOUSLY from the server.
 
 Then each module is parsed is individually parsed as well and then the exports are linked to the imports in index.js.
 
@@ -8308,18 +7974,17 @@ Then each module is parsed is individually parsed as well and then the exports a
 // math.js
 const rand = () => {
   //Random number
-}
+};
 export { rand };
 ```
 
 The rand export in math.js is then linked to the rand import in index.js
 
-This connection is a live connection. Exported values are NOT copied to imports. Instead the import is basically just a reference to the exported value, like a pointer. If the value changes in the exporting module then that value changes in the importing module. This is unique to ES6 modules, other modules do not work like this. 
+This connection is a live connection. Exported values are NOT copied to imports. Instead the import is basically just a reference to the exported value, like a pointer. If the value changes in the exporting module then that value changes in the importing module. This is unique to ES6 modules, other modules do not work like this.
 
-Then the code in the imported modules is executed and the process of importing modules is finished. 
+Then the code in the imported modules is executed and the process of importing modules is finished.
 
 Then the importing module is then executed (index.js)
-
 
 # Exporting & Importing In Practice
 
@@ -8332,9 +7997,9 @@ First we need to specify the type attribute in the html.
 ```js
 // script.js
 // Importing module
-import './shoppingCart';
+import "./shoppingCart";
 
-console.log('Importing module');
+console.log("Importing module");
 
 // console.log(shippingCost);
 // Undefined
@@ -8346,7 +8011,7 @@ Modules get camelcase names
 ```js
 // shoppingCart.js
 // Exporting module
-console.log('Exporting module');
+console.log("Exporting module");
 
 const shippingCost = 10;
 const cart = [];
@@ -8356,20 +8021,18 @@ In our console.logs we can see that the exporting module is logged before the im
 
 The imports even though hoisted are written at the top of the module for clarity. Keeping in mind all modules are executed in strict mode, variables declared within the module are scoped to that module and the module itself is the top-level scope. By default all top-level variables are private inside the module.
 
-
 There are 2 types of exports:
 
 1. Named exports
-
 
 The main use case of named exports is that you can export multiple things at the same time (totalPrice, totalQuantity), but you can do them individually (addToCart)
 
 ```js
 // shoppingCart.js
-export const addToCart = function(product, quantity) {
-  cart.push({product, quantity});
+export const addToCart = function (product, quantity) {
+  cart.push({ product, quantity });
   console.log(`${quantity} ${product} added to cart`);
-}
+};
 
 const totalPrice = 237;
 const totalQuantity = 23;
@@ -8381,9 +8044,9 @@ When importing a named export, the name of the function or variable must match e
 
 ```js
 // script.js
-import { addToCart, totalPrice, totalQuantity } from './shoppingCart.js';
+import { addToCart, totalPrice, totalQuantity } from "./shoppingCart.js";
 
-addToCart('bread', 5);
+addToCart("bread", 5);
 // 5 bread added to cart
 console.log(totalPrice, totalQuantity);
 // 237 23
@@ -8393,7 +8056,7 @@ To change the name of an export we can do it when importing or exporting using t
 
 ```js
 // script.js
-import { addToCart, totalPrice as price, tq } from './shoppingCart.js';
+import { addToCart, totalPrice as price, tq } from "./shoppingCart.js";
 ```
 
 ```js
@@ -8405,9 +8068,9 @@ We can also import all the exports at the sametime using an asterisk. When doing
 
 ```js
 // script.json()
-import * as ShoppingCart from './shoppingCart.js'
+import * as ShoppingCart from "./shoppingCart.js";
 
-ShoppingCart.addToCart('bread', 5);
+ShoppingCart.addToCart("bread", 5);
 console.log(ShoppingCarat.totalPrice);
 // 237
 ```
@@ -8416,24 +8079,22 @@ Exports are put at the bottom unless it is a named export directly prepending th
 
 2. Default Exports
 
-
 Used when we only want to export one thing in the module and go a the bottom of the module. Default exports only exports values not the name of the variable or function. Then when importing we give it any name that we want.
-
 
 ```js
 // shoppingCart.js
 
-export default function(product, quantity) {
-  cart.push({product, quantity});
+export default function (product, quantity) {
+  cart.push({ product, quantity });
   console.log(`${quantity} ${product} added to cart`);
 }
 ```
 
 ```js
 // script.js
-import add from './shoppingCart.js';
+import add from "./shoppingCart.js";
 
-add('pizza', 2);
+add("pizza", 2);
 // 2 pizza added to cart
 ```
 
@@ -8445,9 +8106,8 @@ However this is not desirable and in practice we don't mix named and default exp
 
 ```js
 // script.js
-import add, { addToCart, totalPrice as price, tq  } from './shoppingCart.js';
+import add, { addToCart, totalPrice as price, tq } from "./shoppingCart.js";
 ```
-
 
 A look at the live connection:
 
@@ -8459,12 +8119,11 @@ export const cart = [];
 ```js
 // script.js
 // Keep in mind try not to mix named and default but for this example we will
-import add, { cart } from './shoppingCart.js';
+import add, { cart } from "./shoppingCart.js";
 
-add('pizza', 2);
-add('bread', 5);
-add('apples', 4);
-
+add("pizza", 2);
+add("bread", 5);
+add("apples", 4);
 
 console.log(cart);
 // Array(3) [{...}, {...}, {...}]
@@ -8472,10 +8131,10 @@ console.log(cart);
 // 1: {product: "bread", quantity: 5}
 // 2: {product: "apples", quantity: 4}
 ```
+
 We can see here is it not a copy so the original empty array in shoppingCart is actually mutated.
 
 Again imports are not copies but are references.
-
 
 # The Module Pattern
 
@@ -8488,20 +8147,20 @@ This was done by using functions usually with IIFEs.
 ```js
 // script.js
 
-const ShoppingCart = (function() {
+const ShoppingCart = (function () {
   const cart = [];
   const shippingCost = 10;
   const totalPrice = 237;
   const totalQuantity = 23;
 
-  const addToCart = function(product, quantity) {
-  cart.push({product, quantity});
-  console.log(`${quantity} ${product} added to cart`);
-  }
+  const addToCart = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(`${quantity} ${product} added to cart`);
+  };
 
-  const orderStock = function(product, quantity) {
-  console.log(`${quantity} ${product}ordered from supplier`);
-  }
+  const orderStock = function (product, quantity) {
+    console.log(`${quantity} ${product}ordered from supplier`);
+  };
 
   // Then we expose an object to the outside
   return {
@@ -8510,12 +8169,11 @@ const ShoppingCart = (function() {
     totalPrice,
     totalQuantity,
   };
-
 })();
 
-ShoppingCart.addToCart('apples', 2);
+ShoppingCart.addToCart("apples", 2);
 // 4 apples added to cart
-ShoppingCart.addToCart('pizzas', 2);
+ShoppingCart.addToCart("pizzas", 2);
 // 2 pizza added to cart
 console.log(ShoppingCart.shippingCost);
 // undefined
@@ -8525,9 +8183,7 @@ Even though the IFFE is immediately ran we still have access to the variables an
 
 If we wanted one module per file then we would have to create different scripts and link them all in the HTML file. We would then have to be careful about the order declared in HTML, all the variables would be in the global scope and we wouldn't be able to use a module bundler on them so it has some limitations and was why native modules were added in ES6.
 
-
 # CommonJS Modules
-
 
 CommonJS modules have been used in node.js for almost all of its existence. Only very recently have there been ES6 Modules in node.
 
@@ -8549,14 +8205,14 @@ export.addToCart = function(product, quantity) {
 And to import...
 
 ```js
-const  { addToCart } = require('./shoppingCart.js')
+const { addToCart } = require("./shoppingCart.js");
 ```
 
 Hopefully ES6 modules will take over all the different module systems.
 
 # npm Introduction
 
-We can install 3rd party libraries and modules from npm. A very popular library is lodash which hold a lot of different methods that should be in JS. 
+We can install 3rd party libraries and modules from npm. A very popular library is lodash which hold a lot of different methods that should be in JS.
 
 So we npm i lodash-es (because the regular lodash is built with CommonJS) but we want es6 modules.
 
@@ -8565,13 +8221,13 @@ Find the module we want to import, checking what kind of export it uses (in this
 Then to import:
 
 ```js
-import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+import cloneDeep from "./node_modules/lodash-es/cloneDeep.js";
 
 // Deeply nested object
 const state = {
   cart: [
-    { product: 'bread', quantity: 5},
-    { product: 'pizza', quantity: 5},
+    { product: "bread", quantity: 5 },
+    { product: "pizza", quantity: 5 },
   ],
   user: { loggedIn: true },
 };
@@ -8585,13 +8241,11 @@ state.user.loggedIn = false;
 console.log(stateClone);
 // user: { loggedIn: false }
 
-console.log(stateDeepClone)
+console.log(stateDeepClone);
 // user: { loggedIn: true }
 ```
 
-
 # Bundling With Parcel & npm Scripts
-
 
 npm i parcel --save-dev
 
@@ -8601,12 +8255,12 @@ It then shows up in our package.json file. We cannot just run parcel index.html 
 
 So in this test example we run the npx parcel index.html with index.html being our entry point as it also includes our script.js file which links to our own modules as well as the lodash 3rdparty module, it also includes an auto live-server.
 
-Parcel doesn't work with the html script with the type of module so we need to remove that. Then parcel creates a dist (distribution) folder that will be sent to the final users. Then in that file there is a new index.html file with a bunch of JS files. The script included in the new index.html file is now one created by parcel which is actually the bundle itself. 
+Parcel doesn't work with the html script with the type of module so we need to remove that. Then parcel creates a dist (distribution) folder that will be sent to the final users. Then in that file there is a new index.html file with a bunch of JS files. The script included in the new index.html file is now one created by parcel which is actually the bundle itself.
 
 In parcel you have activate hot module replacement. So back in OUR script.js file.
 
 ```js
-if(module.hot) {
+if (module.hot) {
   module.hot.accept();
 }
 ```
@@ -8615,15 +8269,14 @@ This allows for state to persist in our app and new code to be injected directly
 
 All bundlers also automatically find the path to a module for us without us having to type the entire path. This works with html, css, sass, imgs, modules and CommonJS modules
 
-
 ```js
 // import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
 
 // ES Modules
-import cloneDeep from 'lodash-es';
+import cloneDeep from "lodash-es";
 // or
 // CommonJS Modules
-import cloneDeep from 'lodash';
+import cloneDeep from "lodash";
 ```
 
 Running the npm script from the package.json:
@@ -8633,6 +8286,7 @@ Running the npm script from the package.json:
   "start": "parcel index.html"
 },
 ```
+
 ...and type npm run start in the command line when in the root directory of our app.
 
 Then when we ar edone development it is time to build the final bundle which is compressed, has dead code elimination etc. For this we need another parcel command
@@ -8646,9 +8300,7 @@ Then when we ar edone development it is time to build the final bundle which is 
 
 ...and type npm run build. Then in our dist folder everything is now compressed and performant.
 
-
 # Configuring Babel & Polyfilling
-
 
 We need our code to work for ES5 browser and people who cannot upgrade.
 
@@ -8661,8 +8313,9 @@ We can see this reflected in the dis folder in our bundle with ES5 syntax being 
 These presets only cover final features that have passed the 4 stages of the ECMA process and are implemented in the language.
 
 ```js
-console.log(cart.find(el => el.quantity >= 2));
+console.log(cart.find((el) => el.quantity >= 2));
 ```
+
 New additions in ES6 that do not have an equivilent to be transpiled to do not get changed. Ex.) Promises, .find etc. Whereas const or let can be easily changed back to var.
 
 So we need to polyfill using an external library called core-js.
@@ -8671,13 +8324,13 @@ run npm i core-js so save as a dependency
 
 ```js
 //script.js
-import 'core-js/stable'
+import "core-js/stable";
 ```
 
 We can see in the bundle it appears as if it is not changed as we can still see a Promise or a .find method in the bundle. But somehwere in the bundle the polyfilling will have been done with a method called find built in ES5 synstax. Ex.) The find method is recreated in ES5 and then added the to Array prototype chain. It polyfills everything even if we don't use it. Ex.) There is a findIndex method that was polyfilled even if we don't use it. So to reduce our bundle size we can specify different parts of the module to import.
 
 ```js
-import 'core-js/stable/array/find';
+import "core-js/stable/array/find";
 ```
 
 This is possible but not widely used unless we're extremely worried about bundle size.
@@ -8689,12 +8342,10 @@ npm i regenerator-runtime
 This polyfills async functions
 
 ```js
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";
 ```
 
-
 # Modern, Clean & Declarative JS Programming
-
 
 Readable Code:
 
@@ -8740,7 +8391,6 @@ Asynchronous Code:
 - Whenever possible, run promises in parallel (Promise.all)
 - Handle errors and promise rejections
 
-
 There are 2 main paradigms of writing code.
 
 Imperative vs Declarative Code:
@@ -8754,8 +8404,7 @@ Imperative:
 ```js
 const arre = [2, 4, 6, 8];
 const doubled = [];
-for (let i = 0; i < arr.length; i++)
-  doubled[i] = arr[i] * 2;
+for (let i = 0; i < arr.length; i++) doubled[i] = arr[i] * 2;
 ```
 
 Declarative:
@@ -8767,11 +8416,10 @@ Declarative:
 
 ```js
 const arr = [2, 4, 6, 8];
-const doubled = arr.map(n => n * 2);
+const doubled = arr.map((n) => n * 2);
 ```
 
 Declarative programming is becoming more and more poular and has even given rise to a sub-paradigm called, FUNCTIONAL PROGRAMMING.
-
 
 Functional Programming:
 
@@ -8779,11 +8427,12 @@ Functional Programming:
 - Based on the idea of writing software by combining PURE FUNCTIONS, AVOIDING SIDE EFFECTS & mutable data
 
 Side Effect:
+
 - A modification of any data outside the function (mutating external variable, logging to the console, writing to the DOM, etc.)
 
 Pure Function:
-- Function without side effects. Does not depend on external variable. Given the same inputs, will always return the same outputs
 
+- Function without side effects. Does not depend on external variable. Given the same inputs, will always return the same outputs
 
 Functional Programming Techniques:
 
@@ -8799,18 +8448,16 @@ Declarative Syntax:
 - Use the ternary (conditional) operator
 - Use template literals
 
-
 # Fixing Bad Code
 
 This is refactoring with functional programming in mind. Keep in mind this paradigm is a guideline and can be hard to implement especially in larger applications but we shoul try to adhere to whenever possible.
 
-
 ```js
 var sc = [
-  { product: 'bread', quantity: 6 },
-  { product: 'pizza', quantity: 2 },
-  { product: 'milk', quantity: 4 },
-  { product: 'water', quantity: 10 },
+  { product: "bread", quantity: 6 },
+  { product: "pizza", quantity: 2 },
+  { product: "milk", quantity: 4 },
+  { product: "water", quantity: 10 },
 ];
 
 var allow = {
@@ -8818,12 +8465,12 @@ var allow = {
   others: 7,
 };
 
-var description = '';
+var description = "";
 
 var check = function (city) {
   if (sc.length > 0) {
     var allowed;
-    if (city == 'lisbon') {
+    if (city == "lisbon") {
       allowed = allow.lisbon;
     } else {
       allowed = allow.others;
@@ -8834,7 +8481,7 @@ var check = function (city) {
     }
   }
 };
-check('lisbon');
+check("lisbon");
 console.log(sc);
 
 var createDescription = function () {
@@ -8843,16 +8490,16 @@ var createDescription = function () {
   var q = first.quantity;
 
   if (sc.length > 1) {
-    description = 'Order with ' + q + ' ' + p + ', etc...';
+    description = "Order with " + q + " " + p + ", etc...";
   } else {
-    description = 'Order with ' + q + ' ' + p + '.';
+    description = "Order with " + q + " " + p + ".";
   }
 };
 createDescription();
 
 console.log(description);
-
 ```
+
 - Change all vars to let and const where required
 - Rename variables & functions to be more descriptive of what they do and hold
 - Refactor the check function to a pure function that does not mutate (create side effects) the shopping cart "sc"
@@ -8865,10 +8512,10 @@ console.log(description);
 
 ```js
 const shoppingCart = [
-  { product: 'bread', quantity: 6 },
-  { product: 'pizza', quantity: 2 },
-  { product: 'milk', quantity: 4 },
-  { product: 'water', quantity: 10 },
+  { product: "bread", quantity: 6 },
+  { product: "pizza", quantity: 2 },
+  { product: "milk", quantity: 4 },
+  { product: "water", quantity: 10 },
 ];
 
 const productLimit = {
@@ -8876,8 +8523,8 @@ const productLimit = {
   others: 7,
 };
 
-const checkProductLimit = function (cart, limit,  city) {
-  if(!cart.length) return [];
+const checkProductLimit = function (cart, limit, city) {
+  if (!cart.length) return [];
 
   // Check if limit is greater than 0 if so than the limit is the city passed in, if no match limit is others from the productLimit object
 
@@ -8887,31 +8534,26 @@ const checkProductLimit = function (cart, limit,  city) {
   const allowed = limit?.[city] ?? limit.others;
 
   // Create a new shopping cart (avoid mutating the original) by returning an object where we map over the cart creating a copy that destructures to match the original, then in the return destructure the product and use a ternary to check for the quantity then return the new cart
-  const newCart = cart.map(item => {
+  const newCart = cart.map((item) => {
     const { product, quantity } = item;
     return {
       product,
-      quantity:  quantity > allowed ? allowed : quantity,
-    }
+      quantity: quantity > allowed ? allowed : quantity,
+    };
   });
   return newCart;
 };
 
 // Store the result of calling this function in a new variable
-const allowedCart = 
-checkProductLimit(
-  shoppingCart,
-  productLimit,
-  'lisbon'
-  );
+const allowedCart = checkProductLimit(shoppingCart, productLimit, "lisbon");
 console.log(allowedCart);
 
 const createOrderDescription = function (cart) {
   // Destructure the cart
-  const [{product: p, quantity: q}] = cart;
+  const [{ product: p, quantity: q }] = cart;
 
   // Return string based on cart length
-  return `Order with ${q} ${p}${cart.length > 1 ? ', etc...' : '.'}`;
+  return `Order with ${q} ${p}${cart.length > 1 ? ", etc..." : "."}`;
 };
 
 // Pass the result of first function to this function
@@ -8920,3 +8562,117 @@ const orderDescription = createOrderDescription(allowedCart);
 console.log(orderDescription);
 ```
 
+---
+
+# Forkify - Notes
+
+---
+
+# User stories:
+
+1. As a user I want to search for recipes, so I can find new recipe ideas
+
+2. As a user I want to be able to update the number of servings so I can cook a meal for different numbers of people
+
+3. As a user I want to bookmark recipes so I can review them later
+
+4. As a user I want to be able to create my own recipes so I have them all organized in the same app
+
+5. As a user I want to be able to see my bookmarks & own recipes when I leave the app and then come back, so I can close the app after cooking
+
+# Features (Based off user stories):
+
+1. Search Functionality:
+
+- Input field to send request to API with searched keywords
+- Display results with pagination
+- Display recipe with cooking time, servings & ingredients
+
+2. Change Servings Functionality:
+
+- Update all ingredients according to current number of servings
+
+3. Bookmarking Functionality:
+
+- Display list of all bookmarked recipes
+
+4. Upload Personal Recipe Functionality:
+
+- Upload own recipes
+- User recipes will automatically be bookmarked
+- User can only see their own recipes, not recipes from other users
+
+5. Storing Bookmark Functionality:
+
+- Store data in the browser using localStorage
+- On page load, read saved bookmarks from localStorage and display
+
+# Flowchart
+
+See flowchart part 1 in course directory
+
+# Random Notes
+
+It's very common that APIs request data have variable names that we do not want or are hard to use in JS. So we reformat it into a new object. So here we want to get rid of the underscores.
+
+```js
+// Console
+{status: "success", data: {…}}
+  data:
+    recipe:
+      cooking_time: 45
+      id: "5ed6604591c37cdc054bc886"
+      image_url: "http://forkify-api.herokuapp.com/images/FlatBread21of1a180.jpg"
+      ingredients: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
+      publisher: "My Baking Addiction"
+      servings: 4
+      source_url: "http://www.mybakingaddiction.com/spicy-chicken-and-pepper-jack-pizza-recipe/"
+      title: "Spicy Chicken and Pepper Jack Pizza"
+    __proto__: Object
+  __proto__: Object
+  status: "success"
+__proto__: Object
+
+
+...
+
+// Then we can reformat
+// controller.js
+let {recipe} = data.data;
+    recipe = {
+      id: recipe.id,
+      title: recipe.title,
+      publisher: recipe.publisher,
+      sourceUrl: recipe.source_url,
+      image: recipe.image_url,
+      servings: recipe.servings,
+      cookingTime: recipe.cooking_time,
+      ingredients: recipe.ingredients,
+    }
+
+
+```
+
+You can import other resources such as images as well using parcel so we can use the file path as template literals throughout our code. 
+
+```js
+// Parcel 1
+import icons from '../img/icons.svg'; 
+
+// Parcel 2
+import icons from 'url:../img/icons.svg';
+
+const markup = `
+  <div class="spinner">
+    <svg>
+      <use href="${icons}#icon-loader"></use>
+    </svg>
+  </div> 
+  `;
+```
+
+
+
+When we search for different items the hash changes in the URL. The hash is the hash symbol and all the characters after it. This emits an event that we can listen to. This is called a hashchange event.
+
+forkify-v2.netlify.app/#5ed6604591c37cdc054bc90b
