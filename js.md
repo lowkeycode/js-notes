@@ -8653,14 +8653,14 @@ let {recipe} = data.data;
 
 ```
 
-You can import other resources such as images as well using parcel so we can use the file path as template literals throughout our code. 
+You can import other resources such as images as well using parcel so we can use the file path as template literals throughout our code.
 
 ```js
 // Parcel 1
-import icons from '../img/icons.svg'; 
+import icons from "../img/icons.svg";
 
 // Parcel 2
-import icons from 'url:../img/icons.svg';
+import icons from "url:../img/icons.svg";
 
 const markup = `
   <div class="spinner">
@@ -8671,8 +8671,346 @@ const markup = `
   `;
 ```
 
-
-
 When we search for different items the hash changes in the URL. The hash is the hash symbol and all the characters after it. This emits an event that we can listen to. This is called a hashchange event.
 
 forkify-v2.netlify.app/#5ed6604591c37cdc054bc90b
+
+We can grab the id that is coming from the html link from the window.location.hash, then listen to the hashchange event and run our showRecipe function for each corresponding id. This is at the moment hard coded.
+
+```html
+<ul class="results">
+  <a href="#5ed6604591c37cdc054bc90b">Recipe 1</a>
+  <a href="#5ed6604591c37cdc054bce32">Recipe 2</a>
+</ul>
+```
+
+```js
+const showRecipe = async function() {
+  try {
+
+  const id = window.location.hash.slice(1);
+
+  // Load Recipe
+  renderSpinner(recipeContainer);
+  const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
+
+
+window.addEventListener('hashchange', showRecipe);
+```
+
+We also want to show the recipe if the url is copied to another window url bar. As right now it only listens to the hashchange event but will also need to listen to the load event. And we can use an array to loop over with a forEach instead of having multiple simlilar event listeners.
+
+```js
+["hashchange", "load"].forEach((ev) => window.addEventListener(ev, showRecipe));
+```
+
+# Model, View, Controller (MVC) Architecture
+
+Why worry about architecture?
+
+1. Structure
+   Architecture gives us STRUCTURE to write code. This is how we organize our code into different module, functions and classes.
+
+2. Maintainability
+   Architecture allows us to make sure our code remains MAINTAINABLE and we are able to easily change it in the future.
+
+3. Expandability
+   Architecture allows us to easily EXPAND or add to our applications in the future
+
+The best architecture includes all of these elements.
+
+There are well established architecture patters that developers use such as MVC (Mode, View, Controller), MVP (Model, View, Presenter), Flux etc.
+
+In modern development many devs use react, angular, vue or svelte to look after the architecture for them. JS fundamentals should be well learned before switching to a framework and you should know how to implement an architecture yourself.
+
+Components Of Any Architecture:
+
+1. Business Logic
+
+- Code that solves the actual business problem
+- Directly related to twhat the business does and what it needs
+- Ex.) WhatsApp (Sends messages), Bank App (Stores transaction records), Accounting Software (Calculates taxes)
+
+2. State
+
+- Stores all the data about the application (data from an API, data the user inputs, what page the suer is currently viewing etc.)
+- Should be the "single source of truth"
+- UI should be kept in sync with state
+- There are state libraries (Redux, MobX)
+
+3. HTTP Library
+
+- Responsible for making and receiving AJAX requests
+- Optional but almost always necessary in real-world apps
+
+4. Application Logic (Router)
+
+- Code that is only concerned about the implementation of the application itself
+- Handles navigation on the page and UI events
+
+5. Presentation Logic (UI Layer)
+
+- Code that is concerned about the visible part of the application
+- Essentially displays application state
+- Keeps in sync with state
+
+Architecture keeps these things separate and organized.
+
+The MVC Architecture
+
+1. Model
+
+- About the application data
+- Usually contains state and business logic that manipulates the state
+- Contains HTTP library that may get data from the web (An API or backend server)
+- Doesn't know about view
+
+2. Controller
+
+- Contains application logic
+- Creates bridge between the model and view, who should know nothing about eachother
+
+3. View
+
+- Presentation logic
+- Part interacting with the user
+- Doesn't know about model
+
+Click event example:
+
+1. User clicks on something
+2. Controller handles the event
+3. Controller dispatches (controls and orchestrates the whole application) task to model and view separately
+4. The model retrieves the data for its given task
+5. The controller takes the data when its ready and passes it to the view
+6. The view renders the data to the UI finishing the cycle
+
+There are many ways to implement the MVC architecture, this is just a good one.
+
+# Refactoring For MVC
+
+Read through the code to understand and see how we have the different modules interacting with one another. Start with what happens on page load and fetching the data in the AJAX call.
+
+```js
+// model.js
+
+export const state = {
+  recipe: {},
+};
+
+export const loadRecipe = async function (id) {
+  try {
+    const res = await fetch(
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
+    );
+    const data = await res.json();
+
+    if (!res.ok)
+      throw new Error(`${data.message} (Status Code: ${res.status})`);
+    // console.log(res, data);
+    const { recipe } = data.data;
+    state.recipe = {
+      id: recipe.id,
+      title: recipe.title,
+      publisher: recipe.publisher,
+      sourceUrl: recipe.source_url,
+      image: recipe.image_url,
+      servings: recipe.servings,
+      cookingTime: recipe.cooking_time,
+      ingredients: recipe.ingredients,
+    };
+    // console.log(state.recipe);
+  } catch (err) {
+    alert(err.message);
+  }
+};
+```
+
+```js
+// controller.js
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
+import * as model from "./model.js";
+import recipeView from "./views/recipeView.js";
+
+const recipeContainer = document.querySelector(".recipe");
+
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error(`Request took too long! Timeout after ${s} second`));
+    }, s * 1000);
+  });
+};
+
+// https://forkify-api.herokuapp.com/v2
+
+///////////////////////////////////////
+
+const controlRecipes = async function () {
+  try {
+    // https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bce32
+    //https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886
+
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    recipeView.renderSpinner();
+
+    // 1. Load Recipe
+    await model.loadRecipe(id);
+
+    // console.log(recipe);
+
+    // 2. Render Recipe
+    recipeView.render(model.state.recipe);
+  } catch (err) {
+    alert(err);
+  }
+};
+
+["hashchange", "load"].forEach((ev) =>
+  window.addEventListener(ev, controlRecipes)
+);
+```
+
+```js
+// recipeView.js
+import icons from "url:../../img/icons.svg";
+import { Fraction } from "fractional";
+
+class RecipeView {
+  #parentElement = document.querySelector(".recipe");
+  #data;
+  constructor() {}
+
+  render(data) {
+    this.#data = data;
+    const markup = this.#generateMarkup();
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+  }
+
+  renderSpinner = function () {
+    const markup = `
+      <div class="spinner">
+      <svg>
+      <use href="${icons}#icon-loader"></use>
+      </svg>
+      </div> 
+      `;
+    this.#parentElement.innerHTML = "";
+    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+  };
+
+  #clear() {
+    this.#parentElement.innerHTML = "";
+  }
+
+  #generateMarkup() {
+    return `
+     <figure class="recipe__fig">
+        <img src="${this.#data.image}" alt="${
+      this.#data.title
+    }" class="recipe__img" />
+        <h1 class="recipe__title">
+          <span>${this.#data.title}</span>
+        </h1>
+      </figure>
+
+      <div class="recipe__details">
+        <div class="recipe__info">
+          <svg class="recipe__info-icon">
+            <use href="${icons}#icon-clock"></use>
+          </svg>
+          <span class="recipe__info-data recipe__info-data--minutes">${
+            this.#data.cookingTime
+          }</span>
+          <span class="recipe__info-text">minutes</span>
+        </div>
+        <div class="recipe__info">
+          <svg class="recipe__info-icon">
+            <use href="${icons}#icon-users"></use>
+          </svg>
+          <span class="recipe__info-data recipe__info-data--people">${
+            this.#data.servings
+          }</span>
+          <span class="recipe__info-text">servings</span>
+
+          <div class="recipe__info-buttons">
+            <button class="btn--tiny btn--increase-servings">
+              <svg>
+                <use href="${icons}#icon-minus-circle"></use>
+              </svg>
+            </button>
+            <button class="btn--tiny btn--increase-servings">
+              <svg>
+                <use href="${icons}#icon-plus-circle"></use>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="recipe__user-generated">
+          <svg>
+            <use href="${icons}#icon-user"></use>
+          </svg>
+        </div>
+        <button class="btn--round">
+          <svg class="">
+            <use href="${icons}#icon-bookmark-fill"></use>
+          </svg>
+        </button>
+      </div>
+
+      <div class="recipe__ingredients">
+        <h2 class="heading--2">Recipe ingredients</h2>
+        <ul class="recipe__ingredient-list">
+        ${this.#data.ingredients.map(this.#generateMarkupIngredients).join("")}
+
+      </div>
+      <div class="recipe__directions">
+        <h2 class="heading--2">How to cook it</h2>
+        <p class="recipe__directions-text">
+          This recipe was carefully designed and tested by
+          <span class="recipe__publisher">${
+            this.#data.publisher
+          }</span>. Please check out
+          directions at their website.
+        </p>
+        <a
+          class="btn--small recipe__btn"
+          href="${this.#data.sourceUrl}"
+          target="_blank"
+        >
+          <span>Directions</span>
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-right"></use>
+          </svg>
+        </a>
+      </div>
+     `;
+  }
+
+  #generateMarkupIngredients(ing) {
+    return `
+      <li class="recipe__ingredient">
+        <svg class="recipe__icon">
+          <use href="${icons}#icon-check"></use>
+        </svg>
+        <div class="recipe__quantity">${
+          ing.quantity ? new Fraction(ing.quantity).toString() : ""
+        }</div>
+        <div class="recipe__description">
+          <span class="recipe__unit">${ing.unit}</span>
+          ${ing.description}
+        </div>
+      </li>
+      `;
+  }
+}
+
+export default new RecipeView();
+```
+
+Many applications have 2 special modules that are independant of the rest of the architecture. These are project configuration and general helper functions.
