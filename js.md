@@ -9014,3 +9014,479 @@ export default new RecipeView();
 ```
 
 Many applications have 2 special modules that are independant of the rest of the architecture. These are project configuration and general helper functions.
+
+```js
+const res = await Promise.race([fetch(url), timeout(10)]);
+```
+
+Instead of having "magic values" throughout our code where if someone read the above they would have no idea what the 10 is timing out for. So in the config.js file we set variables that we can use throughout our code to replace these magic values or for other constant variables ex.) An API URL. These variables in the config.js file are written in uppercase with underscores separating words.
+
+```js
+export const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes";
+
+export const API_REQUEST_TIMEOUT_SECONDS = 10;
+
+////////////////////////////
+
+const res = await Promise.race([
+  fetch(url),
+  timeout(API_REQUEST_TIMEOUT_SECONDS),
+]);
+```
+
+Our helpers are generic functions that can be reused throughout our code as well.
+
+```js
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error(`Request took too long! Timeout after ${s} second`));
+    }, s * 1000);
+  });
+};
+
+export const getJSON = async function (url) {
+  try {
+    const res = await Promise.race([fetch(url), timeout(10)]);
+    const data = await res.json();
+
+    if (!res.ok)
+      throw new Error(
+        `${data.message} (Status Code: ${res.status}) Error thrown in getJSON`
+      );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+```
+
+# Event Handlers In MVC: The Publisher/Subscriber Pattern
+
+- Events should be HANDLED in the CONTROLLER (otherwise we would have application logic in the view)
+
+- Events should be LISTENED FOR in the VIEW (otherwise we would need DOM elements in the controller)
+
+To keep this separation there is a standard solution called the publisher/subscriber pattern.
+
+We can't just import the function that we want to react to the event that is in the controller to the view because the view does not know that the controller exists in our architecture.
+
+In the controller during the init function the code in the view that KNOWS WHEN TO REACT to an event is called and is listening. This code is known as the publisher. This publisher will take a callback function as an argument that is known as the subscriber which WANTS TO REACT. Then when the event occurs the subscriber will know that it has occurred and will allow the subscriber function that it has been passed to actually react to it.
+
+So we add a public method to our recipeView class with the handler parameter
+
+```js
+// recipeView.js
+
+addHandlerRender(handler) {
+    ['hashchange', 'load'].forEach(ev =>
+      window.addEventListener(ev, handler)
+    );
+  }
+```
+
+Then we put the handler in the init function to be called and to start listening when the code initially runs
+
+```js
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+};
+init();
+```
+
+# Implementing Error & Success Messages
+
+The real world way of handling an error is to properly display an error message to the user.
+
+We throw the error as needed to propogate it from the getJSON method to the model then to the controller where we can then create a method on the recipeView class that we can access from the controller to display the error message once the error reaches the controller.
+
+```js
+// recipeView.js
+renderMessage(message = this.#message) {
+    const markup = `
+    <div class="message">
+      <div>
+        <svg>
+          <use href="${icons}#icon-smile"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>
+    `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+```
+
+# Random Notes - Implementing Search
+
+When starting a new feature it is best to get the data working in the model and then worry about getting the working data model displayed in the UI.
+
+So we get it working in the model where we pass it our own query manually, making sure it works before hooking up the controller and view.
+
+```js
+export const loadSearchResults = async function (query) {
+  try {
+    const data = await getJSON(`${API_URL}?search=${query}`);
+    console.log(data);
+  } catch (err) {
+    throw err;
+  }
+};
+
+loadSearchResults("pizza");
+```
+
+Then we take our search and we want to add it to our state because it will be of use to us in various scenarios.
+
+```js
+export const state = {
+  recipe: {},
+  search: {
+    query: '',
+    results: [],
+  }
+};
+
+...
+
+function(query) {
+  try {
+    state.search.query = query;
+    const data = await getJSON(`${API_URL}?search=${query}`);
+    console.log(data);
+    state.search.results = data.data.recipes.map(recipe => {
+      return {
+        id: recipe.id,
+        title: recipe.title,
+        publisher: recipe.publisher,
+        image: recipe.image_url,
+      };
+    });
+    console.log(state.search.results, state.search.query);
+  } catch(err) {
+    throw err;
+  }
+}
+
+loadSearchResults('pizza');
+```
+
+Then we call the newly made function from the model in the controller and checkl to make sure the results tare the same.
+
+```js
+const controlSearchResults = async function () {
+  try {
+    //TODO Hook up search input to the below function
+    await model.loadSearchResults("pizza");
+    console.log(model.state.search.results, model.state.search.query);
+  } catch (err) {
+    console.log(err);
+  }
+};
+controlSearchResults();
+```
+
+Here we could easily just select the search input element and use its value as our search query. However, grabbing input from the DOM is the views job in the MVC architecture. Additionally the search itself and where the results are displayed are two separate parts of the UI. So 2 separate views will be created for each.
+
+```js
+// searchView.js
+class SearchView {
+  #parentElement = document.querySelector(".search");
+
+  constructor() {}
+
+  getQuery() {
+    const query = this.#parentElement.querySelector(".search__field").value;
+    this.#clearInput();
+    return query;
+  }
+
+  addHandlerSearch(handler) {
+    this.#parentElement.addEventListener("submit", function (e) {
+      e.preventDefault();
+      handler();
+    });
+  }
+}
+
+export default new SearchView();
+```
+
+We create our search view which has 2 methods. The getQuery which returns the result and the addHandler search which uses the publisher/subscriber pattern.
+
+```js
+// controller.js
+const controlSearchResults = async function () {
+  try {
+    const query = searchView.getQuery();
+    if (!query) return;
+
+    await model.loadSearchResults(query);
+    console.log(model.state.search.results, model.state.search.query);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSearch(controlSearchResults);
+};
+init();
+```
+
+Then in the controller we get the query and store it in a variable, add a guard clause, set the load search results argument to the search input value and when the app starts listen to the submit event with the addHandler search function from searchView.
+
+```js
+_generateMarkup() {
+        return this._data.map(this._generateMarkupPreview).join('');
+
+    }
+
+  _generateMarkupPreview(result) {
+      console.log(result);
+      return `
+      <li class="preview">
+          <a class="preview__link preview__link--active" href="#${result.id}">
+          <figure class="preview__fig">
+              <img src="${result.image}" alt="Test" />
+          </figure>
+          <div class="preview__data">
+              <h4 class="preview__title">${result.title}</h4>
+              <p class="preview__publisher">${result.publisher}</p>
+              <div class="preview__user-generated">
+              <svg>
+                  <use href="${icons}#icon-user"></use>
+              </svg>
+              </div>
+          </div>
+          </a>
+      </li>
+      `;
+  }
+```
+
+Then we map over our returned array of results creating a callback function (note the callback of a map always has access each element it is looping over and we can see above that even though we don't explicitly define it in the .map)
+
+Note we also use the id to set the hash so when clicking the link the corresponding recipeView is shown.
+
+# Pagination
+
+```js
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page;
+
+  const start = (page - 1) * RES_PER_PAGE;
+  const end = page * RES_PER_PAGE;
+
+  return state.search.results.slice(start, end);
+};
+```
+
+We start by writing a function that takes in a page number and returns the range from start to end of the page number provided and the desired results per page (defined in config file).
+
+```js
+// paginationView.js
+import View from "./View.js";
+import icons from "url:../../img/icons.svg";
+import { RES_PER_PAGE } from "../config.js";
+
+class PaginationView extends View {
+  _parentElement = document.querySelector(".pagination");
+
+  addHandlerClick(handler) {
+    this._parentElement.addEventListener("click", function (e) {
+      const btn = e.target.closest(".btn--inline");
+
+      if (!btn) return;
+
+      const goToPage = +btn.dataset.goto;
+
+      handler(goToPage);
+    });
+  }
+
+  _generateMarkup() {
+    const currentPage = this._data.page;
+    const numPages = Math.ceil(
+      this._data.results.length / this._data.resultsPerPage
+    );
+
+    // Page 1, there are other pages
+    if (currentPage === 1 && numPages > 1)
+      return `
+        <button data-goto="${
+          currentPage + 1
+        }" class="btn--inline pagination__btn--next">
+            <span>Page ${currentPage + 1}</span>
+            <svg class="search__icon">
+                <use href="${icons}#icon-arrow-right"></use>
+            </svg>
+        </button>
+        `;
+
+    // Last page
+    if (currentPage === numPages && numPages > 1)
+      return `
+        <button data-goto="${
+          currentPage - 1
+        }" class="btn--inline pagination__btn--prev">
+            <svg class="search__icon">
+                <use href="${icons}#icon-arrow-left"></use>
+            </svg>
+            <span>Page ${currentPage - 1}</span>
+        </button>
+    `;
+
+    // Middle page
+    if (currentPage < numPages)
+      return `
+        <button data-goto="${
+          currentPage - 1
+        }" class="btn--inline pagination__btn--prev">
+        <svg class="search__icon">
+            <use href="${icons}#icon-arrow-left"></use>
+        </svg>
+        <span>Page ${currentPage - 1}</span>
+        </button>
+        <button data-goto="${
+          currentPage + 1
+        }" class="btn--inline pagination__btn--next">
+            <span>Page ${currentPage + 1}</span>
+            <svg class="search__icon">
+                <use href="${icons}#icon-arrow-right"></use>
+            </svg>
+        </button>
+        `;
+
+    // Page 1, no other pages
+    return ``;
+  }
+}
+
+export default new PaginationView();
+
+/* <button class="btn--inline pagination__btn--prev">
+        <svg class="search__icon">
+            <use href="src/img/icons.svg#icon-arrow-left"></use>
+        </svg>
+        <span>Page 1</span>
+    </button>
+    <button class="btn--inline pagination__btn--next">
+        <span>Page 3</span>
+        <svg class="search__icon">
+            <use href="src/img/icons.svg#icon-arrow-right"></use>
+        </svg>
+    </button> */
+```
+
+```js
+// controller.js
+const controlPagination = function (goToPage) {
+  // 1. Render new page results
+  resultsView.render(model.getSearchResultsPage(goToPage));
+
+  // 2. Render new pagination buttons
+  paginationView.render(model.state.search);
+};
+```
+
+Then we create class that creates a bridge to the DOM and renders the markup for buttons based on what page we are currently on and display the new results page in the controller.
+
+# Updating Servings
+
+```js
+// model.js
+export const updateServings = function (newServings) {
+  state.recipe.ingredients.forEach((ingredient) => {
+    ingredient.quantity =
+      (ingredient.quantity * newServings) / state.recipe.servings;
+  });
+
+  state.recipe.servings = newServings;
+};
+```
+
+```js
+//controller.js
+const controlServings = function (newServings) {
+  // Update recipe servings in state
+  model.updateServings(newServings);
+
+  // Update recipe view
+  recipeView.render(model.state.recipe);
+};
+
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
+
+  searchView.addHandlerSearch(controlSearchResults);
+
+  paginationView.addHandlerClick(controlPagination);
+};
+init();
+```
+
+```js
+// recipeView.js
+addHandlerUpdateServings(handler) {
+    this._parentElement.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn--update-servings');
+      if(!btn) return;
+      const { updateTo } = btn.dataset;
+
+      if(+updateTo > 0) handler(+updateTo);
+    });
+  }
+```
+
+We grab the serving quantity in the model and increase to the new serving amount then we call that function in the controller and render the newly updated recipe. Then we use the publisher /subscriber pattern and created a method on the recipeView that uses a DOM bridge form the dataset attriburte to update the DOM accordingly.
+
+# Making A DOM Updating Algorithm
+
+```js
+// view.js
+update(data) {
+
+    this._data = data;
+    const newMarkup = this._generateMarkup();
+
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+
+    const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+      console.log(curEl, newEl.isEqualNode(curEl));
+
+      // Updates changed TEXT
+      if(!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '') {
+        curEl.textContent = newEl.textContent;
+      }
+
+      // Updates changed ATTRIBUTES
+      if(!newEl.isEqualNode(curEl)) {
+        Array.from(newEl.attributes).forEach(attr => curEl.setAttribute(attr.name, attr.value));
+      }
+
+    });
+  }
+```
+
+```js
+// controller.js
+
+const controlServings = function (newServings) {
+  // Update recipe servings in state
+  model.updateServings(newServings);
+
+  // Update recipe view
+  // recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
+};
+```
+
+Instead of re-rendering the whole page which is a performance issues, we only want to update the DOM with the pieces that actually change. So we only create a virtual DOM when changing servings that is stored in memory so we can compare the two. We cannot just compare all the values at once because they are strings and would not compare properly. We are calling this update method on the recipeView so we will get a virtual DOM of just the things in the recipeView. We create this new DOM that is not actually on the page but stored in memory by using the createRange and createContextualFragment on our newMarkup. This gives us a Node Map and we can compare the 2 DOMS after turning them into arrays so we can foreach them. Then we loop over both at the same time using the forEach to gain access to the index that will allow us to compare the 2 at the same position. Then we use the isEqualNode() to get a boolean response upon comparision. Our first if statement checks if the nodeValue is not empty or is different and changes the text content to the value of the new DOM if different. The second if statement creates an array of the new elements attributes and for each attributes updates the current DOM attribute to the new one.
