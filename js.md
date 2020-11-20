@@ -9490,3 +9490,176 @@ const controlServings = function (newServings) {
 ```
 
 Instead of re-rendering the whole page which is a performance issues, we only want to update the DOM with the pieces that actually change. So we only create a virtual DOM when changing servings that is stored in memory so we can compare the two. We cannot just compare all the values at once because they are strings and would not compare properly. We are calling this update method on the recipeView so we will get a virtual DOM of just the things in the recipeView. We create this new DOM that is not actually on the page but stored in memory by using the createRange and createContextualFragment on our newMarkup. This gives us a Node Map and we can compare the 2 DOMS after turning them into arrays so we can foreach them. Then we loop over both at the same time using the forEach to gain access to the index that will allow us to compare the 2 at the same position. Then we use the isEqualNode() to get a boolean response upon comparision. Our first if statement checks if the nodeValue is not empty or is different and changes the text content to the value of the new DOM if different. The second if statement creates an array of the new elements attributes and for each attributes updates the current DOM attribute to the new one.
+
+# Bookmarking
+
+```js
+// model.js
+
+export const addBookmark = function (recipe) {
+  // Add bookmark to state
+  state.bookmarks.push(recipe);
+
+  // Mark current recipe as bookmark
+  if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+};
+
+export const deleteBookmark = function (id) {
+  // Delete bookmark
+  const index = state.bookmarks.findIndex((el) => el.id === id);
+  state.bookmarks.splice(index, 1);
+
+  // Unmark bookmark
+  if (id === state.recipe.id) state.recipe.bookmarked = false;
+};
+```
+
+```js
+// controller.js
+const controlAddBookmark = function() {
+  // Add/delete bookmark if its already bookmarked or not
+  if(!model.state.recipe.bookmarked)model.addBookmark(model.state.recipe);
+  else model.deleteBookmark(model.state.recipe.id);
+
+
+  console.log(model.state.recipe);
+  recipeView.update(model.state.recipe);
+}
+
+...
+// Inside the init function
+recipeView.addHandlerAddBookmark(controlAddBookmark);
+```
+
+```js
+// recipeView.js
+addHandlerAddBookmark(handler) {
+    this._parentElement.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn--bookmark');
+      if(!btn) return;
+      handler();
+    });
+  }
+
+  ...
+  // Setting style in the generateMarkup function
+  `<div class="recipe__user-generated">
+    </div>
+    <button class="btn--round btn--bookmark">
+      <svg class="">
+        <use href="${icons}#icon-bookmark${this._data.bookmarked ? '-fill': ''}"></use>
+      </svg>
+    </button>
+  </div>`
+```
+
+First we create a function for adding a book mark that takes the current recipe and pushes it into the bookmarks array in state. Then we set the current recipe as bookmarked if it is the same as the one being passed into the function. We set up a method in the recipeView to listen for a click using the publisher/subscriber pattern and call it in the controller. Then we change the markup with a ternary check and our update method becomes very useful for not rerendering the whole page. It is a common pattern to receive all the info when creating/adding and when deleting usually just receiving the id. So then we create a delete bookmark function using the id to loop over the bookmarks array and find the matching id and delete it, then unmarking its boolean value. Then in the controller we use and if else statement to check to see if we need to delete or add it.
+
+- Note using an if statement for both adding and deleting would then add it then delete it right away, keep this in mind when using multiple if statements without the else
+
+# Uploading Form
+
+We use this new class to open/close the modal. The addHandlerUpload function creates a new array from the FormData object which was called on the form (this). But it returns an object that is not very useful (as seen in the comments below) so we need to turn it into an array and then into a regular object
+
+```js
+import View from "./View.js";
+import icons from "url:../../img/icons.svg";
+import { RES_PER_PAGE } from "../config.js";
+
+class AddRecipeView extends View {
+  _parentElement = document.querySelector(".upload");
+  _window = document.querySelector(".add-recipe-window");
+  _overlay = document.querySelector(".overlay");
+  _btnOpen = document.querySelector(".nav__btn--add-recipe");
+  _btnClose = document.querySelector(".btn--close-modal");
+
+  constructor() {
+    super();
+    this._addHandlerShowWindow();
+    this._addHandlerHideWindow();
+  }
+
+  toggleWindow() {
+    this._overlay.classList.toggle("hidden");
+    this._window.classList.toggle("hidden");
+    console.log(this._btnClose);
+  }
+
+  _addHandlerShowWindow() {
+    this._btnOpen.addEventListener("click", this.toggleWindow.bind(this));
+  }
+
+  _addHandlerHideWindow() {
+    this._overlay.addEventListener("click", this.toggleWindow.bind(this));
+    this._btnClose.addEventListener("click", this.toggleWindow.bind(this));
+  }
+
+  addHandlerUpload(handler) {
+    this._parentElement.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      console.log(new FormData(this));
+      // FormData {}
+      //__proto__: FormData
+
+      // So we turn FormData into an array then an object
+      const dataArray = [...new FormData(this)];
+      console.log(data);
+      const data = Object.fromEntries(dataArray);
+    });
+    handler(data);
+  }
+
+  _generateMarkup() {}
+}
+
+export default new AddRecipeView();
+```
+
+See final code for final implementation.
+https://github.com/jonasschmedtmann/complete-javascript-course
+
+# Deploying To Netlify
+
+Once we are finsihed an application we need to run the build command in parcel ment for production which will compress files, perform treeshaking(elimination of dead or unused code) etc. Read parcel documentation for proper execution of the package.json file because different versions have different requirements
+
+```js
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe app",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.0.0-beta.1",
+    "sass": "^1.29.0"
+  },
+  "dependencies": {
+    "core-js": "^3.7.0",
+    "fractional": "^1.0.0",
+    "regenerator-runtime": "^0.13.7"
+  }
+}
+
+```
+
+Netlify only works for front end applications that have no database or server (Static applications). Another alternative to netlify is called Surge.
+
+Drag and drop the dist folder into netlify and it automatically deploys across a CDN and provides an SSL certificate for your app.
+
+"Continuous Deployment works by connecting a Git repository to your Netlify site and keeping the two in sync. When you push to Git, we run your build tool of choice on our servers and deploy the result."
+
+Go to build & Deploy and follow the steps for continuous integration and we just specify the build command and the publish directory to netlify
+
+Build:
+parcel build index.html --dist-dir ./dist
+
+Publish Directory:
+dist
+
+# The End
