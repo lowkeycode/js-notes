@@ -1614,6 +1614,8 @@ Nullish values are null & undefined. (NOT 0 or the '' empty string)
 
 # For Of Loop (ES6)
 
+Is a loop for looping over ARRAYS
+
 ```js
 const menu = [...restaurant.starterMenu, restaurant.mainMenu];
 
@@ -1626,7 +1628,13 @@ In the for of we specify a variable name for each element that will be iterated 
 
 We can also use the continue and break statements with this loop whereas other ways Ex.) forEach() you cannot break.
 
-The for of is hard to get the index as it is a pain. It was designed just to get the current element in that iteration of the array.
+The for of is hard to get the index as it is a pain. It was designed just to get the current element in that iteration of the array. But you can still do it.
+
+```js
+for (const item of menu.entries()) {
+  console.log(item);
+}
+```
 
 Loops must contain an iterable. Keep in mind non-iterables like objects will need to be converted before iterating over.
 
