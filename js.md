@@ -6041,11 +6041,11 @@ PLANNING:
 
 - A description of the applications functionality from the users perspective. All the user stories put together will describe the entire functionality of the entire application.
 
-2. User Stories
+2. Features
 
 - The User Stories will layout all the different features that the appplication requires
 
-3. Features
+3. Flowchart
 
 - Then we put all the Features in to a flowchart
 - This is WHAT we are going to build
