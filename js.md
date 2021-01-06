@@ -3115,7 +3115,7 @@ const currencies = new Map([
   ["GBP", "Pound sterling"],
 ]);
 
-// Similar to the array loop but for a map it goes in the order of value, key then map
+
 currencies.forEach((value, key, map) => {
   console.log(`${key}: ${value}`);
 });
